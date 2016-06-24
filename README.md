@@ -7,17 +7,36 @@ Team members: Geoffrey Emerson, Charles Emrich, Nathan Keene, Curt Newcomer
 
 Project pitch: An event planning app that creates a heat map of participant availability and word clouds of related topic preferences (such as food choices and activity preferences).
 
----
-    What problem does your app solve?
-    Who benefits from using your app?
-    How do users benefit?
+### "So you want to get together with friends this weekend, but you're not sure who is available or what everybody wants to do? No Prob! ***Just Convoke!*** You don't even have to log in! Just make a new thing and send out the link to your friends. Add a few ideas for your friends to vote on, or leave it wide open for their ideas! Convoke will assemble word clouds of the most popular choices! And when your friends enter their availability, Convoke will develop a heat map of when everybody wants to make it happen!"
 
-At least three user stories and three developer stories
+> What problem does your app solve?
+
+I want to get together with my friends this weekend, but it's always such a hassle talking to everybody individually and considering everybody's schedules and preferences.
+
+Convoke makes it fast and easy for people to throw together casual plans without a lot of phone calls and text messages by leveraging the ubiquity of the internet and modern active web technology.
+
+> Who benefits from using your app?
+
+Anybody who wants to quickly and easily pick the best time and/or preferences for any kind of gathering or meeting.
+
+> How do users benefit?
+
+Casual event coordination becomes more intuitive, transparent, and visually pleasing.
+
+> At least three user stories and three developer stories
+
+- As a party planner, I want an app that makes it easy to visualize the aggregate availability of groups of my friends so that I know when I should plan things.
+- As a smartphone-haver, I want an app that is attractively laid out and operable by my stupid sausage fingers, so that I can access my party plans on the go.
+- As a party-goer, I want to see when the bulk of attendees are most likely to be available so that I can consider adjusting my plans accordingly.
+
+- As a developer, I want to make an app that persists data in the cloud so that multiple users can interact from different locations.
+- As an app developer, I want to design my interaction code according to an MVC framework so that it's easy to locate pieces of my code according to their function.
+- As a developer I want to balance competing the competing concerns of security and ease-of-use so that my app will be quickly adopted around the world.
+
+---
 Several sketches of your app's pages as wireframes with callouts
 Diagram(s) of your project's domain model
 
-Note: proposals will be reviewed by the instruction team, with possible adjustments or suggestions.
+#### Domain Model Notes: ![Friday morning ideas](https://raw.githubusercontent.com/GeoffreyEmerson/301-final-project/master/projectImages/domainModelConvoke.jpg)
 
-Suggestion: For your diagrams and wireframes, sketch on sheets of paper or a whiteboard, then take photos of your sketches and submit the photos in Canvas along with the other items (listed above) required for your proposal.
-
-Optionally, you can use this site (https://www.bidsketch.com/proposal-resources/proposal-templates/web-design-proposal-template) as a reference, or even as a tool to create your proposal.
+TODO: Wireframes and actual Domain Model needs to be added here.
