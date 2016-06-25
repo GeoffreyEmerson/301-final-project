@@ -5,6 +5,8 @@
 Team name: The Black Council
 Team members: Geoffrey Emerson, Charles Emrich, Nathan Keene, Curt Newcomer
 
+Live Demo: (TODO: Heroku link goes here)
+
 Project pitch: An event planning app that creates a heat map of participant availability and word clouds of related topic preferences (such as food choices and activity preferences).
 
 ### "So you want to get together with friends this weekend, but you're not sure who is available or what everybody wants to do? No Prob! ***Just Convoke!*** You don't even have to log in! Just make a new thing and send out the link to your friends. Add a few ideas for your friends to vote on, or leave it wide open for their ideas! Convoke will assemble word clouds of the most popular choices! And when your friends enter their availability, Convoke will develop a heat map of when everybody wants to make it happen!"
