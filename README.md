@@ -37,6 +37,6 @@ Casual event coordination becomes more intuitive, transparent, and visually plea
 Several sketches of your app's pages as wireframes with callouts
 Diagram(s) of your project's domain model
 
-#### Domain Model Notes: ![Friday morning ideas](https://raw.githubusercontent.com/GeoffreyEmerson/301-final-project/master/projectImages/domainModelConvoke.jpg)
+#### Wireframes: ![Friday (Day 1) whiteboard](https://raw.githubusercontent.com/GeoffreyEmerson/301-final-project/master/projectImages/wireframesConvoke.jpg)
 
-TODO: Wireframes and actual Domain Model needs to be added here.
+#### Domain Modeling: ![Another Friday (Day 1) whiteboard](https://raw.githubusercontent.com/GeoffreyEmerson/301-final-project/master/projectImages/domainModelConvoke02.jpg)
