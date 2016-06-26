@@ -21,18 +21,25 @@ var trace1 = {
 var data = [trace1];
 Plotly.newPlot('myDiv', data);
 
-myPlot.on('plotly_click', function(ctx){
-  console.log(ctx);
-  trace1.z[
+(function listen() {
+  myPlot.on('plotly_click', function(ctx){
+    console.log(ctx);
+    trace1.z[
             ctx.points[0].pointNumber[0]
             ][
             ctx.points[0].pointNumber[1]
             ] += 10;
-  update = {
-    z: [[[1, 20, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]]]
-  };
-  console.log(trace1.z);
-  Plotly.restyle(myPlot, update);
+  // update = {
+  //   z: [[[1, 2, 3, 5, 1], [2, 1, 6, 8, 3], [3, 6, 1, -1, 2]]]
+  // };
+  // var update = {
+  //   'z':[[['1', '2', '3', '3', '2'], ['3', '1', '4', '6', '3'], ['2', '4', '1', '1', '-1']]]
+  // };
+  // console.log(trace1.z);
+  // Plotly.restyle(myPlot, update);
+    Plotly.purge(myPlot);
   // Plotly.redraw(myPlot);
-  Plotly.plot('myDiv', data);
-});
+    Plotly.plot('myDiv', data);
+    listen();
+  });
+}) ();
