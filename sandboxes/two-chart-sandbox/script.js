@@ -19,36 +19,41 @@ var perTrace = {
 var perData = [perTrace];
 Plotly.newPlot('personalGraph', perData);
 //jQuery Animation //Standardize everything to jQ selections?
-
-$('#personalGraph rect.drag.cursor-crosshair').hover(function() {
-  console.log('in');
-  $('#personalGraph').animate({
-    'opacity': '1',
-  }, 800);
-},function() {
-  console.log('out');
-  $('#personalGraph').animate({
-    'opacity': '0.0',
-  }, 800);
-});
+function establishAnims() {
+  $('#personalGraph rect.drag.cursor-crosshair').hover(function() {
+    // console.log('in');
+    $('#personalGraph').animate({
+      'opacity': '1',
+    }, 800);
+  },function() {
+    // console.log('out');
+    $('#personalGraph').animate({
+      'opacity': '0.0',
+    }, 800);
+  });
+};
+establishAnims();
 
 //Event Listener to support updating and re-rendering graphs.
 (function userClick() {
   personalGraph.on('plotly_click', function(event){
-    perData.z[
+    // console.log(event);
+    // console.log(perData[0].z);
+    perData[0].z[
       event.points[0].pointNumber[0]
     ][
-      event.points[0].pointNumber[0]
+      event.points[0].pointNumber[1]
     ] += 10;
-    aggData.z[
+    aggData[0].z[
       event.points[0].pointNumber[0]
     ][
-      event.points[0].pointNumber[0]
+      event.points[0].pointNumber[1]
     ] += 10;
     Plotly.purge($('allgraphs'));
     Plotly.newPlot('personalGraph', perData);
     Plotly.newPlot('aggregateGraph', aggData);
     userClick();
+    establishAnims();
   });
 }) ();
 
