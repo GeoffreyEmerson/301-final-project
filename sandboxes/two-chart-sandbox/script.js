@@ -39,7 +39,7 @@ $('#personalGraph rect.drag.cursor-crosshair').hover(function() {
       event.points[0].pointNumber[0]
     ][
       event.points[0].pointNumber[0]
-    ] += 1;
+    ] += 10;
     aggData.z[
       event.points[0].pointNumber[0]
     ][
