@@ -14,8 +14,8 @@ $(function() {
       weight: 8,
       html: {},
       handlers: {
-        click: function() {alert('You clicked the word !');},
-        mouseover: function() {console.log('hovering over ' + this.text);
+        click: function(ctx) {console.log(ctx);},
+        mouseover: function() {console.log('hovering over ' + ctx);
         }
       },
     },
