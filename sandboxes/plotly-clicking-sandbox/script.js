@@ -11,14 +11,21 @@ var myPlot = document.getElementById('myDiv');
 //   };
 //
 // Plotly.newPlot('myDiv', data, layout);
-
-var data = [
-  {
+var trace1 = {
     z: [[1, 20, 30, 50, 1], [20, 1, 60, 80, 30], [30, 60, 1, -10, 20]],
     x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     y: ['Morning', 'Afternoon', 'Evening'],
     type: 'heatmap'
-  }
+  },
+  trace2 = {
+    z: [[1,2,3,5,7], [60, 41, 20, 30, 40], [50, 10, 12, -15, 50]],
+    // x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    // y: ['Morning', 'Afternoon', 'Evening'],
+    type: 'heatmap'
+  };
+
+var data = [
+  trace1,trace2
 ];
 Plotly.newPlot('myDiv', data);
 
@@ -35,6 +42,6 @@ myPlot.on('plotly_click', function(ctx){
   // // console.log(data[0]);
   // console.log(data[0].z[2][4]);
   // myPlot.data[0].opacity = 0.2;
-  // Plotly.redraw(myPlot);
-  Plotly.newPlot('myDiv', data);
+  Plotly.redraw(myPlot);
+  // Plotly.newPlot('myDiv', data);
 });
