@@ -1,1 +1,17 @@
 /* Sandbox for example-sandbox */
+#allgraphs {
+  position: relative;
+}
+
+#aggregateGraph {
+  position: relative;
+}
+
+#personalGraph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  /*visibility: hidden;*/
+  /*z-index: 100;*/
+}
