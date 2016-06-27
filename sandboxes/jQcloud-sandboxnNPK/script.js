@@ -15,7 +15,7 @@ $(function() {
       html: {
         'data-usid': 'lksaf9pwurp2o',
         'data-topicid': 'we09r20lksjdf',
-        'data-votestate': '',
+        'data-votestate': 0,
       },
       handlers: {
         click: function(ctx) {
@@ -29,8 +29,8 @@ $(function() {
           console.log(vState);
           if (vState == 0 || vState == '') {
             console.log('I COULDA HADDA V-STATE!');
-            // this.setAttribute('data-votestate', 1);
-            vState = 1;
+            this.setAttribute('data-votestate', 1);
+            vState = this.getAttribute('data-votestate');
           }
           console.log(vState);
           console.log(this.getAttribute('data-votestate'));
