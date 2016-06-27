@@ -38,9 +38,12 @@ var topics = [
 ];
 
 topics.forEach(function(topic, index) {
-  Topic.find({'name': topic.name, 'eventHash': topic.eventHash}, function(err, topics){
+  Topic
+  .find({'name': topic.name})
+  .where('eventHash').equals(topic.eventHash)
+  .exec(function(err, topics){
     if(!err && !topics.length) {
-      Event.create(topic);
+      Topic.create(topic);
     };
   });
 });
