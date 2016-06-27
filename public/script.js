@@ -22,5 +22,6 @@ $(function() {
   getApiRoute('events');
   getApiRoute('topics');
   getApiRoute('users');
+  getApiRoute('attends');
 
 });

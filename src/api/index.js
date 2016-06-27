@@ -2,7 +2,7 @@
 
 var express = require('express');
 
-var Attending = require('../models/attending'); // Capital for models.
+var Attend = require('../models/attend'); // Capital for models.
 var Event = require('../models/event'); // Capital for models.
 var Topic = require('../models/topic'); // Capital for models.
 var User = require('../models/user'); // Capital for models.
@@ -18,7 +18,6 @@ router.get('/events',function(req,res) {
     }
     res.json({events: events});
   });
-
 });
 
 // TODO: Add POST route to create new entries
@@ -35,7 +34,6 @@ router.get('/topics',function(req,res) {
     }
     res.json({topics: topics});
   });
-
 });
 
 router.get('/users',function(req,res) {
@@ -46,7 +44,16 @@ router.get('/users',function(req,res) {
     }
     res.json({users: users});
   });
+});
 
+router.get('/attends',function(req,res) {
+  Attend.find({}, function(err,attends){
+    if (err){
+      console.log(err);
+      res.status(503).json({message: err.message, call: 'GET /attends'});
+    }
+    res.json({attends: attends});
+  });
 });
 
 module.exports = router;
