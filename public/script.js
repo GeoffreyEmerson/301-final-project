@@ -1,36 +1,26 @@
 $(function() {
 
-  $.ajax({
-    url: '/api/events',
-    type: 'GET',
-    cache: false
-  })
-  .done( function (data) {
-    console.log('Success');
-    console.log(data);
-    $('#events').text(JSON.stringify(data.events));
-  })
-  .error( function(data,data2,data3) {
-    console.log('Fail.');
-    console.log(data);
-    console.log(data2);
-    console.log(data3);
-  });
+  function getApiRoute(route){
+    $.ajax({
+      url: '/api/' + route,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      console.log('Success: GET /api/' + route);
+      console.log(data);
+      $('#' + route).text(JSON.stringify(data[route]));
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.log('Ajax call failed: GET /api/' + route);
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+    });
+  }
 
-  $.ajax({
-    url: '/api/topics',
-    type: 'GET',
-    cache: false
-  })
-  .done( function (data) {
-    console.log('Success');
-    console.log(data);
-    $('#topics').text(JSON.stringify(data.topics));
-  })
-  .error( function(data,data2,data3) {
-    console.log('Fail.');
-    console.log(data);
-    console.log(data2);
-    console.log(data3);
-  });
+  getApiRoute('events');
+  getApiRoute('topics');
+  getApiRoute('users');
+
 });

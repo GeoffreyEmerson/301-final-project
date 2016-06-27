@@ -38,4 +38,15 @@ router.get('/topics',function(req,res) {
 
 });
 
+router.get('/users',function(req,res) {
+  User.find({}, function(err,users){
+    if (err){
+      console.log(err);
+      res.status(503).json({message: err.message, call: 'GET /users'});
+    }
+    res.json({users: users});
+  });
+
+});
+
 module.exports = router;

@@ -47,3 +47,31 @@ topics.forEach(function(topic, index) {
     };
   });
 });
+var User = require('./models/user.js');
+
+var users = [
+  {name: 'Shelly', userHash: '168a592b214911fe8a5dcdb776856224'},
+  {name: 'Baily', userHash: '2e8a245c471431342dddb090871dfd2c'},
+  {name: 'Hubert', userHash: '965b9355546c2f1bd4ddcde6024b4e8c'},
+  {name: 'Gloria', userHash: '4517d10a35565b942d5fc92c5a4f9af1'},
+  {name: 'Dave', userHash: '4cc207a472ad9b0b4bf882e8133bf242'},
+  {name: 'Rita', userHash: '71c0989f48b5fabe5487617f2506b80a'},
+  {name: 'Sandra', userHash: '0bbcef19fc0d9dfb122da12f9520e248'},
+  {name: 'Jenny', userHash: '1f3384febe0e82413ff01905f82c8ef7'},
+  {name: 'Bob', userHash: 'ecaf1f59bf8ca47c41df101e76c97734'},
+  {name: 'Gene', userHash: '07c15306bbfb12f53868aeb9b8aa3fcf'},
+  {name: 'Stan', userHash: '0b1ddd48205beaf7067b1ea51599daa6'},
+  {name: 'Roger', userHash: '4571e0144d21551ab6ed85ba8d8f3c53'}
+];
+
+users.forEach(function(user, index) {
+  User
+  .find({'name': user.name})
+  .where('userHash').equals(user.userHash)
+  .exec(function(err, users){
+    if(!err && !users.length) {
+      console.log(user);
+      User.create(user);
+    };
+  });
+});
