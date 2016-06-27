@@ -19,16 +19,27 @@ $(function() {
       },
       handlers: {
         click: function(ctx) {
-          var $vState = $(this).attr('data-votestate');
-          console.log($vState);
-          if ($vState < 2) {
-            $vState ++;
-            this.setAttribute('data-votestate', $vState);
-          } else if ($vState == 2) {
-            $vState = $vState - 3;
-            this.setAttribute('data-votestate', $vState);
+          console.log(ctx);
+          var vState = this.getAttribute('data-votestate');
+          console.log(vState);
+          if (vState == 0) {
+            console.log('I COULDA HADDA V-STATE!');
+            this.setAttribute('data-votestate', 1);
+            // vState = this.getAttribute('data-votestate');
+          } else if (vState == 1) {
+            console.log('NOW I GOTTA V-STATE!');
+            this.setAttribute('data-votestate', 2);
+            vState = this.getAttribute('data-votestate');
+          } else if (vState == 2) {
+            console.log('HEY, I STILL GOTTA V-STATE!');
+            this.setAttribute('data-votestate', -1);
+            vState = this.getAttribute('data-votestate');
+          } else {
+            console.log('OOOH, I SHUNTA HADDA V-STATE!');
+            this.setAttribute('data-votestate', 0);
+            vState = this.getAttribute('data-votestate');
           }
-          console.log($vState);
+          console.log(vState);
           console.log(this.getAttribute('data-votestate'));
         },
         mouseover: function(ctx) {console.log('hovering over ' + ctx);
