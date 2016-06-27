@@ -6,56 +6,43 @@ var aggTrace = {
   y: ['Morning', 'Afternoon', 'Evening'],
   type: 'heatmap'
 };
-var aggData = [aggTrace];
-Plotly.newPlot('aggregateGraph', aggData);
-//Graphing Personal Data //suspect that wrapping these in functions allows clearer namespace. Use FP in production version of code.
-var perGraph = document.getElementById('personalGraph');
 var perTrace = {
   z: [[1, 0, 0, 0, 1], [0, 1, 0, 0, 0], [0, 0, 1, -1, 2]],
   x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], //Are labels needed?
   y: ['Morning', 'Afternoon', 'Evening'],
   type: 'heatmap'
 };
-var perData = [perTrace];
-Plotly.newPlot('personalGraph', perData);
-//jQuery Animation //Standardize everything to jQ selections?
-function establishAnims() {
-  $('#personalGraph rect.drag.cursor-crosshair').hover(function() {
-    // console.log('in');
-    $('#personalGraph').animate({
-      'opacity': '1',
-    }, 800);
-  },function() {
-    // console.log('out');
-    $('#personalGraph').animate({
-      'opacity': '0.0',
-    }, 800);
-  });
-};
-establishAnims();
+var aggData = [perTrace, aggTrace];
+Plotly.newPlot('aggregateGraph', aggData);
+//Hover Events
+
+aggregateGraph.on('plotly_hover', function(event) {
+  console.log('ping');
+  Plotly.moveTraces(aggGraph,0);
+  aggGraph.
+  Plotly.redraw(aggregateGraph);
+});
 
 //Event Listener to support updating and re-rendering graphs.
-(function userClick() {
-  personalGraph.on('plotly_click', function(event){
-    // console.log(event);
-    // console.log(perData[0].z);
-    perData[0].z[
-      event.points[0].pointNumber[0]
-    ][
-      event.points[0].pointNumber[1]
-    ] += 10;
-    aggData[0].z[
-      event.points[0].pointNumber[0]
-    ][
-      event.points[0].pointNumber[1]
-    ] += 10;
-    Plotly.purge($('allgraphs'));
-    Plotly.newPlot('personalGraph', perData);
-    Plotly.newPlot('aggregateGraph', aggData);
-    userClick();
-    establishAnims();
-  });
-}) ();
+// (function userClick() {
+//   aggGraph.on('plotly_click', function(event){
+//     // console.log(event);
+//     // console.log(perData[0].z);
+//     perData[0].z[
+//       event.points[0].pointNumber[0]
+//     ][
+//       event.points[0].pointNumber[1]
+//     ] += 10;
+//     aggData[0].z[
+//       event.points[0].pointNumber[0]
+//     ][
+//       event.points[0].pointNumber[1]
+//     ] += 10;
+//     Plotly.purge($('allgraphs'));
+//     Plotly.newPlot('aggregateGraph', aggData);
+//     userClick();
+//   });
+// }) ();
 
 // (function listen() {
 //   myPlot.on('plotly_click', function(ctx){

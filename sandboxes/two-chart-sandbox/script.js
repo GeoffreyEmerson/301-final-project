@@ -11,7 +11,7 @@ Plotly.newPlot('aggregateGraph', aggData);
 //Graphing Personal Data //suspect that wrapping these in functions allows clearer namespace. Use FP in production version of code.
 var perGraph = document.getElementById('personalGraph');
 var perTrace = {
-  z: [[1, 0, 0, 0, 1], [0, 1, 0, 0, 0], [0, 0, 1, -1, 2]],
+  z: [[1, 0, 0, 0, 1], [0, 1, null, null, null], [0, 0, 1, -1, 2]],
   x: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], //Are labels needed?
   y: ['Morning', 'Afternoon', 'Evening'],
   type: 'heatmap'
