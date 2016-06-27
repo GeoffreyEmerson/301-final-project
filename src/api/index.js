@@ -1,7 +1,12 @@
 'use strict';
 
 var express = require('express');
+
+var Attending = require('../models/attending'); // Capital for models.
 var Event = require('../models/event'); // Capital for models.
+var Topic = require('../models/topic'); // Capital for models.
+var User = require('../models/user'); // Capital for models.
+var Vote = require('../models/vote'); // Capital for models.
 
 var router = express.Router();
 
@@ -21,5 +26,16 @@ router.get('/events',function(req,res) {
 // TODO: Add PUT route to update existing entries
 
 // TODO: Add DELETE route to delete entries
+
+router.get('/topics',function(req,res) {
+  Topic.find({}, function(err,topics){
+    if (err){
+      console.log(err);
+      res.status(503).json({message: err.message, call: 'GET /topics'});
+    }
+    res.json({topics: topics});
+  });
+
+});
 
 module.exports = router;
