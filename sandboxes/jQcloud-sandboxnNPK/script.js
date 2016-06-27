@@ -15,7 +15,7 @@ $(function() {
       html: {
         'data-usid': 'lksaf9pwurp2o',
         'data-topicid': 'we09r20lksjdf',
-        'data-votestate': 0,
+        'data-votestate': '',
       },
       handlers: {
         click: function(ctx) {
@@ -30,6 +30,18 @@ $(function() {
           if (vState == 0 || vState == '') {
             console.log('I COULDA HADDA V-STATE!');
             this.setAttribute('data-votestate', 1);
+            vState = this.getAttribute('data-votestate');
+          } else if (vState == 1) {
+            console.log('NOW I GOTTA V-STATE!');
+            this.setAttribute('data-votestate', 2);
+            vState = this.getAttribute('data-votestate');
+          } else if (vState == 2) {
+            console.log('HEY, I STILL GOTTA V-STATE!');
+            this.setAttribute('data-votestate', 3);
+            vState = this.getAttribute('data-votestate');
+          } else {
+            console.log('OOOH, I SHUNTA HADDA V-STATE!');
+            this.setAttribute('data-votestate', 4);
             vState = this.getAttribute('data-votestate');
           }
           console.log(vState);
