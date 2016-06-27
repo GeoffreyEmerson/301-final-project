@@ -1,13 +1,11 @@
 var mongoose = require('mongoose');
 
-//todo.name
-//todo.completed
-
 var userSchema = new mongoose.Schema({
-  name: String,
-  userHash: String
+  name: String, // "Bob"
+  userHash: String // "3hkf67dkh5f73d5kh3f6"
+  // __id: String
 });
 
-var model = mongoose.model('Todo', todoSchema);
+var model = mongoose.model('User', userSchema);
 
 module.exports = model;
