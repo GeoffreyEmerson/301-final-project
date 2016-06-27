@@ -36,6 +36,18 @@ router.get('/topics',function(req,res) {
   });
 });
 
+router.get('/topics/:name/:hash',function(req,res) {
+  var name = req.params.name;
+  var hash = req.params.hash;
+  Topic.findOne({name: name, 'eventHash': hash}, '_id', function(err,id){
+    if (err){
+      console.log(err);
+      res.status(503).json({message: err.message, call: 'GET /topics/' + hash});
+    }
+    res.json({eventHash: id});
+  });
+});
+
 router.get('/users',function(req,res) {
   User.find({}, function(err,users){
     if (err){
@@ -53,6 +65,16 @@ router.get('/attends',function(req,res) {
       res.status(503).json({message: err.message, call: 'GET /attends'});
     }
     res.json({attends: attends});
+  });
+});
+
+router.get('/votes',function(req,res) {
+  Vote.find({}, function(err,votes){
+    if (err){
+      console.log(err);
+      res.status(503).json({message: err.message, call: 'GET /votes'});
+    }
+    res.json({votes: votes});
   });
 });
 

@@ -23,5 +23,6 @@ $(function() {
   getApiRoute('topics');
   getApiRoute('users');
   getApiRoute('attends');
+  getApiRoute('votes');
 
 });
