@@ -15,6 +15,13 @@
 </head>
 
 <body>
+  <nav class="nav-main">
+    <div class="container">
+      <a href="/">Create</a>
+      <a href="/event">Event</a>
+      <a href="/admin">Admin</a>
+    </div>
+  </nav>
   <section class="container">
     <div class="row">
       <div class="six columns">
@@ -44,6 +51,17 @@
   <section class="container">
     <div class="u-pull-right" id="map"></div>
   </section>
+  <script src="https://www.gstatic.com/firebasejs/live/3.0/firebase.js"></script>
+  <script>
+    // Initialize Firebase
+    var config = {
+      apiKey: "AIzaSyB6YQQJ0YC58BbFm7KZSYGiIFjH5dbXV8Y",
+      authDomain: "convoke-f0908.firebaseapp.com",
+      databaseURL: "https://convoke-f0908.firebaseio.com",
+      storageBucket: "convoke-f0908.appspot.com",
+    };
+    firebase.initializeApp(config);
+  </script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
