@@ -1,0 +1,19 @@
+/* Sandbox for example-sandbox */
+#graphs {
+  position:relative;
+}
+
+#aggGraph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+#perGraph {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  z-index: 1;
+}

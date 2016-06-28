@@ -22,11 +22,13 @@ Plotly.newPlot('personalGraph', perData);
 function establishAnims() {
   $('#personalGraph rect.drag.cursor-crosshair').hover(function() {
     // console.log('in');
+    $('#personalGraph').stop();
     $('#personalGraph').animate({
       'opacity': '1',
     }, 800);
   },function() {
     // console.log('out');
+    $('#personalGraph').stop();
     $('#personalGraph').animate({
       'opacity': '0.0',
     }, 800);
@@ -49,24 +51,10 @@ establishAnims();
     ][
       event.points[0].pointNumber[1]
     ] += 10;
-    Plotly.purge($('allgraphs'));
+    // Plotly.purge($('allgraphs'));
     Plotly.newPlot('personalGraph', perData);
     Plotly.newPlot('aggregateGraph', aggData);
-    userClick();
-    establishAnims();
+    // userClick();
+    // establishAnims();
   });
 }) ();
-
-// (function listen() {
-//   myPlot.on('plotly_click', function(ctx){
-//     console.log(ctx);
-//     trace1.z[
-//             ctx.points[0].pointNumber[0]
-//             ][
-//             ctx.points[0].pointNumber[1]
-//             ] += 10;
-//     Plotly.purge(myPlot);
-//     Plotly.plot('myDiv', data);
-//     listen();
-//   });
-// }) ();
