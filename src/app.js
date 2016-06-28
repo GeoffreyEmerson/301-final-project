@@ -5,12 +5,12 @@ var app = express();
 
 app.set('port', (process.env.PORT || 3000));
 
+app.use('/', express.static('public'));
+
 require('./database');
 require('./seed');
 
-app.use('/',express.static('public'));
 app.use(parser.json());
-
 app.use('/api', router);
 
 app.listen(app.get('port'), function() {
