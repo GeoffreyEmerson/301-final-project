@@ -17,14 +17,6 @@ app.get('/', function(req, res){
   res.sendFile('/public/index.html',{root:__dirname + '/..'});
 });
 
-app.get('/event*', function(req, res){
-  res.sendFile('/public/event.html',{root:__dirname + '/..'});
-});
-
-app.get('/admin*', function(req, res){
-  res.sendFile('/public/admin.html',{root:__dirname + '/..'});
-});
-
 app.listen(app.get('port'), function() {
   console.log('The server is running on port', app.get('port'));
 });
