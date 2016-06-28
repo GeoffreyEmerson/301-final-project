@@ -13,7 +13,7 @@ require('./seed');
 app.use(parser.json());
 app.use('/api', router);
 
-app.get('/', function(req, res){
+app.get('*', function(req, res){
   res.sendFile('/public/index.html',{root:__dirname + '/..'});
 });
 
