@@ -1,6 +1,7 @@
 'use strict';
 
 var express = require('express');
+var crypto = require('crypto');
 
 var Attend = require('../models/attend'); // Capital for models.
 var Event = require('../models/event'); // Capital for models.
@@ -9,6 +10,10 @@ var User = require('../models/user'); // Capital for models.
 var Vote = require('../models/vote'); // Capital for models.
 
 var router = express.Router();
+
+/*------------------
+--  Event routes  --
+------------------*/
 
 router.get('/events',function(req,res) {
   Event.find({}, function(err,events){
@@ -20,7 +25,18 @@ router.get('/events',function(req,res) {
   });
 });
 
-// TODO: Add POST route to create new entries
+// A POST route to Create new entries
+router.post('/events', function(req,res){
+  var event = req.body;
+  event.hash = crypto.randomBytes(20).toString('hex');
+  console.log('POST /event:',event);
+  Event.create(event, function(err,event){
+    if (err) {
+      return res.status(503).json({err: err.message});
+    }
+    res.json({'event':event, message: 'Event Created'});
+  });
+});
 
 // TODO: Add PUT route to update existing entries
 
