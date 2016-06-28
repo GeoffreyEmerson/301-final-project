@@ -16,26 +16,25 @@
 
 <body>
   <nav class="nav-main">
-    <div class="container">
+    <div class="container" id="navigation">
       <a href="/">Create</a>
       <a href="/event">Event</a>
       <a href="/admin">Admin</a>
     </div>
   </nav>
 
-  <div class="container">
+  <div class="container" id="event">
     <div class="row">
       <div class="six columns">
         <h1 style="margin-top:5%">Event Name</h1>
       </div>
       <div class="three columns" style="margin-top:1%" id="status">
-        <h4 style="margin-top:10%">Admin</h4>
+        <h4 style="margin-top:10%">Organizer</h4>
       </div>
       <div class="three columns" style="margin-top:1%" id="user-id">
-        <h4 style="margin-top:10%">user ID</h4>
+        <h4 style="margin-top:10%">Status</h4>
       </div>
     </div>
-
     <br>
     <nav class="u-pull-right">
       <a class="button button-primary" href="./event/timing">Timing</a>
@@ -60,16 +59,28 @@
       </form>
     </div>
   </section>
+  <div id="map-box">
+    <section class="container" id="event-map">
+      <form class="u-pull-right" id="submit-event">
+        <input id="address" name="address" type="text" placeholder="Address">
+        <input class="button-primary" type="submit" value="Submit">
+      </form>
+    </section>
+    <section class="container" id="event">
+      <div class="u-pull-right" id="map"></div>
+    </section>
+  </div>
+  
+  <section id="timing">
+    <h1>Timing Content</h1>
+  </section>
+  <section id="status">
+    <h1>Status Content</h1>
+  </section>
+  <section id="clusters">
+    <h1>Cluster Content</h1>
+  </section>
 
-  <section class="container" id="event-map">
-    <form class="u-pull-right" id="submit-event">
-      <input id="address" name="address" type="text" placeholder="Address">
-      <input class="button-primary" type="submit" value="Submit">
-    </form>
-  </section>
-  <section class="container">
-    <div class="u-pull-right" id="map"></div>
-  </section>
 
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>

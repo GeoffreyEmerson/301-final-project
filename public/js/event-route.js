@@ -4,15 +4,38 @@ function logRoute(ctx, next) {
     next();
   }
 }
+
+var $homepage = $('#homepage, #navigation');
+var $event = $('#event, #navigation, #mapbox');
+var $admin = $('#event, #navigation, #mapbox');
+var $404 = $('#not-found');
+
 page.base('/');
 page('*', logRoute);
-page('/', function() {});
-page('event', function() {});
-page('event/timing', function() {});
+page('/', function() {
+  showPage($homepage);
+});
+
+page('event', function() {
+  showPage($event);
+});
+page('event/timing', function() {
+  showPage($event);
+  $('section').show('#timing');
+});
 page('event/status', function() {});
 page('event/clusters', function() {});
-page('admin', function() {});
+
+page('admin', function() {
+  showPage($admin);
+});
+
 page('admin/timing', function() {});
 page('admin/status', function() {});
 page('admin/clusters', function() {});
 page();
+
+function showPage($element) {
+  $('.container').hide();
+  $element.show();
+}
