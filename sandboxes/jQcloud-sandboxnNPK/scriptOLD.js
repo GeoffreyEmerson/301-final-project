@@ -15,22 +15,29 @@ $(function() {
       html: {
         'data-usid': 'lksaf9pwurp2o',
         'data-topicid': 'we09r20lksjdf',
-        'data-votestate': '',
+        'data-votestate': 0,
       },
       handlers: {
         click: function(ctx) {
           console.log(ctx);
-          // testArr[0].weight ++;
-          // console.log(testArr[0].weight);
-          //write a function here that alters votestate in a four click loop
-          // vote0();
-          // function vote0() {
           var vState = this.getAttribute('data-votestate');
           console.log(vState);
-          if (vState == 0 || vState == '') {
+          if (vState == 0) {
             console.log('I COULDA HADDA V-STATE!');
-            // this.setAttribute('data-votestate', 1);
-            vState = 1;
+            this.setAttribute('data-votestate', 1);
+            // vState = this.getAttribute('data-votestate');
+          } else if (vState == 1) {
+            console.log('NOW I GOTTA V-STATE!');
+            this.setAttribute('data-votestate', 2);
+            vState = this.getAttribute('data-votestate');
+          } else if (vState == 2) {
+            console.log('HEY, I STILL GOTTA V-STATE!');
+            this.setAttribute('data-votestate', -1);
+            vState = this.getAttribute('data-votestate');
+          } else {
+            console.log('OOOH, I SHUNTA HADDA V-STATE!');
+            this.setAttribute('data-votestate', 0);
+            vState = this.getAttribute('data-votestate');
           }
           console.log(vState);
           console.log(this.getAttribute('data-votestate'));
