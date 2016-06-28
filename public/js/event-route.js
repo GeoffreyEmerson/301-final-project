@@ -21,7 +21,7 @@ page('event', function() {
 });
 page('event/timing', function() {
   showPage($event);
-  $('section').show('#timing');
+  $('timing').show();
 });
 page('event/status', function() {});
 page('event/clusters', function() {});
