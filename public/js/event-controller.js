@@ -1,3 +1,4 @@
+//links up with our google maps api and makes initial location over portland
 function initMap() {
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
@@ -12,7 +13,7 @@ function initMap() {
     geocodeAddress(geocoder, map);
   });
 }
-
+//allows us to use submission form to input address, this function converts our address to lat & long
 function geocodeAddress(geocoder, resultsMap) {
   var address = $('#address').val();
   geocoder.geocode({
@@ -29,3 +30,9 @@ function geocodeAddress(geocoder, resultsMap) {
     }
   });
 }
+//gets text input from the event submission form and logs it to page
+$('#create').on('click', function(event){
+  event.preventDefault();
+  var eventValue = $('#event-value').val();
+  console.log(eventValue);
+});
