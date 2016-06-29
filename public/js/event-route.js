@@ -6,8 +6,8 @@ function logRoute(ctx, next) {
 }
 
 var $homepage = $('#homepage, #navigation');
-var $event = $('#event, #navigation, #map-box, #event-map');
-var $admin = $('#event, #navigation, #map-box, #event-map');
+var $event = $('#event');
+var $admin = $('#event');
 var $404 = $('#not-found');
 
 page.base('/');
@@ -18,6 +18,7 @@ page('/', function() {
 
 page('event', function() {
   showPage($event);
+  triggerMapResize();
 });
 
 page('event/timing', function() {
@@ -46,6 +47,6 @@ page('admin/clusters', function() {});
 page();
 
 function showPage($element) {
-  $('.container').hide();
+  $('.page').hide();
   $element.show();
 }
