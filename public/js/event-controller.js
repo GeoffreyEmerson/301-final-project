@@ -36,9 +36,3 @@ function geocodeAddress(geocoder, resultsMap) {
     }
   });
 }
-//gets text input from the event submission form and logs it to page
-$('#create').on('click', function(event){
-  event.preventDefault();
-  var eventValue = $('#event-value').val();
-  console.log(eventValue);
-});
