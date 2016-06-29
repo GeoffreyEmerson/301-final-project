@@ -24,6 +24,11 @@ app.use('/',express.static('public'));
 // Send all requests to the "api" directory to the API router.
 app.use('/api', router);
 
+// Catch all unspecified requests and send them to the page.js router in /public.
+app.get('*', function(req, res){
+  res.sendFile('/public/index.html',{root:__dirname + '/..'});
+});
+
 // Start the Express listener, which catches URLs sent to our app.
 app.listen(app.get('port'), function() {
   console.log('The server is running on port', app.get('port'));
