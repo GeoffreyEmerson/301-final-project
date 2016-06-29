@@ -3,6 +3,8 @@ function wordMe(wordName, userHash, topicHash) {
   console.log(newWd);
   wordArr.push(newWd);
   clouderator(wordArr);
+  reclouderator();
+  console.log('end wordMe');
 };
 wordMe('gypsum', 'lksaf9pwurp2o', 'we09r20lksjdf');
 wordMe('anchovies', 'lksaf9pwurp2o', 'we09r20lksjdf');

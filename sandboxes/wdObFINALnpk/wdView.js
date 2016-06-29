@@ -1,10 +1,17 @@
 //POPULATE WORD CLOUD WITH ITEMS PUSHED TO wordArr BY AGGREGATOR (CURRENTLY BY CONSTRUCTOR)
-function clouderator(wordArr,dimensions) {
+function clouderator() {
+  // $('#cloud').empty();
   $('#cloud').jQCloud(wordArr, {
     width: 500,
     height: 350
   });
   console.log('clouderator complete');
+};
+
+function reclouderator() {
+  // $('#cloud').empty();
+  $('#cloud').jQCloud('update', wordArr);
+  console.log('reclouderated');
 };
 
 //CLICK HANDLER TO SET VOTE STATE OF CLOUD VIEW ITEMS FOR EXPORT BACK TO WD. OBJ.
