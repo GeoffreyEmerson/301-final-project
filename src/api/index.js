@@ -3,11 +3,11 @@
 var express = require('express');
 var crypto = require('crypto');
 
-var Attend = require('../models/attend'); // Capital for models.
-var Event = require('../models/event'); // Capital for models.
-var Topic = require('../models/topic'); // Capital for models.
-var User = require('../models/user'); // Capital for models.
-var Vote = require('../models/vote'); // Capital for models.
+var Attend = require('../models/attend'); // Start with a Capital for models.
+var Event = require('../models/event');
+var Topic = require('../models/topic');
+var User = require('../models/user');
+var Vote = require('../models/vote');
 
 var router = express.Router();
 
