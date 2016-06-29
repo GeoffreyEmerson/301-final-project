@@ -38,6 +38,9 @@ $(function() {
   });
   //Click Handler
   perGraph.on('plotly_click', function(event) {
+    console.log(event);
+    console.log(perGraph);
+    console.log(perGraph.data);
     aggData[0].z[
       event.points[0].pointNumber[0]
     ][
