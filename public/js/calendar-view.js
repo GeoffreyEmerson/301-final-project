@@ -92,7 +92,7 @@ $(function() {
           //   });
           // }
         },
-        // color: colors[],
+        // color:
         // colors[calendarView.colorTranslater(aggData[ ])], //TODO: Write local pref array. Also, find a way to reference the correct member of that array.
         borderWidth: 0,
         id: 5, //TODO: TopicID
@@ -121,19 +121,10 @@ $(function() {
 
   $('g.highcharts-series-group').hover(
     function() {
-      console.log('in');
       chart.series[1].setVisible();
-      // console.log(chart.series[0].index);
-      // console.log(chart);
-      // update = {index: 1};
-      // chart.update(chart.series[0].index = 20);
-      // chart.series[0].update(update);
-      // console.log(chart.series[0].index);
-      // chart.yAxis.reversedStacks = true;
-      // chart.redraw();
     },
     function () {
-      console.log('out');
+      chart.series[1].setVisible();
     });
   // $('.highcharts-series-0').on('click', 'rect', function() {
   //   console.log(this);
