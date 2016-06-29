@@ -1,10 +1,10 @@
 'use strict';
 
 var express = require('express');
-var crypto = require('crypto');
+var crypto = require('crypto'); // Needed for generating random hashes
 
-var Attend = require('../models/attend'); // Start with a Capital for models.
-var Event = require('../models/event');
+var Event = require('../models/event'); // Start with a Capital for models.
+var Rsvp = require('../models/rsvp');
 var Topic = require('../models/topic');
 var User = require('../models/user');
 var Vote = require('../models/vote');
@@ -89,7 +89,34 @@ router.delete('/events/id/:id',function(req,res) {
         return res.status(503).json({message: err.message, call: 'DELETE /events/id/:id'});
       }
     });
-    res.send('Event deleted.');
+    return res.send('Event deleted.');
+  });
+});
+
+/*-----------------
+--  RSVP routes  --
+-----------------*/
+
+// A GET route to list all RSVPs. Probably won't be needed for final version.
+router.get('/rsvps',function(req,res) {
+  Rsvp.find({}, function(err,rsvps){
+    if (err){
+      console.log(err);
+      return res.status(503).json({message: err.message, call: 'GET /rsvps'});
+    }
+    return res.json({rsvps: rsvps});
+  });
+});
+
+// A POST route to Create new RSVP entries
+router.post('/rsvps', function(req,res){
+  var rsvp = req.body;
+  console.log('POST /rsvp:',rsvp);
+  Rsvp.create(rsvp, function(err,rsvp){
+    if (err) {
+      return res.status(503).json({err: err.message, call: 'POST /rsvps'});
+    }
+    res.json({'rsvp':rsvp, message: 'RSVP Created'});
   });
 });
 
@@ -121,6 +148,10 @@ router.get('/topics',function(req,res) {
 //   });
 // });
 
+/*-----------------
+--  User routes  --
+-----------------*/
+
 router.get('/users',function(req,res) {
   User.find({}, function(err,users){
     if (err){
@@ -131,15 +162,9 @@ router.get('/users',function(req,res) {
   });
 });
 
-router.get('/attends',function(req,res) {
-  Attend.find({}, function(err,attends){
-    if (err){
-      console.log(err);
-      res.status(503).json({message: err.message, call: 'GET /attends'});
-    }
-    res.json({attends: attends});
-  });
-});
+/*-----------------
+--  Vote routes  --
+-----------------*/
 
 router.get('/votes',function(req,res) {
   Vote.find({}, function(err,votes){

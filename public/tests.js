@@ -7,7 +7,7 @@ $(function() {
       cache: false
     })
     .done( function (data) {
-      console.log('Success: GET /api/' + route);
+      console.log('Ajax call success: GET /api/' + route);
       console.log(data);
       $('#' + route).text(JSON.stringify(data[route]));
     })
@@ -21,7 +21,7 @@ $(function() {
 
   getApiRoute('topics');
   getApiRoute('users');
-  getApiRoute('attends');
+  getApiRoute('rsvps');
   getApiRoute('votes');
 
   $.ajax({
@@ -30,7 +30,9 @@ $(function() {
     data: {name: 'My Event'},
     cache: false
   })
-  .done( function () {
+  .done( function (data) {
+    console.log('Ajax call success: POST /api/events');
+    console.log(data);
     // call the callback function here
     getApiRoute('events');
   })
