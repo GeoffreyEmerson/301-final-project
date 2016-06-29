@@ -1,6 +1,12 @@
 //links up with our google maps api and makes initial location over portland
+var map;
+function triggerMapResize(){
+  if (map){
+    google.maps.event.trigger(map, 'resize');
+  }
+}
 function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
+  map = new google.maps.Map(document.getElementById('map'), {
     zoom: 8,
     center: {
       lat: 45.5231,
