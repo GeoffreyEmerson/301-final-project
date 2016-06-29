@@ -19,73 +19,60 @@ router
     }
     res.json({topics: topics});
   });
-});
+})
 
 // A POST route to Create new topics
-// .post('/', function(req,res){
-//   var topic = req.body;
-//   Event.create(topic, function(err,topic){
-//     if (err) {
-//       return res.status(503).json({err: err.message, call: 'POST /topics'});
-//     }
-//     res.json({'topic':topic, message: 'Event Created'});
-//   });
-// })
-//
-// // A GET route with eventHash argument to get event data
-// .get('/:hashArg',function(req,res) {
-//   var hashArg = req.params.hashArg;
-//   Event.findOne({hash: hashArg}, function(err,events){
-//     if (err){
-//       console.log(err);
-//       return res.status(503).json({message: err.message, call: 'GET /events/:eventHash'});
-//     }
-//     res.json({events: events});
-//   });
-// })
-//
-// // A PUT route to update existing entries. Essentially only for a name change.
-// .put('/:hashArg',function(req,res) {
-//   var hashArg = req.params.hashArg;
-//   Event.findOne({hash: hashArg}, function(err,event){
-//     event.name = req.body.name; // Make the change...
-//     event.save(function(err) {  // Then save the change.
-//       if (err){
-//         console.log(err);
-//         return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
-//       }
-//     });
-//     res.json({event: event}); // Puts JSON in the response object.
-//   });
-// })
-//
-// // A DELETE route to delete events by eventHash.
-// .delete('/:hashArg',function(req,res) {
-//   var hashArg = req.params.hashArg;
-//   Event.findOne({hash: hashArg}, function(err,event){
-//     event.remove(function(err) {
-//       if (err){
-//         console.log(err);
-//         return res.status(503).json({message: err.message, call: 'DELETE /events/:eventHash'});
-//       }
-//     });
-//     res.send('Event deleted.');
-//   });
-// })
-//
-// // Extra: Delete event by ID with the /events/id/:id route.
-// .delete('/id/:id',function(req,res) {
-//   var id = req.params.id;
-//   Event.findOne({_id: id}, function(err,event){
-//     event.remove(function(err) {
-//       if (err){
-//         console.log(err);
-//         return res.status(503).json({message: err.message, call: 'DELETE /events/id/:id'});
-//       }
-//     });
-//     return res.send('Event deleted.');
-//   });
-// });
+.post('/', function(req,res){
+  var topic = req.body;
+  Topic.create(topic, function(err,topic){
+    if (err) {
+      return res.status(503).json({err: err.message, call: 'POST /topics'});
+    }
+    res.json({'topic':topic, message: 'Topic Created'});
+  });
+})
+
+// A GET route with ID argument to get data on a specific topic
+.get('/:id',function(req,res) {
+  var idArg = req.params.id;
+  Topic.findOne({_id: idArg}, function(err,topic){
+    if (err){
+      console.log(err);
+      return res.status(503).json({message: err.message, call: 'GET /topics/:id'});
+    }
+    res.json({topic: topic});
+  });
+})
+
+// A PUT route to update existing entries. Essentially only for a name or description change.
+.put('/:id',function(req,res) {
+  var idArg = req.params.id;
+  Topic.findOne({_id: idArg}, function(err,topic){
+    topic.name = req.body.name; // Make the change...
+    topic.description = req.body.description; // Make the change...
+    topic.save(function(err) {  // Then save the change.
+      if (err){
+        console.log(err);
+        return res.status(503).json({message: err.message, call: 'PUT /topics/:id'});
+      }
+    });
+    res.json({topic: topic}); // Puts JSON in the response object.
+  });
+})
+
+// A DELETE route to delete topic by ID.
+.delete('/:id',function(req,res) {
+  var idArg = req.params.id;
+  Topic.findOne({_id: idArg}, function(err,topic){
+    topic.remove(function(err) {
+      if (err){
+        console.log(err);
+        return res.status(503).json({message: err.message, call: 'DELETE /topics/:id'});
+      }
+    });
+    res.send('Topic deleted.');
+  });
+})
 
 // // I think I wrote this while trying to implement the seeds
 // // A GET route that returns an topicId when supplied with a Topic name and eventHash
@@ -99,6 +86,8 @@ router
 //     }
 //     res.json({topicId: id});
 //   });
-// });
+// })
+
+;
 
 module.exports = router;
