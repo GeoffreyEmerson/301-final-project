@@ -70,18 +70,18 @@ $('#create-name').on('click', function(event){
   var nameValue = $('#name-value').val();
   console.log(nameValue);
   location = '/event';
-  // $.ajax({
-  //   url: '/api/users',
-  //   type: 'POST',
-  //   data: nameValue,
-  //   cache: false
-  // })
-  // .done( function (data) {
-  //   console.log('Success: POST /api/' + route);
-  //   console.log(nameValue);
-  //   $('#' + route).text(JSON.stringify(data[route]));
-  //   location = '/event';
-  // });
+  $.ajax({
+    url: '/api/users',
+    type: 'POST',
+    data: nameValue,
+    cache: false
+  })
+  .done( function (data) {
+    console.log('Success: POST /api/' + route);
+    console.log(nameValue);
+    $('#' + route).text(JSON.stringify(data[route]));
+    location = '/event';
+  });
 });
 //gets text input fromt the add button and will push to database, which will in turn populate the word cluster.
 //Then the function automatically takes us to the clusters page.
