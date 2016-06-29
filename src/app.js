@@ -4,7 +4,7 @@ var bodyParser = require('body-parser');
 var events = require('./api/events');
 var rsvps = require('./api/rsvps');
 var topics = require('./api/topics');
-// var users = require('./api/users');
+var users = require('./api/users');
 // var votes = require('./api/votes');
 
 var app = express();
@@ -31,7 +31,7 @@ app.use('/',express.static('public'));
 app.use('/api/events', events);
 app.use('/api/rsvps', rsvps);
 app.use('/api/topics', topics);
-// app.use('/api/users', users);
+app.use('/api/users', users);
 // app.use('/api/votes', votes);
 
 // Catch all unspecified requests and send them to the page.js router in /public.

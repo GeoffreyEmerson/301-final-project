@@ -2,7 +2,7 @@ $(function() {
 
   getApiRoute('events');
   getApiRoute('topics');
-  // getApiRoute('users');
+  getApiRoute('users');
   getApiRoute('rsvps');
   // getApiRoute('votes');
   // exampleAjaxPost();
