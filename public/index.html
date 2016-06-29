@@ -20,6 +20,7 @@
       <a href="/">Create</a>
       <a href="/event">Event</a>
       <a href="/admin">Admin</a>
+      <a href="/name">Name</a>
     </div>
   </nav>
 
@@ -41,6 +42,7 @@
         <a class="button button-primary" href="./event/timing">Timing</a>
         <a class="button button-primary" href="./event/status/">Status</a>
         <a class="button button-primary" href="./event/clusters/">Clusters</a>
+        <a class="button button-primary" href="./event/add/">+</a>
       </nav>
     </div>
     <div class="row">
@@ -54,8 +56,14 @@
         <section class="page" id="cluster">
           <p>Cluster Content</p>
         </section>
+        <section class="page" id="add">
+          <form class="row">
+            <input type="text" placeholder="Add a Topic" id="topic">
+            <input class="button-primary" type="submit" value="Convoke It!" id="add-topic">
+          </form>
+        </section>
       </div>
-      <div class="six columns">
+      <div class="six columns" id="googleAPI">
         <form id="submit-event">
           <input id="address" class="u-full-width" name="address" type="text" placeholder="Address">
           <input class="button-primary u-full-width" type="submit" value="Submit">
@@ -77,18 +85,35 @@
           <input class="u-full-width" type="text" placeholder="Event Name" id="event-value">
         </div>
         <div class="six columns">
-          <input class="button-primary u-full-width" type="submit" value="Create" id="create">
+          <input class="button-primary u-full-width" type="submit" value="Create" id="create-event">
         </div>
       </form>
     </div>
   </section>
+
+  <section class="container page" id="name">
+    <div style="margin-top: 15%">
+      <h1 class="center">Enter your Name</h1>
+      <br>
+      <br>
+      <br>
+      <form class="row">
+        <div class="six columns">
+          <input class="u-full-width" type="text" placeholder="Your Name" id="name-value">
+        </div>
+        <div class="six columns">
+          <input class="button-primary u-full-width" type="submit" value="Add" id="create-name">
+        </div>
+      </form>
+    </div>
+  </section>
+
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=initMap" async defer></script>
   <script src="/js/event-controller.js"></script>
   <script src="/js/event-route.js"></script>
-</body>
 </body>
 
 </html>
