@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>example-sandbox</title>
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="/vendor/jqcloud.css">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>jqcloud-sandbox</h1>
+    <section>
+      <div id="cloud"></div>
+      <div id="wordsy">
+        <form action="index.html" method="post">
+          <label for="word">CREATE OPTION</br><input id="wdText" type="text" name="word" value="anchovies"></label></br>
+          <input id="creator" type="button" name="submit" value="CREATE">
+          <input type="text" visibility="hidden" id="userHash" value="lksaf9pwurp2o">
+          <input type="text" id="topicHash" value="we09r20lksjdf">
+        </form>
+      </div>
+    </section>
+    <script src="/vendor/jqcloud.js"></script>
+    <script type="text/javascript" src="topic-model.js"></script>
+    <script type="text/javascript" src="topic-view.js"></script>
+    <script type="text/javascript" src="topic-controller.js"></script>
+  </body>
+</html>
