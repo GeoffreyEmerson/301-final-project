@@ -4,7 +4,7 @@ $(function() {
   getApiRoute('topics');
   getApiRoute('users');
   getApiRoute('rsvps');
-  // getApiRoute('votes');
+  getApiRoute('votes');
   // exampleAjaxPost();
 
   function getApiRoute(route){
