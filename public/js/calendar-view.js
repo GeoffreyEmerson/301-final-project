@@ -38,7 +38,8 @@ $(function() {
       colorAxis: {
         min: 0,
         minColor: '#FFFFFF',
-        maxColor: Highcharts.getOptions().colors[0]
+        maxColor: Highcharts.getOptions().colors[0],
+        reversed: true
       },
       legend: {
         align: 'right',
@@ -59,7 +60,7 @@ $(function() {
         // }
       },
       series: [{
-        name: 'Availability',
+        name: 'Aggregate Prefs',
         borderWidth: 1,
         data: aggData,
         dataLabels: {
@@ -95,14 +96,13 @@ $(function() {
         // colors[calendarView.colorTranslater(aggData[ ])], //TODO: Write local pref array. Also, find a way to reference the correct member of that array.
         borderWidth: 0,
         id: 5, //TODO: TopicID
-        index: 1
       },
 //start of second data serie
       {
-        name: 'aggData2',
+        name: 'Personal Prefs',
         borderWidth: 1,
         data: aggData.map(function(ele) {
-          return [ele[0], ele[1], Math.random() * 125];
+          return [ele[0], ele[1], Math.random() * 100];
         }),
         dataLabels: {
           enabled: false,
@@ -111,7 +111,6 @@ $(function() {
         },
         borderWidth: 0,
         id: 5, //TODO: TopicID
-        index: 1
       }
     ]
     });
@@ -123,13 +122,15 @@ $(function() {
   $('g.highcharts-series-group').hover(
     function() {
       console.log('in');
-      console.log(chart.series[0].index);
-      chart.series[0].index = '';
-      console.log(chart.series[0].index);
+      chart.series[1].setVisible();
+      // console.log(chart.series[0].index);
+      // console.log(chart);
+      // update = {index: 1};
+      // chart.update(chart.series[0].index = 20);
+      // chart.series[0].update(update);
+      // console.log(chart.series[0].index);
       // chart.yAxis.reversedStacks = true;
       // chart.redraw();
-      calendarView.render(); //this should be invoked elsewhere.
-
     },
     function () {
       console.log('out');
