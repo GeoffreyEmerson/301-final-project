@@ -1,6 +1,12 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var router = require('./api');
+
+var events = require('./api/events');
+var rsvps = require('./api/rsvps');
+var topics = require('./api/topics');
+var users = require('./api/users');
+var votes = require('./api/votes');
+
 var app = express();
 
 // configure app to use bodyParser()
@@ -21,8 +27,12 @@ require('./seed');
 // Express: Allow all files in the "public" directory to be loaded directly.
 app.use('/',express.static('public'));
 
-// Send all requests to the "api" directory to the API router.
-app.use('/api', router);
+// Send all requests to the "api" directories to the API router.
+app.use('/api/events', events);
+app.use('/api/rsvps', rsvps);
+app.use('/api/topics', topics);
+app.use('/api/users', users);
+app.use('/api/votes', votes);
 
 // Catch all unspecified requests and send them to the page.js router in /public.
 app.get('*', function(req, res){

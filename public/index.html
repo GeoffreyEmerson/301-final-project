@@ -46,9 +46,11 @@
       </nav>
     </div>
     <div class="row">
-      <div class="six columns">
+      <div class="twelve columns">
         <section class="page" id="timing">
-          <p>Timing Content</p>
+          <p>
+            <div id="container"></div>
+          </p>
         </section>
         <section class="page" id="status-content">
           <p>Status Content</p>
@@ -90,7 +92,6 @@
       </form>
     </div>
   </section>
-
   <section class="container page" id="name">
     <div style="margin-top: 15%">
       <h1 class="center">Enter your Name</h1>
@@ -108,10 +109,16 @@
     </div>
   </section>
 
+
+  <!-- Libraries -->
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=initMap" async defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.5/highcharts.js"></script>
+  <script src="/vendor/heatmap.min.js"></script>
+  <!-- Custom Scripts -->
+  <script src="/js/calendar-view.js"></script>
   <script src="/js/event-controller.js"></script>
   <script src="/js/event-route.js"></script>
 </body>
