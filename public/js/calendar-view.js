@@ -32,7 +32,7 @@ $(function() {
         categories: ['1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12a', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p', '12p']
       },
       yAxis: {
-        categories: ['Sunday', 'Saturday', 'Friday', 'Thursday', 'Wednesday', 'Tuesday', 'Monday'],
+        categories: ['Sunday', 'Saturday', 'Friday', new Date() , 'Wednesday', 'Tuesday', 'Monday'],
         title: null,
       },
       colorAxis: {
@@ -66,9 +66,25 @@ $(function() {
         dataLabels: {
           enabled: false,
         },
+        borderWidth: 0,
+        id: 5, //TODO: TopicID
+        index: 1
+      },
+//start of personal preference data series
+      {
+        name: 'Personal Prefs',
+        borderWidth: 1,
+        data: aggData.map(function(ele) {
+          return [ele[0], ele[1], Math.random() * 50];
+        }),
+        dataLabels: {
+          enabled: false,
+        },
         events:  {
           click: function() {
             //Sends relevant information to backend.
+            var vote = 'vote date-time is ' + event.point.series.yAxis.categories[event.point.y] + ' @ ' + event.point.series.xAxis.categories[event.point.x];
+            console.log(vote);
             console.log(
               event.point.series.xAxis.categories[event.point.x],
               event.point.series.yAxis.categories[event.point.y],
@@ -79,38 +95,12 @@ $(function() {
             //Sets vote-state hover color.
             //TODO: update local copy of vote-state array
           },
-          // mouseOver: function() {
-          //   console.log(this);
-          //   this.update({
-          //     color: 'red'
-          //   });
-          // },
-          // mouseOut: function() { //Appears to be unnecessary.
-          //   console.log(this);
-          //   this.update({
-          //     color: 'FFFFFF'
-          //   });
-          // }
-        },
-        // color:
-        // colors[calendarView.colorTranslater(aggData[ ])], //TODO: Write local pref array. Also, find a way to reference the correct member of that array.
-        borderWidth: 0,
-        id: 5, //TODO: TopicID
-      },
-//start of second data serie
-      {
-        name: 'Personal Prefs',
-        borderWidth: 1,
-        data: aggData.map(function(ele) {
-          return [ele[0], ele[1], Math.random() * 100];
-        }),
-        dataLabels: {
-          enabled: false,
-        },
-        events:  {
         },
         borderWidth: 0,
         id: 5, //TODO: TopicID
+        minColor: '#FFFFFF',
+        maxColor: Highcharts.getOptions().colors[3],
+        index: 0
       }
     ]
     });
