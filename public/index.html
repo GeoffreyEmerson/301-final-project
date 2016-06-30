@@ -60,6 +60,13 @@
               <input id="creator" type="button" name="submit" value="CREATE">
               <input type="text" visibility="hidden" id="userHash" value="lksaf9pwurp2o">
               <input type="text" id="topicHash" value="we09r20lksjdf">
+<!-- curt has changes for this section tomorrow to make it look pretty -->
+  <!-- <section class="page" id="add">
+  <form class="row">
+    <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
+    <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
+  </form>
+</section> -->
             </form>
           </div>
         </section>
@@ -91,12 +98,12 @@
       <br>
       <br>
       <br>
-      <form class="row">
+      <form class="row" id="create-event">
         <div class="six columns">
-          <input class="u-full-width" type="text" placeholder="Event Name" id="event-value">
+          <input class="u-full-width" type="text" placeholder="Event Name" required id="event-value">
         </div>
         <div class="six columns">
-          <input class="button-primary u-full-width" type="submit" value="Create" id="create-event">
+          <input class="button-primary u-full-width" type="submit" value="Create">
         </div>
       </form>
     </div>
@@ -107,12 +114,12 @@
       <br>
       <br>
       <br>
-      <form class="row">
+      <form class="row"  id="create-name">
         <div class="six columns">
-          <input class="u-full-width" type="text" placeholder="Your Name" id="name-value">
+          <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" required>
         </div>
         <div class="six columns">
-          <input class="button-primary u-full-width" type="submit" value="Add" id="create-name">
+          <input class="button-primary u-full-width" type="submit" value="Add">
         </div>
       </form>
     </div>
