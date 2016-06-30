@@ -89,7 +89,7 @@ $('#add-topic').on('click', function(event){
   event.preventDefault();
   var topicValue = $('#topic').val();
   console.log(topicValue);
-  location = '/event/clusters';
+  // location = '/event/clusters';
 });
 
 page('admin/timing', function() {});
