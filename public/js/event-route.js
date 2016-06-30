@@ -1,10 +1,3 @@
-function logRoute(ctx, next) {
-  console.log(ctx.path);
-  if (next) {
-    next();
-  }
-}
-
 var $homepage = $('#homepage, #navigation');
 var $event = $('#event');
 var $name = $('#name, #navigation');
@@ -12,18 +5,13 @@ var $admin = $('#event');
 var $404 = $('#not-found');
 
 page.base('/');
-page('*', logRoute);
+// page('*', logRoute);
 
 page('/', function() {
   showPage($homepage);
 });
 
-page('event', function() {
-  showPage($event);
-  $('#details').show();
-  $('#googleAPI').show();
-  triggerMapResize();
-});
+page('event', initEventPage);
 
 page('name', function() {
   showPage($name);
@@ -62,7 +50,9 @@ $('#create-event').on('click', function(event){
   event.preventDefault();
   var eventValue = $('#event-value').val();
   console.log(eventValue);
-  location = '/name';
+  createEvent(eventValue);
+  history.pushState({},'','/name');
+  showPage($name);
 });
 
 //gets text input from the name submission form and posts to the api and advances to event page
@@ -70,21 +60,12 @@ $('#create-name').on('click', function(event){
   event.preventDefault();
   var nameValue = $('#name-value').val();
   console.log(nameValue);
-  location = '/event';
-  // $.ajax({
-  //   url: '/api/users',
-  //   type: 'POST',
-  //   data: nameValue,
-  //   cache: false
-  // })
-  // .done( function (data) {
-  //   console.log('Success: POST /api/' + route);
-  //   console.log(nameValue);
-  //   $('#' + route).text(JSON.stringify(data[route]));
-  //   location = '/event';
-  // });
+  createUserName(nameValue);
+  history.pushState({},'','/event');
+  initEventPage();
 });
-//gets text input fromt the add button and will push to database, which will in turn populate the word cluster.
+
+//gets text input from the add button and will push to database, which will in turn populate the word cluster.
 //Then the function automatically takes us to the clusters page.
 $('#add-topic').on('click', function(event){
   event.preventDefault();
@@ -101,4 +82,9 @@ page();
 function showPage($element) {
   $('.page').hide();
   $element.show();
+}
+
+function logRoute(ctx, next) {
+  console.log(ctx.path);
+  if (next) next();
 }
