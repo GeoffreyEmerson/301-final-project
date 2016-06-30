@@ -3,41 +3,72 @@
   var EventController = {};
 
   EventController.initEventPage = function(ctx,callback) {
-    // TODO: Redirect user if:
+    console.log('initEventPage called.');
+
+    // Redirect user if:
     //   No hash in URL, and
     //   No hash in DOM, and
     //   No hash in cookie
 
-    console.log(ctx);
     if (ctx && ctx.params.eventHash) {
-      $.ajax({
-        url: '/api/events/' + ctx.params.eventHash,
-        type: 'GET',
-        cache: false
-      })
-      .done( function (data) {
-        // call the callback function here
-        console.log(data);
-        saltDom('#event','event',data.event.hash,data.event.name);
-        setCookie('eventHash', data.event.hash, 10);
-        setCookie('eventName', data.event.name, 10);
-        if (callback) callback();
-      })
-      .fail( function(jqXHR, textStatus, errorThrown) {
-        console.warn('Ajax call failed: GET /api/events/' + ctx.params.eventHash);
-        console.log('jqXHR.responseText:',jqXHR.responseText);
-        console.log('textStatus:',textStatus);
-        console.log('errorThrown:',errorThrown);
-        // call the error version of the callback if any
-      });
+      console.log('Context:',ctx);
+      getEventData(ctx.params.eventHash,callback); // ajax call for event data.
     } else {
       console.log('No ctx object or ctx.params.eventHash parameter.'); // Remove this in production.
+      // User gets here if they have entered the app from someplace other than making a new event.
+      // Check for info in the DOM.
+      if ( $('#event').attr('data-eventHash') ) {
+        console.log('eventHash found in DOM.');
+        // Here we get the eventHash from the DOM.
+        getEventData($('#event').attr('data-eventHash'),callback);
+      } else {
+        console.log('No eventHash in DOM.');
+        // Now check for cookie.
+        if (EventController.getCookie('eventHash')) {
+          console.log('eventHash found in cookie!');
+          // Here we get the eventHash from a cookie.
+          getEventData(EventController.getCookie('eventHash'),callback);
+        } else {
+          console.log('No cookie either. Redirect to main page.');
+          window.location = '/'; // TODO: Fix this as a proper SPA redirect.
+        };
+      };
     };
     showPage($('#event'));
     $('#details').show();
     $('#googleAPI').show();
     EventController.triggerMapResize();
     // TODO: If no userName, go to name input view.
+
+    console.log('initEventPage completed.');
+  };
+
+  function getEventData(eventHash,callback) {
+    $.ajax({
+      url: '/api/events/' + eventHash,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      // call the callback function here
+      console.log('data:',data);
+      if (data.event && data.event.hash) {
+        saltDom('#event','event',data.event.hash,data.event.name);
+        setCookie('eventHash', data.event.hash, 10);
+        setCookie('eventName', data.event.name, 10);
+      } else {
+        // Hopefully this will never happen.
+        console.error('Ajax call successful, but no eventHash returned!');
+      };
+      if (callback) callback();
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.warn('Ajax call failed: GET /api/events/' + eventHash);
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      // call the error version of the callback if any
+    });
   };
 
   //links up with our google maps api and makes initial location over portland
