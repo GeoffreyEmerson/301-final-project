@@ -1,10 +1,3 @@
-function logRoute(ctx, next) {
-  console.log(ctx.path);
-  if (next) {
-    next();
-  }
-}
-
 var $homepage = $('#homepage, #navigation');
 var $event = $('#event');
 var $name = $('#name, #navigation');
@@ -18,11 +11,7 @@ page('/', function() {
   showPage($homepage);
 });
 
-page('event', function() {
-  showPage($event);
-  $('#googleAPI').show();
-  triggerMapResize();
-});
+page('event', initEventPage);
 
 page('name', function() {
   showPage($name);
@@ -71,19 +60,9 @@ $('#create-name').on('click', function(event){
   event.preventDefault();
   var nameValue = $('#name-value').val();
   console.log(nameValue);
-  location = '/event';
-  // $.ajax({
-  //   url: '/api/users',
-  //   type: 'POST',
-  //   data: nameValue,
-  //   cache: false
-  // })
-  // .done( function (data) {
-  //   console.log('Success: POST /api/' + route);
-  //   console.log(nameValue);
-  //   $('#' + route).text(JSON.stringify(data[route]));
-  //   location = '/event';
-  // });
+  createUserName(nameValue);
+  history.pushState({},'','/event');
+  initEventPage();
 });
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
@@ -103,4 +82,9 @@ page();
 function showPage($element) {
   $('.page').hide();
   $element.show();
+}
+
+function logRoute(ctx, next) {
+  console.log(ctx.path);
+  if (next) next();
 }

@@ -1,3 +1,9 @@
+function initEventPage() {
+  showPage($('#event'));
+  $('#googleAPI').show();
+  triggerMapResize();
+};
+
 //links up with our google maps api and makes initial location over portland
 var map;
 function triggerMapResize(){
@@ -46,8 +52,8 @@ function createEvent(eventName, callback) {
   })
   .done( function (data) {
     // call the callback function here
-    $('#event').attr('data-eventhash',data.event.hash);
-    $('#event').attr('data-eventname',data.event.name);
+    $('#event').attr('data-eventHash',data.event.hash);
+    $('#event').attr('data-eventName',data.event.name);
     if (callback) callback();
   })
   .fail( function(jqXHR, textStatus, errorThrown) {
@@ -56,5 +62,24 @@ function createEvent(eventName, callback) {
     console.log('textStatus:',textStatus);
     console.log('errorThrown:',errorThrown);
     // call the error version of the callback if any
+  });
+};
+
+function createUserName(nameArg, callback) {
+  $.ajax({
+    url: '/api/users',
+    type: 'POST',
+    data: {name: nameArg},
+    cache: false
+  })
+  .done( function (data) {
+    console.log('Success: POST /api/users');
+    console.log(data);
+    $('#user-id').attr('data-userHash',data.user.userHash);
+    $('#user-id').attr('data-userName',data.user.name);
+    if (callback) callback();
+  })
+  .fail( function() {
+    console.error('Name creation failed (event-controller.js)');
   });
 };
