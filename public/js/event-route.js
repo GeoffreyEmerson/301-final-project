@@ -7,47 +7,46 @@ var $404 = $('#not-found');
 page.base('/');
 // page('*', logRoute);
 
-page('/', function() {
+page('/', logRoute, function() {
   showPage($homepage);
 });
 
-page('name', function() {
+page('name', logRoute, function() {
   showPage($name);
 });
 
-page('event', initEventPage);
-page(':eventHash', initEventPage);
-page(':eventHash/event', initEventPage);
+page('event', logRoute, EventController.initEventPage, EventView.initEventView);
+page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView);
 
 //////////////////////////////////////
-page('event/timing', function() {
+page('event/timing', logRoute, function() {
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
 });
 
-page(':id/event/timing', function() {
+page(':id/event/timing', logRoute, function() {
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
 });
 
 //////////////////////////////////////
-page('event/status', function() {
+page('event/status', logRoute, function() {
   showPage($event);
   $('#status-content').show();
   $('#googleAPI').show();
 });
 
 //////////////////////////////////////
-page('event/clusters', function() {
+page('event/clusters', logRoute, function() {
   showPage($event);
   $('#cluster').show();
   $('#googleAPI').show();
 });
 
 //////////////////////////////////////
-page('event/add', function() {
+page('event/add', logRoute, function() {
   showPage($event);
   $('#add').show();
   $('#googleAPI').show();
@@ -64,7 +63,7 @@ $('#create-event').on('click', function(event){
   event.preventDefault();
   var eventValue = $('#event-value').val();
   console.log(eventValue);
-  createEvent(eventValue, function() {
+  EventController.createEvent(eventValue, function() {
     history.pushState({},'','/name');
     showPage($name);
   });
@@ -75,9 +74,9 @@ $('#create-name').on('click', function(event){
   event.preventDefault();
   var nameValue = $('#name-value').val();
   console.log(nameValue);
-  createUserName(nameValue);
+  EventController.createUserName(nameValue);
   history.pushState({},'','/event');
-  initEventPage();
+  EventController.initEventPage();
 });
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
@@ -101,6 +100,6 @@ function showPage($element) {
 }
 
 function logRoute(ctx, next) {
-  console.log(ctx.path);
+  console.log('page.js route called: ',ctx.path);
   if (next) next();
 }

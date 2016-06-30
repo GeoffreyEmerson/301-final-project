@@ -1,4 +1,5 @@
 (function(module) {
+
   var wordArr = [];
 
   function Word(text, usid, topicid) { //TODO: Make sure IIFE enclosure didn't inadvertently break this.
@@ -10,5 +11,7 @@
       'data-votestate': 0,
     };
   };
-  module.topicModel = topicModel;
+
+  // module.topicModel = topicModel;
+
 })(window);
