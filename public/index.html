@@ -28,7 +28,7 @@
   <div class="container page" id="event">
     <div class="row">
       <div class="six columns">
-        <h1 style="margin-top:5%">Event Name</h1>
+        <h1 style="margin-top:5%" id="event-name">Event Name</h1>
       </div>
       <div class="three columns" style="margin-top:1%" id="user-id">
         <h4 style="margin-top:10%">Organizer</h4>
@@ -143,20 +143,18 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=initMap" async defer></script>
-
-  <!-- jQCloud/topic scripts -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=EventController.initMap" async defer></script>
   <script type="text/javascript" src="/vendor/jqcloud.js"></script>
-  <script type="text/javascript" src="/js/topic-model.js"></script>
-  <script type="text/javascript" src="/js/event-view.js"></script>
-  <script type="text/javascript" src="/js/topic-view.js"></script>
-  <script type="text/javascript" src="/js/topic-controller.js"></script>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.5/highcharts.js"></script>
   <script src="/vendor/heatmap.min.js"></script>
 
   <!-- Custom Scripts -->
+  <script type="text/javascript" src="/js/topic-model.js"></script>
+  <script type="text/javascript" src="/js/event-view.js"></script>
+  <script type="text/javascript" src="/js/topic-view.js"></script>
   <script src="/js/calendar-view.js"></script>
+  <script src="/js/home-view.js"></script>
+  <script type="text/javascript" src="/js/topic-controller.js"></script>
   <script src="/js/event-controller.js"></script>
   <script src="/js/event-route.js"></script>
 </body>

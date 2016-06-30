@@ -1,21 +1,3 @@
-// / convoke homepage user enters event name to create event
-// /event a list view of events people have created
-// /event/:id view the event page for specific event includes event subpages
-          //This is where people add topics
-          //view cloud to vote on topics
-          //view timing chart
-// /event/:id/edit only the event author can edit event
-          //event author can update event name
-          //event author can update location and date
-          //author can update attendees
-// /event/:id/timing this shows specific event timing chart
-            // see times other people voted on
-            // vote on your preferred time
-// /event/:id/clusters this shows specific event cluster chart
-            //shows the word cloud of topics
-            //allow people to add a topics
-            //allow people to vote on topic
-
 var $homepage = $('#homepage');
 var $event = $('#event');
 var $name = $('#name');
@@ -25,70 +7,46 @@ var $404 = $('#not-found');
 page.base('/');
 // page('*', logRoute);
 
-page('/', function() {
+page('/', logRoute, function() {
   showPage($homepage);
 });
 
-page('event', function() {
-  showPage($event);
-  $('#googleAPI').show();
-  triggerMapResize();
-});
-
-page('name/:id', function(ctx) {
+page('name', logRoute, function() {
   showPage($name);
-  var eventHash = ctx.params.id;
-  $('#create-name').off().on('submit', function(event) {
-    event.preventDefault();
-    var nameValue = $('#name-value').val();
-    $.ajax({
-      url: 'api/events/' + eventHash,
-      method: 'put',
-      data: {
-        //we have the name from the form field but I need to figure out how to get a user hash from this.
-        organizer: ['168a592b214911fe8a5dcdb776856224']
-      }
-    }).done(function(data) {
-      var hash = data.event.hash;
-      console.log(data);
-      // page('/event/' + hash);
-    });
-  });
 });
 
-page('event', initEventPage);
-page(':eventHash', initEventPage);
-page(':eventHash/event', initEventPage);
+page('event', logRoute, EventController.initEventPage, EventView.initEventView);
+page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView);
 
 //////////////////////////////////////
-page('event/timing', function() {
+page('event/timing', logRoute, function() {
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
 });
 
-page(':id/event/timing', function() {
+page(':id/event/timing', logRoute, function() {
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
 });
 
 //////////////////////////////////////
-page('event/status', function() {
+page('event/status', logRoute, function() {
   showPage($event);
   $('#status-content').show();
   $('#googleAPI').show();
 });
 
 //////////////////////////////////////
-page('event/clusters', function() {
+page('event/clusters', logRoute, function() {
   showPage($event);
   $('#cluster').show();
   $('#googleAPI').show();
 });
 
 //////////////////////////////////////
-page('event/add', function() {
+page('event/add', logRoute, function() {
   showPage($event);
   $('#add').show();
   $('#googleAPI').show();
@@ -98,15 +56,24 @@ page('event/add', function() {
 $('#create-event').on('submit', function(event) {
   event.preventDefault();
   var eventValue = $('#event-value').val();
-  $.post('/api/events', {
-    name: eventValue
-  }).done(function(data) {
-    var hash = data.event.hash;
-    page('/name/' + hash);
+  console.log(eventValue);
+  EventController.createEvent(eventValue, function() {
+    history.pushState({},'','/name');
+    showPage($name);
   });
 });
 
-//gets text input fromt the add button and will push to database, which will in turn populate the word cluster.
+//gets text input from the name submission form and posts to the api and advances to event page
+$('#create-name').on('click', function(event){
+  event.preventDefault();
+  var nameValue = $('#name-value').val();
+  console.log(nameValue);
+  EventController.createUserName(nameValue);
+  history.pushState({},'','/event');
+  EventController.initEventPage();
+});
+
+//gets text input from the add button and will push to database, which will in turn populate the word cluster.
 //Then the function automatically takes us to the clusters page.
 $('#add-topic').on('click', function(event) {
   event.preventDefault();
@@ -123,6 +90,6 @@ function showPage($element) {
 }
 
 function logRoute(ctx, next) {
-  console.log(ctx.path);
+  console.log('page.js route called: ',ctx.path);
   if (next) next();
 }
