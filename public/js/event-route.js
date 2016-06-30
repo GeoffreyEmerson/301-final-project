@@ -1,9 +1,20 @@
-function logRoute(ctx, next) {
-  console.log(ctx.path);
-  if (next) {
-    next();
-  }
-}
+// / convoke homepage user enters event name to create event
+// /event a list view of events people have created
+// /event/:id view the event page for specific event includes event subpages
+          //This is where people add topics
+          //view cloud to vote on topics
+          //view timing chart
+// /event/:id/edit only the event author can edit event
+          //event author can update event name
+          //event author can update location and date
+          //author can update attendees
+// /event/:id/timing this shows specific event timing chart
+            // see times other people voted on
+            // vote on your preferred time
+// /event/:id/clusters this shows specific event cluster chart
+            //shows the word cloud of topics
+            //allow people to add a topics
+            //allow people to vote on topic
 
 var $homepage = $('#homepage');
 var $event = $('#event');
@@ -83,12 +94,6 @@ page('event/add', function() {
   $('#googleAPI').show();
 });
 
-//right now the admin page is just set to be equal with the event page. leaving the code
-//below in case we need to use it.
-// page('admin', function() {
-//   showPage($admin);
-// });
-
 //gets text input from the event submission form and logs it to page and advances to name page
 $('#create-event').on('submit', function(event) {
   event.preventDefault();
@@ -109,10 +114,6 @@ $('#add-topic').on('click', function(event) {
   console.log(topicValue);
   // location = '/event/clusters';
 });
-
-// page('admin/timing', function() {});
-// page('admin/status', function() {});
-// page('admin/clusters', function() {});
 
 page();
 
