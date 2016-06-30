@@ -30,7 +30,7 @@
       <div class="six columns">
         <h1 style="margin-top:5%">Event Name</h1>
       </div>
-      <div class="three columns" style="margin-top:1%" id="user-id" data-userHash="placeholderUserHash">
+      <div class="three columns" style="margin-top:1%" id="user-id">
         <h4 style="margin-top:10%">Organizer</h4>
       </div>
       <div class="three columns" style="margin-top:1%" id="status">
@@ -52,7 +52,6 @@
           <p>Status Content</p>
         </section>
         <section class="page" id="cluster">
-          <p>Cluster Content</p>
           <div id="cloud" class="row six columns"></div>
           <div id="wordsy">
             <form action="index.html" method="post">
@@ -75,6 +74,20 @@
             <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
             <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
           </form>
+        </section>
+        <!-- TODO: This should coexist next to the google Map. Currently it sits atop it. -->
+        <section class="page" id="details">
+          <div class="six columns">
+            <form class="row">
+              <!-- The following line should display the event name, or allow it to be changed by admin users? -->
+              <!-- <input class="u-full-width" type="text" placeholder="Event Name"  -->
+              <input class="u-full-width" type="text" placeholder="Date">
+              <input class="u-full-width" type="text" placeholder="Times">
+              <textarea class="u-full-width" type="text" placeholder="Event description..."></textarea>
+              <p> Share this URL with your guests: </p>
+              <input class="u-full-width" type="text" readonly id="share-url">
+            </form>
+        </div>
         </section>
       </div>
       <section class="page twelve columns" id="timing">
@@ -135,6 +148,7 @@
   <!-- jQCloud/topic scripts -->
   <script type="text/javascript" src="/vendor/jqcloud.js"></script>
   <script type="text/javascript" src="/js/topic-model.js"></script>
+  <script type="text/javascript" src="/js/event-view.js"></script>
   <script type="text/javascript" src="/js/topic-view.js"></script>
   <script type="text/javascript" src="/js/topic-controller.js"></script>
 

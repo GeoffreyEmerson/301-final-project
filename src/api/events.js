@@ -37,12 +37,12 @@ router
 // A GET route with eventHash argument to get event data
 .get('/:hashArg',function(req,res) {
   var hashArg = req.params.hashArg;
-  Event.findOne({hash: hashArg}, function(err,events){
+  Event.findOne({hash: hashArg}, function(err,event){
     if (err){
       console.log(err);
       return res.status(503).json({message: err.message, call: 'GET /events/:eventHash'});
     }
-    res.json({events: events});
+    res.json({event: event});
   });
 })
 
