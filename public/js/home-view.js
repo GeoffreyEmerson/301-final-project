@@ -10,7 +10,6 @@
     if (next) next();
   };
 
-  HomeView.initHomeView();
   $tatus.on('click', function() {
     console.log('ping');
     //Cycle through a collection of states.
