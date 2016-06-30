@@ -1,3 +1,4 @@
+(function(module) {
 function wordMe(wordName, userHash, topicHash) {
   var newWd = new Word(wordName, userHash, topicHash);
   console.log(newWd);
@@ -23,3 +24,5 @@ function newOpt() {
   });
 };
 newOpt();
+module.topicController = topicController;
+})(window);
