@@ -89,19 +89,19 @@ $(function() {
           click: function() {
             //Sends relevant information to backend.
             var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
-            console.log(vote);
-            console.log(
-              event.point.series.xAxis.categories[event.point.x],
-              event.point.series.yAxis.categories[event.point.y],
-              event.point.series.name,
-              this.userOptions.id);
+            // console.log(vote);
+            // console.log(
+            //   event.point.series.xAxis.categories[event.point.x],
+            //   event.point.series.yAxis.categories[event.point.y],
+            //   event.point.series.name,
+            //   this.userOptions.id);
+            var userHash = $('#user-id').attr('data-userHash');
+            sendClickToDatabase(vote,userHash,this.userOptions.id, getNewCalendarData);
             //Receives information
             //TODO: Write the ability to receive info here.
             //Sets vote-state hover color.
             //TODO: update local copy of vote-state array
 
-            var tempUserHash = 'lalalalala';
-            sendClickToDatabase(vote,tempUserHash,this.userOptions.id);
           },
         },
         borderWidth: 0,
@@ -115,7 +115,6 @@ $(function() {
 
     chart = $container.highcharts();
   };
-  calendarView.render(); //this should be invoked elsewhere.
 
   $('g.highcharts-series-group').hover(
     function() {
@@ -129,7 +128,7 @@ $(function() {
   //   $(this).css('background-color', 'red !important');
   // });
 
-  function sendClickToDatabase(vote,userHashArg,topicIdArg) {
+  function sendClickToDatabase(vote,userHashArg,topicIdArg, callback) {
     $.ajax({
       url: '/api/votes',
       type: 'POST',
@@ -140,12 +139,52 @@ $(function() {
       // call the callback function here
       console.log('Successful ajax call:');
       console.log(data);
-      return data;
+      if(callback) callback(topicIdArg,userHashArg);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.log('Failed to send click to database.');
       // call the error version of the callback if any
     });
   };
+
+  function getNewCalendarData(topicIdArg,userHashArg) {
+
+    $.ajax({
+      url: '/api/votes/' + topicIdArg,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      // call the callback function here
+      console.log('Successful ajax call:');
+      console.log(data);
+      // data will be full list of vote options and weights for a specific topic
+      // TODO: Translate fresh data into aggData
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.log('Failed to send click to database.');
+      // call the error version of the callback if any
+    });
+
+    $.ajax({
+      url: '/api/votes/' + topicIdArg + '/' + userHashArg,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      // call the callback function here
+      console.log('Successful ajax call:');
+      console.log(data);
+      // data will be a list of a given user's choices and weights
+      // TODO: Translate fresh data into perData
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.log('Failed to send click to database.');
+      // call the error version of the callback if any
+    });
+  }
+
+  getNewCalendarData(topicIdArg,userHashArg); //TODO: populate this with arguments
+  calendarView.render(); //this should be invoked elsewhere.
 
 });
