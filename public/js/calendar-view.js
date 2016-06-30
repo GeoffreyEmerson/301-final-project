@@ -61,13 +61,9 @@ $(function() {
       },
       tooltip: {
         formatter: function () {
-          return '<b> At ' + this.series.xAxis.categories[this.point.x] + ' on ' + this.series.yAxis.categories[this.point.y] + ':</b> <br> '; //TODO: List of guests with preference greater than 0.
+          return '<b> At ' + this.series.xAxis.categories[this.point.x] + ' on ' + this.series.yAxis.categories[this.point.y];
+          //  + ':</b> <br> '; //TODO: List of guests with preference greater than 0.
         }
-        // formatter: function () {
-        //   // console.log(this);
-        //   return '<b>' + this.series.xAxis.categories[this.point.x] + '</b> sold <br><b>' +
-        //       this.point.value + '</b> items on <br><b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-        // }
       },
       series: [{
         name: 'Aggregate Prefs',
@@ -93,19 +89,17 @@ $(function() {
         events:  {
           click: function() {
             //Sends relevant information to backend.
+              // console.log(vote);
+              // console.log(
+              //   event.point.series.xAxis.categories[event.point.x],
+              //   event.point.series.yAxis.categories[event.point.y],
+              //   event.point.series.name,
+              //   this.userOptions.id);
             var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
-            // console.log(vote);
-            console.log(
-              event.point.series.xAxis.categories[event.point.x],
-              event.point.series.yAxis.categories[event.point.y],
-              event.point.series.name,
-              this.userOptions.id);
             var userHash = $('#user-id').attr('data-userHash');
             sendClickToDatabase(vote,userHash,this.userOptions.id, getNewCalendarData);
-            //Receives information
-            //TODO: Write the ability to receive info here.
             //Sets vote-state hover color.
-            //TODO: update local copy of vote-state array
+            //TODO: update local copy of vote-state array? Or wait on getNewData?
 
           },
         },
@@ -120,10 +114,10 @@ $(function() {
     chart = $container.highcharts();
   };
 
-  // $('.highcharts-series-0').on('click', 'rect', function() {
-  //   console.log(this);
-  //   $(this).css('background-color', 'red !important');
-  // });
+  $('.highcharts-series-1').on('click', function() {
+    console.log(this);
+    $(this).css('background-color', 'red !important');
+  });
 
   function sendClickToDatabase(vote,userHashArg,topicIdArg, callback) {
     $.ajax({
