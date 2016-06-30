@@ -17,9 +17,20 @@ Plotly.newPlot('aggregateGraph', aggData);
 //Hover Events
 
 aggregateGraph.on('plotly_hover', function(event) {
+  console.log('fading out');
+  aggGraph.data[1].opacity = 0;
+  Plotly.redraw(aggregateGraph);
+});
+
+aggregateGraph.on('plotly_unhover', function(event) {
+  console.log('fading in');
+  aggGraph.data[1].opacity = 1;
+  Plotly.redraw(aggregateGraph);
+});
+
+aggregateGraph.on('plotly_click', function(event) {
   console.log('ping');
   Plotly.moveTraces(aggGraph,0);
-  aggGraph.
   Plotly.redraw(aggregateGraph);
 });
 
