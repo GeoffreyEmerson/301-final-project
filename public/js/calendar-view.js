@@ -46,6 +46,11 @@ $(function() {
         maxColor: Highcharts.getOptions().colors[0],
         reversed: true
       },
+      plotOptions: {
+        heatmap: {
+          colorbyPoint: true,
+        }
+      },
       legend: {
         align: 'right',
         layout: 'vertical',
@@ -80,7 +85,7 @@ $(function() {
         name: 'Personal Prefs',
         borderWidth: 1,
         data: aggData.map(function(ele) {
-          return [ele[0], ele[1], Math.random() * 50];
+          return [ele[0], ele[1], Math.random() * 100];
         }),
         dataLabels: {
           enabled: false,
@@ -90,11 +95,11 @@ $(function() {
             //Sends relevant information to backend.
             var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
             // console.log(vote);
-            // console.log(
-            //   event.point.series.xAxis.categories[event.point.x],
-            //   event.point.series.yAxis.categories[event.point.y],
-            //   event.point.series.name,
-            //   this.userOptions.id);
+            console.log(
+              event.point.series.xAxis.categories[event.point.x],
+              event.point.series.yAxis.categories[event.point.y],
+              event.point.series.name,
+              this.userOptions.id);
             var userHash = $('#user-id').attr('data-userHash');
             sendClickToDatabase(vote,userHash,this.userOptions.id, getNewCalendarData);
             //Receives information
@@ -106,8 +111,7 @@ $(function() {
         },
         borderWidth: 0,
         id: 5, //TODO: TopicID
-        minColor: '#FFFFFF',
-        maxColor: Highcharts.getOptions().colors[3],
+        colors: Highcharts.getOptions().colors[3],
         index: 0
       }
     ]
@@ -116,13 +120,6 @@ $(function() {
     chart = $container.highcharts();
   };
 
-  $('g.highcharts-series-group').hover(
-    function() {
-      chart.series[1].setVisible();
-    },
-    function () {
-      chart.series[1].setVisible();
-    });
   // $('.highcharts-series-0').on('click', 'rect', function() {
   //   console.log(this);
   //   $(this).css('background-color', 'red !important');
@@ -184,7 +181,16 @@ $(function() {
     });
   }
 
-  getNewCalendarData(topicIdArg,userHashArg); //TODO: populate this with arguments
+  // getNewCalendarData(topicIdArg,userHashArg); //TODO: populate this with arguments
   calendarView.render(); //this should be invoked elsewhere.
 
+  $('g.highcharts-series-group').hover(
+    function() {
+      chart.series[1].setVisible();
+      chart.setTitle({text: 'Click on times to set your preferences.'});
+    },
+    function () {
+      chart.series[1].setVisible();
+      chart.setTitle({text: null});
+    });
 });
