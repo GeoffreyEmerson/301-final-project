@@ -11,12 +11,15 @@ page('/', function() {
   showPage($homepage);
 });
 
-page('event', initEventPage);
-
 page('name', function() {
   showPage($name);
 });
 
+page('event', initEventPage);
+page(':eventHash', initEventPage);
+page(':eventHash/event', initEventPage);
+
+//////////////////////////////////////
 page('event/timing', function() {
   showPage($event);
   $('#timing').show();
@@ -29,27 +32,32 @@ page(':id/event/timing', function() {
   $('#googleAPI').hide();
 });
 
+//////////////////////////////////////
 page('event/status', function() {
   showPage($event);
   $('#status-content').show();
   $('#googleAPI').show();
 });
 
+//////////////////////////////////////
 page('event/clusters', function() {
   showPage($event);
   $('#cluster').show();
   $('#googleAPI').show();
 });
+
+//////////////////////////////////////
 page('event/add', function() {
   showPage($event);
   $('#add').show();
   $('#googleAPI').show();
 });
+
 //right now the admin page is just set to be equal with the event page. leaving the code
 //below in case we need to use it.
-page('admin', function() {
-  showPage($admin);
-});
+// page('admin', function() {
+//   showPage($admin);
+// });
 
 //gets text input from the event submission form and logs it to page and advances to name page
 $('#create-event').on('click', function(event){
@@ -81,9 +89,10 @@ $('#add-topic').on('click', function(event){
   location = '/event/clusters';
 });
 
-page('admin/timing', function() {});
-page('admin/status', function() {});
-page('admin/clusters', function() {});
+// page('admin/timing', function() {});
+// page('admin/status', function() {});
+// page('admin/clusters', function() {});
+
 page();
 
 function showPage($element) {
