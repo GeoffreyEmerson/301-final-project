@@ -52,8 +52,9 @@ function createEvent(eventName, callback) {
   })
   .done( function (data) {
     // call the callback function here
-    $('#event').attr('data-eventHash',data.event.hash);
-    $('#event').attr('data-eventName',data.event.name);
+    saltDom('#event','event',data.event.hash,data.event.name);
+    setCookie('eventHash', data.event.hash, 10);
+    setCookie('eventName', data.event.name, 10);
     if (callback) callback();
   })
   .fail( function(jqXHR, textStatus, errorThrown) {
@@ -73,13 +74,40 @@ function createUserName(nameArg, callback) {
     cache: false
   })
   .done( function (data) {
-    console.log('Success: POST /api/users');
-    console.log(data);
-    $('#user-id').attr('data-userHash',data.user.userHash);
-    $('#user-id').attr('data-userName',data.user.name);
+    saltDom('#user-id','user',data.user.userHash,data.user.name);
+    setCookie('userHash', data.user.userHash, 10);
+    setCookie('userName', data.user.name, 10);
     if (callback) callback();
   })
   .fail( function() {
     console.error('Name creation failed (event-controller.js)');
   });
 };
+
+function saltDom(element,type,hash,name) {
+  $(element).attr('data-' + type + 'Hash',hash);
+  $(element).attr('data-' + type + 'Name',name);
+}
+
+// Cookie functions adapted from http://www.w3schools.com/js/js_cookies.asp
+function setCookie(cookieName, cookieValue, days) {
+  var date = new Date();
+  date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+  var expires = 'expires=' + date.toUTCString();
+  document.cookie = cookieName + '=' + cookieValue + '; ' + expires;
+}
+
+function getCookie(cookieName) {
+  var name = cookieName + '=';
+  var crumbArray = document.cookie.split(';');
+  for(var i = 0; i < crumbArray.length; i++) {
+    var crumb = crumbArray[i];
+    while (crumb.charAt(0) == ' ') {
+      crumb = crumb.substring(1);
+    }
+    if (crumb.indexOf(name) == 0) {
+      return crumb.substring(name.length,crumb.length);
+    }
+  }
+  return '';
+}
