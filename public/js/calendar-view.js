@@ -1,17 +1,21 @@
 (function(module) {
   var calendarView = {};
   var $container = $('#container');
-  var colors = [
-    '',
-    'lime',
-    'green',
-    'red'
-  ];
   var dateArray = [];
-  for (var i = 0; i < 7; i++) {
-    dateArray.unshift(new Date());
-    dateArray[0].setDate(dateArray[0].getDate() + i);
-  }
+  var aggData = [];
+  var perData = [];
+
+  calendarView.initCalendarView = function () {
+    //Build dateArray.
+    for (var i = 0; i < 7; i++) {
+      dateArray.unshift(new Date());
+      dateArray[0].setDate(dateArray[0].getDate() + i);
+    }
+    //Build perData and aggData with getNewCalendarData.
+    calendarView.getNewCalendarData(topicIdArg,userHashArg); //TODO: populate this with arguments
+    //Render the Table.
+    calendarView.render(); //TODO: this should be invoked elsewhere.
+  };
 
   function assembleArray() { //probably needs to intake an array of objects from backend as a value
     var arr = [];
@@ -32,12 +36,16 @@
   var aggData = assembleArray();
   // var aggData = [[0, 0, null], [0, 1, null], [0, 2, 8], [0, 3, 24], [0, 4, 67], [1, 0, 92], [1, 1, 58], [1, 2, 78], [1, 3, 117], [1, 4, 48], [2, 0, 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4, 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], [5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], [6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], [8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47], [9, 1, 114], [9, 2, 31], [9, 3, 30], [9, 4, 91], [23, 6, 150]];
 
-  calendarView.colorTranslater = function(ele) {
-    if (ele[2] == 0 || ele[2] == 1 || ele[2] == 2) {
-      return ele[2];
-    } else {
-      return 3;
-    }
+  // calendarView.colorTranslater = function(ele) {
+  //   if (ele[2] == 0 || ele[2] == 1 || ele[2] == 2) {
+  //     return ele[2];
+  //   } else {
+  //     return 3;
+  //   }
+  // };
+
+  calendarView.updateData = function(data, series) {
+
   };
 
   calendarView.render = function () {
@@ -115,10 +123,8 @@
               //   this.userOptions.id);
             var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
             var userHash = $('#user-id').attr('data-userHash');
-            sendClickToDatabase(vote,userHash,this.userOptions.id, getNewCalendarData);
-            //Sets vote-state hover color.
-            //TODO: update local copy of vote-state array? Or wait on getNewData?
-
+            var topicID = this.userOptions.id;
+            calendarView.sendClickToDatabase(vote, userHash, topicID, getNewCalendarData);
           },
         },
         borderWidth: 0,
@@ -132,12 +138,12 @@
     chart = $container.highcharts();
   };
 
-  $('.highcharts-series-1').on('click', function() {
-    console.log(this);
-    $(this).css('background-color', 'red !important');
-  });
+  // $('.highcharts-series-1').on('click', function() {
+  //   console.log(this);
+  //   $(this).css('background-color', 'red !important');
+  // });
 
-  function sendClickToDatabase(vote,userHashArg,topicIdArg, callback) {
+  calendarView.sendClickToDatabase = function(vote,userHashArg,topicIdArg, callback) {
     $.ajax({
       url: '/api/votes',
       type: 'POST',
@@ -156,8 +162,8 @@
     });
   };
 
-  function getNewCalendarData(topicIdArg,userHashArg) {
-
+  calendarView.getNewCalendarData = function(topicIdArg,userHashArg) {
+  //AJAXing aggData
     $.ajax({
       url: '/api/votes/' + topicIdArg,
       type: 'GET',
@@ -169,32 +175,31 @@
       console.log(data);
       // data will be full list of vote options and weights for a specific topic
       // TODO: Translate fresh data into aggData
+      calendarView.updateData(data, aggData);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
-      console.log('Failed to send click to database.');
+      console.log('Failed to acquire preferences from database.');
       // call the error version of the callback if any
     });
-
+//AJAXing perData
     $.ajax({
       url: '/api/votes/' + topicIdArg + '/' + userHashArg,
       type: 'GET',
       cache: false
     })
-    .done( function (data) {
+    .done( function (data, callback) {
       // call the callback function here
       console.log('Successful ajax call:');
       console.log(data);
       // data will be a list of a given user's choices and weights
       // TODO: Translate fresh data into perData
+      calendarView.updateData(data, perData);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
-      console.log('Failed to send click to database.');
+      console.log('Failed to acquire preferences from database.');
       // call the error version of the callback if any
     });
-  }
-
-  // getNewCalendarData(topicIdArg,userHashArg); //TODO: populate this with arguments
-  calendarView.render(); //this should be invoked elsewhere.
+  };
 
   $('g.highcharts-series-group').hover(
     function() {
