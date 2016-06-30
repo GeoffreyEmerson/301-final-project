@@ -20,6 +20,7 @@ page('/', function() {
 
 page('event', function() {
   showPage($event);
+  $('#details').show();
   $('#googleAPI').show();
   triggerMapResize();
 });

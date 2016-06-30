@@ -57,7 +57,6 @@
           <p>Status Content</p>
         </section>
         <section class="page" id="cluster">
-          <p>Cluster Content</p>
           <div id="cloud" class="row six columns"></div>
           <div id="wordsy">
             <form action="index.html" method="post">
@@ -73,6 +72,18 @@
             <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
             <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
           </form>
+        </section>
+        <!-- TODO: This should coexist next to the google Map. Currently it sits atop it. -->
+        <section class="page" id="details">
+          <div class="six columns">
+            <form class="row">
+              <!-- The following line should display the event name, or allow it to be changed by admin users? -->
+              <!-- <input class="u-full-width" type="text" placeholder="Event Name"  -->
+              <input class="u-full-width" type="text" placeholder="Date">
+              <input class="u-full-width" type="text" placeholder="Times">
+              <textarea class="u-full-width" type="text" placeholder="Event description..."></textarea>
+            </form>
+        </div>
         </section>
       </div>
       <div class="six columns" id="googleAPI">
@@ -92,10 +103,10 @@
       <br>
       <br>
       <form class="row">
-        <div class="six columns">
+        <div class="eight columns">
           <input class="u-full-width" type="text" placeholder="Event Name" id="event-value">
         </div>
-        <div class="six columns">
+        <div class="four columns">
           <input class="button-primary u-full-width" type="submit" value="Create" id="create-event">
         </div>
       </form>
