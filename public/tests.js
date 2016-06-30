@@ -5,7 +5,7 @@ $(function() {
   getApiRoute('users');
   getApiRoute('rsvps');
   getApiRoute('votes');
-  // exampleAjaxPost();
+  exampleAjaxPost();
 
   function getApiRoute(route){
     $.ajax({
