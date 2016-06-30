@@ -8,7 +8,7 @@
       data: {eventHash: eventHashArg, userHash: userHashArg},
       cache: false
     })
-    .done(function() {
+    .success(function() {
       console.log('Sent ' + eventHashArg + ' and ' + userHashArg);
     });
   };

@@ -31,6 +31,7 @@
         } else {
           console.log('No cookie either. Redirect to main page.');
           window.location = '/'; // TODO: Fix this as a proper SPA redirect.
+          if (callback) callback();
         };
       };
     };
