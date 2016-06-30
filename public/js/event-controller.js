@@ -36,3 +36,25 @@ function geocodeAddress(geocoder, resultsMap) {
     }
   });
 }
+
+function createEvent(eventName, callback) {
+  $.ajax({
+    url: '/api/events',
+    type: 'POST',
+    data: {name: eventName},
+    cache: false
+  })
+  .done( function (data) {
+    // call the callback function here
+    $('#event').attr('data-eventhash',data.event.hash);
+    $('#event').attr('data-eventname',data.event.name);
+    if (callback) callback();
+  })
+  .fail( function(jqXHR, textStatus, errorThrown) {
+    console.warn('Ajax call failed: POST /api/events');
+    console.log('jqXHR.responseText:',jqXHR.responseText);
+    console.log('textStatus:',textStatus);
+    console.log('errorThrown:',errorThrown);
+    // call the error version of the callback if any
+  });
+};

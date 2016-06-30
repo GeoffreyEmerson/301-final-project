@@ -12,7 +12,7 @@ var $admin = $('#event');
 var $404 = $('#not-found');
 
 page.base('/');
-page('*', logRoute);
+// page('*', logRoute);
 
 page('/', function() {
   showPage($homepage);
@@ -61,7 +61,9 @@ $('#create-event').on('click', function(event){
   event.preventDefault();
   var eventValue = $('#event-value').val();
   console.log(eventValue);
-  location = '/name';
+  createEvent(eventValue);
+  history.pushState({},'','/name');
+  showPage($name);
 });
 
 //gets text input from the name submission form and posts to the api and advances to event page
@@ -83,7 +85,8 @@ $('#create-name').on('click', function(event){
   //   location = '/event';
   // });
 });
-//gets text input fromt the add button and will push to database, which will in turn populate the word cluster.
+
+//gets text input from the add button and will push to database, which will in turn populate the word cluster.
 //Then the function automatically takes us to the clusters page.
 $('#add-topic').on('click', function(event){
   event.preventDefault();
