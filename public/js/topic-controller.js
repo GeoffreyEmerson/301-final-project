@@ -53,7 +53,6 @@
         // call the error version of the callback if any
       });
     }
-
   };
 
   // TODO: find the right place to run topicCloudInit();
