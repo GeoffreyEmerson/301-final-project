@@ -1,5 +1,5 @@
-$(function() {
-  calendarView = {};
+(function(module) {
+  var calendarView = {};
   var $container = $('#container');
   var colors = [
     '',
@@ -205,4 +205,5 @@ $(function() {
       chart.series[1].setVisible();
       chart.setTitle({text: null});
     });
-});
+  module.calendarView = calendarView;
+})(window);
