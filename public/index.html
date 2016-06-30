@@ -31,11 +31,12 @@
         <h1 style="margin-top:5%" id="event-name">Event Name</h1>
       </div>
       <div class="three columns" style="margin-top:1%" id="user-id">
-        <h4 style="margin-top:10%">Organizer</h4>
+        <h4 style="margin-top:10%">User Name</h4>
       </div>
-      <div class="three columns" style="margin-top:1%" id="status">
-        <h4 style="margin-top:10%">Status</h4>
+      <div class="three columns blank" style="margin-top:1%" id="status">
+        <h4 class="noSelect" style="margin-top:10%">Going?</h4>
       </div>
+      <span class="u-pull-right" id="status-instructions"> Click here to say so. </span>
     </div>
     <br>
     <div class="row">
@@ -136,10 +137,11 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=EventController.initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=initMap" async defer></script>
   <script type="text/javascript" src="/vendor/jqcloud.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.5/highcharts.js"></script>
   <script src="/vendor/heatmap.min.js"></script>
+  <!-- <script src="/vendor/noSelect.js"></script> -->
 
   <!-- Custom Scripts -->
   <script type="text/javascript" src="/js/topic-model.js"></script>
