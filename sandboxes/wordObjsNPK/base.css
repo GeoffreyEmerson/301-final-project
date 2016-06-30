@@ -1,3 +1,7 @@
 /* Sandbox for example-sandbox */
-
-/*Style votestate*/
+#userHash {
+  display: none;
+}
+#topicHash {
+  display: none;
+}

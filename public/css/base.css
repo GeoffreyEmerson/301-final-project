@@ -10,13 +10,9 @@ br {
   line-height: 250%;
 }
 #map {
-  width: 30rem;
-  height: 30rem;
-  max-width: 100%;
+  min-height: 30rem;
+  width: 100%;
   border: 5px solid #33C3F0;
-  color: black;
-  text-align: center;
-  font-size: 2.5rem;
 }
 .nav-main {
   border-bottom: 1px solid #eee;
@@ -36,3 +32,21 @@ br {
 .nav-main a:hover {
   color: #727272;
 }
+
+/*CSS FOR TOPIC VIEWS*/
+#userHash {
+  display: none;
+}
+#topicHash {
+  display: none;
+}
+span[data-votestate="1"] {
+  color: lime !important;
+}
+span[data-votestate="2"] {
+  color: green !important;
+}
+span[data-votestate="-1"] {
+  color: red !important;
+}
+/*END CSS FOR TOPIC VIEWS*/
