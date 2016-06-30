@@ -50,3 +50,29 @@ span[data-votestate="-1"] {
   color: red !important;
 }
 /*END CSS FOR TOPIC VIEWS*/
+
+/*BEGIN CSS STATUS BUTTON*/
+.maybe {
+  font-weight: bold;
+  color: white;
+  background-color: lime;
+}
+.approve {
+  color: white;
+  background-color: green;
+}
+.disapprove {
+  color: white;
+  background-color: red;
+}
+/*END CSS FOR STATUS BUTTON*/
+
+/*Make Unselectable Text Possible*/
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

@@ -15,8 +15,8 @@ page('name', logRoute, function() {
   showPage($name);
 });
 
-page('event', logRoute, EventController.initEventPage, EventView.initEventView);
-page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView);
+page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView); //TODO: initHomeView resolving far further forward in the chain than we'd like.
+page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView);
 
 //////////////////////////////////////
 page('event/timing', logRoute, function() {
