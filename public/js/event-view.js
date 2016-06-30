@@ -1,10 +1,12 @@
 (function(module) {
-  var eventView = {};
-  eventView.initEventView = function () {
-    $('#share-url').val('http://convoke.herokuapp.com/' + location.pathname.split('/')[1]);
+
+  var EventView = {};
+
+  EventView.initEventView = function () {
+    $('#share-url').val(window.location.protocol + '//' + window.location.host + '/eventhash/' + EventController.getCookie('eventHash'));
     $('#share-url').on('focus', function(){
       this.select();
     });
   };
-  module.eventView = eventView;
+  module.EventView = EventView;
 })(window);
