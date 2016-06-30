@@ -1,13 +1,7 @@
 $(function() {
-  // var regEx = '(\/\w*)+(?=\/)';
-  // console.log(location.pathname);
-  // var str = location.pathname;
-  // n = str.search(\u/\w*)+(?=\u/));
+  $('#share-url').val('http://convoke.herokuapp.com/' + location.pathname.split('/')[1]);
 
-  // var str = location.pathname;
-  // var patt = new RegExp('/(\u0x5C\w*)+(?=\u0x5C)/g');
-  // var res = patt.exec(str);
-  // console.log(res);
+  console.log('http://convoke.herokuapp.com/' + location.pathname.split('/')[1]);
 
   $('#share-url').on('focus', function(){
     this.select();
