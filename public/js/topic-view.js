@@ -1,7 +1,7 @@
 (function(module) {
   var topicView = {};
   //POPULATE WORD CLOUD WITH ITEMS PUSHED TO wordArr BY AGGREGATOR (CURRENTLY BY CONSTRUCTOR)
-  function clouderator() {
+  topicView.clouderator = function() {
     // $('#cloud').empty();
     $('#cloud').jQCloud(wordArr, {
       width: 500,
@@ -10,7 +10,7 @@
     console.log('clouderator complete');
   };
 
-  function reclouderator() {
+  topicView.reclouderator = function() {
     // $('#cloud').empty();
     $('#cloud').jQCloud('update', wordArr);
     console.log('reclouderated');
