@@ -15,9 +15,8 @@ page('name', function() {
   showPage($name);
 });
 
-page('event', initEventPage);
-page(':eventHash', initEventPage);
-page(':eventHash/event', initEventPage);
+page('event', logRoute, EventController.initEventPage);
+page(':eventHash', EventController.initEventPage);
 
 //////////////////////////////////////
 page('event/timing', function() {
@@ -64,7 +63,7 @@ $('#create-event').on('click', function(event){
   event.preventDefault();
   var eventValue = $('#event-value').val();
   console.log(eventValue);
-  createEvent(eventValue, function() {
+  EventController.createEvent(eventValue, function() {
     history.pushState({},'','/name');
     showPage($name);
   });
@@ -75,9 +74,9 @@ $('#create-name').on('click', function(event){
   event.preventDefault();
   var nameValue = $('#name-value').val();
   console.log(nameValue);
-  createUserName(nameValue);
+  EventController.createUserName(nameValue);
   history.pushState({},'','/event');
-  initEventPage();
+  EventController.initEventPage();
 });
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
