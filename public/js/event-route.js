@@ -23,6 +23,12 @@ page('event/timing', function() {
   $('#googleAPI').hide();
 });
 
+page(':id/event/timing', function() {
+  showPage($event);
+  $('#timing').show();
+  $('#googleAPI').hide();
+});
+
 page('event/status', function() {
   showPage($event);
   $('#status-content').show();
@@ -50,9 +56,10 @@ $('#create-event').on('click', function(event){
   event.preventDefault();
   var eventValue = $('#event-value').val();
   console.log(eventValue);
-  createEvent(eventValue);
-  history.pushState({},'','/name');
-  showPage($name);
+  createEvent(eventValue, function() {
+    history.pushState({},'','/name');
+    showPage($name);
+  });
 });
 
 //gets text input from the name submission form and posts to the api and advances to event page
