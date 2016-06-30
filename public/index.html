@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="/vendor/jqcloud.css">
 </head>
 
 <body>
@@ -57,6 +58,15 @@
         </section>
         <section class="page" id="cluster">
           <p>Cluster Content</p>
+          <div id="cloud" class="row six columns"></div>
+          <div id="wordsy">
+            <form action="index.html" method="post">
+              <label for="word">CREATE OPTION</br><input id="wdText" type="text" name="word" value="anchovies"></label></br>
+              <input id="creator" type="button" name="submit" value="CREATE">
+              <input type="text" visibility="hidden" id="userHash" value="lksaf9pwurp2o">
+              <input type="text" id="topicHash" value="we09r20lksjdf">
+            </form>
+          </div>
         </section>
         <section class="page" id="add">
           <form class="row">
@@ -75,7 +85,6 @@
       </div>
     </div>
   </div>
-
   <section class="container page" id="homepage">
     <div style="margin-top: 15%">
       <h1 class="center">Convoke</h1>
@@ -115,12 +124,19 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=initMap" async defer></script>
+
+  <!-- jQCloud/topic scripts -->
+  <script type="text/javascript" src="/vendor/jqcloud.js"></script>
+  <script type="text/javascript" src="/js/topic-model.js"></script>
+  <script type="text/javascript" src="/js/topic-view.js"></script>
+  <script type="text/javascript" src="/js/topic-controller.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.5/highcharts.js"></script>
   <script src="/vendor/heatmap.min.js"></script>
+
   <!-- Custom Scripts -->
   <script src="/js/calendar-view.js"></script>
   <script src="/js/event-controller.js"></script>
   <script src="/js/event-route.js"></script>
 </body>
-
 </html>

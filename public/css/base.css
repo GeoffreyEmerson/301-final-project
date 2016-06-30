@@ -32,3 +32,21 @@ br {
 .nav-main a:hover {
   color: #727272;
 }
+
+/*CSS FOR TOPIC VIEWS*/
+#userHash {
+  display: none;
+}
+#topicHash {
+  display: none;
+}
+span[data-votestate="1"] {
+  color: lime !important;
+}
+span[data-votestate="2"] {
+  color: green !important;
+}
+span[data-votestate="-1"] {
+  color: red !important;
+}
+/*END CSS FOR TOPIC VIEWS*/
