@@ -47,12 +47,7 @@
       </nav>
     </div>
     <div class="row">
-      <div class="twelve columns">
-        <section class="page" id="timing">
-          <p>
-            <div id="container"></div>
-          </p>
-        </section>
+      <div class="six columns">
         <section class="page" id="status-content">
           <p>Status Content</p>
         </section>
@@ -64,6 +59,13 @@
               <input id="creator" type="button" name="submit" value="CREATE">
               <input type="text" visibility="hidden" id="userHash" value="lksaf9pwurp2o">
               <input type="text" id="topicHash" value="we09r20lksjdf">
+<!-- curt has changes for this section tomorrow to make it look pretty -->
+  <!-- <section class="page" id="add">
+  <form class="row">
+    <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
+    <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
+  </form>
+</section> -->
             </form>
           </div>
         </section>
@@ -88,6 +90,11 @@
         </div>
         </section>
       </div>
+      <section class="page twelve columns" id="timing">
+        <p>
+          <div id="container"></div>
+        </p>
+      </section>
       <div class="six columns" id="googleAPI">
         <form id="submit-event">
           <input id="address" class="u-full-width" name="address" type="text" placeholder="Address">
@@ -104,12 +111,12 @@
       <br>
       <br>
       <br>
-      <form class="row">
-        <div class="eight columns">
-          <input class="u-full-width" type="text" placeholder="Event Name" id="event-value">
+      <form class="row" id="create-event">
+        <div class="six columns">
+          <input class="u-full-width" type="text" placeholder="Event Name" required id="event-value">
         </div>
-        <div class="four columns">
-          <input class="button-primary u-full-width" type="submit" value="Create" id="create-event">
+        <div class="six columns">
+          <input class="button-primary u-full-width" type="submit" value="Create">
         </div>
       </form>
     </div>
@@ -120,12 +127,12 @@
       <br>
       <br>
       <br>
-      <form class="row">
+      <form class="row"  id="create-name">
         <div class="six columns">
-          <input class="u-full-width" type="text" placeholder="Your Name" id="name-value">
+          <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" required>
         </div>
         <div class="six columns">
-          <input class="button-primary u-full-width" type="submit" value="Add" id="create-name">
+          <input class="button-primary u-full-width" type="submit" value="Add">
         </div>
       </form>
     </div>

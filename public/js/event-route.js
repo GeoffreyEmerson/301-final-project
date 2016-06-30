@@ -1,6 +1,13 @@
-var $homepage = $('#homepage, #navigation');
+function logRoute(ctx, next) {
+  console.log(ctx.path);
+  if (next) {
+    next();
+  }
+}
+
+var $homepage = $('#homepage');
 var $event = $('#event');
-var $name = $('#name, #navigation');
+var $name = $('#name');
 var $admin = $('#event');
 var $404 = $('#not-found');
 
@@ -11,8 +18,31 @@ page('/', function() {
   showPage($homepage);
 });
 
-page('name', function() {
+page('event', function() {
+  showPage($event);
+  $('#googleAPI').show();
+  triggerMapResize();
+});
+
+page('name/:id', function(ctx) {
   showPage($name);
+  var eventHash = ctx.params.id;
+  $('#create-name').off().on('submit', function(event) {
+    event.preventDefault();
+    var nameValue = $('#name-value').val();
+    $.ajax({
+      url: 'api/events/' + eventHash,
+      method: 'put',
+      data: {
+        //we have the name from the form field but I need to figure out how to get a user hash from this.
+        organizer: ['168a592b214911fe8a5dcdb776856224']
+      }
+    }).done(function(data) {
+      var hash = data.event.hash;
+      console.log(data);
+      // page('/event/' + hash);
+    });
+  });
 });
 
 page('event', initEventPage);
@@ -60,33 +90,24 @@ page('event/add', function() {
 // });
 
 //gets text input from the event submission form and logs it to page and advances to name page
-$('#create-event').on('click', function(event){
+$('#create-event').on('submit', function(event) {
   event.preventDefault();
   var eventValue = $('#event-value').val();
-  console.log(eventValue);
-  createEvent(eventValue, function() {
-    history.pushState({},'','/name');
-    showPage($name);
+  $.post('/api/events', {
+    name: eventValue
+  }).done(function(data) {
+    var hash = data.event.hash;
+    page('/name/' + hash);
   });
 });
 
-//gets text input from the name submission form and posts to the api and advances to event page
-$('#create-name').on('click', function(event){
-  event.preventDefault();
-  var nameValue = $('#name-value').val();
-  console.log(nameValue);
-  createUserName(nameValue);
-  history.pushState({},'','/event');
-  initEventPage();
-});
-
-//gets text input from the add button and will push to database, which will in turn populate the word cluster.
+//gets text input fromt the add button and will push to database, which will in turn populate the word cluster.
 //Then the function automatically takes us to the clusters page.
-$('#add-topic').on('click', function(event){
+$('#add-topic').on('click', function(event) {
   event.preventDefault();
   var topicValue = $('#topic').val();
   console.log(topicValue);
-  location = '/event/clusters';
+  // location = '/event/clusters';
 });
 
 // page('admin/timing', function() {});
