@@ -1,8 +1,34 @@
-function initEventPage() {
+function initEventPage(ctx,callback) {
+  console.log(ctx);
+  if (ctx.params.eventHash) {
+    $.ajax({
+      url: '/api/events/' + ctx.params.eventHash,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      // call the callback function here
+      console.log(data);
+      saltDom('#event','event',data.event.hash,data.event.name);
+      setCookie('eventHash', data.event.hash, 10);
+      setCookie('eventName', data.event.name, 10);
+      if (callback) callback();
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.warn('Ajax call failed: GET /api/events/' + ctx.params.eventHash);
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      // call the error version of the callback if any
+    });
+  } else {
+    console.warn('No event hash in URL');
+  };
   showPage($('#event'));
   $('#details').show();
   $('#googleAPI').show();
   triggerMapResize();
+  // TODO: If no userName, go to name input view.
 };
 
 //links up with our google maps api and makes initial location over portland
