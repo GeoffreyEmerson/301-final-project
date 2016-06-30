@@ -1,5 +1,6 @@
 function initEventPage() {
   showPage($('#event'));
+  $('#details').show();
   $('#googleAPI').show();
   triggerMapResize();
 };
