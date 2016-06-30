@@ -1,9 +1,16 @@
 (function(module) {
-  var homeView = {};
+  var HomeView = {};
   var $tatus = $('#status');
-  homeView.initHomeView = function () {
-    $('#event-name').text($('#event').data(eventName));
+  HomeView.initHomeView = function (next) {
+    console.log('initHomeView called');
+    $('#event-name').text('Boop'); //TODO: Get this to be defined. Appears to be stalled out because of asynch problems.
+    $('#user-id h4').text('Beep'); //TODO: get this to be defined. Appears to be stalled out because of asynch problems.
+    console.log($('#user-id').data());
+    console.log($('#event').data());
+    if (next) next();
   };
+
+  HomeView.initHomeView();
   $tatus.on('click', function() {
     console.log('ping');
     //Cycle through a collection of states.
@@ -26,5 +33,5 @@
       //Send state to backend
     }
   });
-  module.homeView = homeView;
+  module.HomeView = HomeView;
 })(window);
