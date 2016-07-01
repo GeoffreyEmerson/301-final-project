@@ -5,7 +5,6 @@ var $admin = $('#event');
 var $404 = $('#not-found');
 
 page.base('/');
-// page('*', logRoute);
 
 page('/', logRoute, function() {
   showPage($homepage);
@@ -27,7 +26,6 @@ page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.
 
 //////////////////////////////////////
 page('event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function() {
-  // CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -37,7 +35,6 @@ page('event/timing', logRoute, EventController.initEventPage, EventView.initEven
 });
 
 page(':id/event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
-  // CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -78,8 +75,6 @@ $('#create-event').on('submit', function(event) {
   EventController.createEvent(eventValue, function() {
     page.show('name');
     $('#name-value').focus();
-    // history.pushState({},'','/name');//this was commented
-    // showPage($name); //this was commented
   });
 });
 
@@ -91,8 +86,6 @@ $('#create-name').on('submit', function(event){
   EventController.createUserName(nameValue);
   page.show('event');
   $('.nav-main').show();
-  // history.pushState({},'','/event'); //this was commented
-  // EventController.initEventPage(); //this was commented
 });
 
 //This function creates a nw ahref button and appends to the nav bar. the a href is given
@@ -114,7 +107,6 @@ $('#add').on('submit', function(event) {
     });
     $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
   }
-  // location = '/event/clusters';
 });
 $('#clear-topic').on('click', function(){
   $('a').remove('#new-topic');
