@@ -14,10 +14,12 @@ br {
   width: 100%;
   border: 5px solid #33C3F0;
 }
-.nav-main {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 2rem;
+#timing {
+  min-height: 30rem;
+  width: 100%;
+  border: 5px solid #33C3F0;
 }
+
 .nav-main a {
   color: #000;
   font-size: 1.6rem;

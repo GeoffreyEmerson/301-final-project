@@ -13,28 +13,33 @@
   <link rel="stylesheet" href="css/skeleton.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="/vendor/jqcloud.css">
+  <script id="guests" type="text/x-handlebars-template">
+    {{#each testObject}}
+        <p>Guest: {{userName}} Status: {{status}}</p>
+    {{/each}}
+   </script>
 </head>
 
 <body>
   <nav class="nav-main">
     <div class="container">
       <a href="/">Create</a>
-      <a href="/event">Event</a>
-      <a href="/admin">Admin</a>
-      <a href="/name">Name</a>
+      <a href="/event"></a>
+      <a href="/admin"></a>
+      <a href="/name"></a>
     </div>
   </nav>
 
   <div class="container page" id="event">
     <div class="row">
       <div class="six columns">
-        <h1 style="margin-top:5%" id="event-name">Event Name</h1>
+        <h1 id="event-name">Event Name</h1>
       </div>
       <div class="three columns" style="margin-top:1%" id="user-id">
-        <h4 style="margin-top:10%">Organizer</h4>
+        <h4 style="margin-top:5%">Organizer</h4>
       </div>
       <div class="three columns" style="margin-top:1%" id="status">
-        <h4 style="margin-top:10%">Status</h4>
+        <h4 style="margin-top:5%">Status</h4>
       </div>
     </div>
     <br>
@@ -49,23 +54,17 @@
     <div class="row">
       <div class="six columns">
         <section class="page" id="status-content">
-          <p>Status Content</p>
+          <h1>RSVP</h1>
+          <div id ="user-info"></div>
         </section>
         <section class="page" id="cluster">
           <div id="cloud" class="row six columns"></div>
           <div id="wordsy">
-            <form action="index.html" method="post">
-              <label for="word">CREATE OPTION</br><input id="wdText" type="text" name="word" value="anchovies"></label></br>
-              <input id="creator" type="button" name="submit" value="CREATE">
+            <form class="row" action="index.html" method="post">
+              <input class="u-full-width" id="wdText" type="text" name="word" placeholder="Create Option">
+              <input class="button-primary u-full-width" id="creator" type="button" name="submit" value="CREATE">
               <input type="text" visibility="hidden" id="userHash" value="lksaf9pwurp2o">
               <input type="text" id="topicHash" value="we09r20lksjdf">
-<!-- curt has changes for this section tomorrow to make it look pretty -->
-  <!-- <section class="page" id="add">
-  <form class="row">
-    <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
-    <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
-  </form>
-</section> -->
             </form>
           </div>
         </section>
@@ -75,19 +74,20 @@
             <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
           </form>
         </section>
-        <!-- TODO: This should coexist next to the google Map. Currently it sits atop it. -->
+        <!-- done: This should coexist next to the google Map. Currently it sits atop it. -->
         <section class="page" id="details">
           <div class="twelve columns">
-            <form class="row">
+            <form class="row" id="admin-input">
               <!-- The following line should display the event name, or allow it to be changed by admin users? -->
               <!-- <input class="u-full-width" type="text" placeholder="Event Name"  -->
-              <input class="u-full-width" type="text" placeholder="Date">
-              <input class="u-full-width" type="text" placeholder="Times">
-              <textarea class="u-full-width" type="text" placeholder="Event description..."></textarea>
-              <p> Share this URL with your guests: </p>
-              <input class="u-full-width" type="text" readonly id="share-url">
+              <input class="u-full-width" type="text" placeholder="Date" id="date">
+              <input class="u-full-width" type="text" placeholder="Times" id="times">
+              <textarea class="u-full-width" type="text" placeholder="Event description..." id="event-description"></textarea>
+              <input class="button-primary u-full-width" type="submit" value="Submit" id="add-topic">
             </form>
-        </div>
+            <p> Share this URL with your guests: </p>
+            <input class="u-full-width" type="text" readonly id="share-url">
+          </div>
         </section>
       </div>
       <section class="page twelve columns" id="timing">
@@ -112,10 +112,10 @@
       <br>
       <br>
       <form class="row" id="create-event">
-        <div class="six columns">
+        <div class="eight columns">
           <input class="u-full-width" type="text" placeholder="Event Name" required id="event-value">
         </div>
-        <div class="six columns">
+        <div class="four columns">
           <input class="button-primary u-full-width" type="submit" value="Create">
         </div>
       </form>
@@ -127,11 +127,11 @@
       <br>
       <br>
       <br>
-      <form class="row"  id="create-name">
-        <div class="six columns">
+      <form class="row" id="create-name">
+        <div class="eight columns">
           <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" required>
         </div>
-        <div class="six columns">
+        <div class="four columns">
           <input class="button-primary u-full-width" type="submit" value="Add">
         </div>
       </form>
@@ -140,9 +140,9 @@
 
 
   <!-- Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=EventController.initMap" async defer></script>
   <script type="text/javascript" src="/vendor/jqcloud.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.5/highcharts.js"></script>
@@ -158,4 +158,5 @@
   <script src="/js/event-controller.js"></script>
   <script src="/js/event-route.js"></script>
 </body>
+
 </html>

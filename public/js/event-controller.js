@@ -180,6 +180,34 @@
     }
     return '';
   };
+  $('#admin-input').on('submit',handleSubmitComment);
+  $('#event-description').on('keydown', function(event){
+    if(event.keyCode === 13) {
+      handleSubmitComment(event);
+    }
+  });
+  function handleSubmitComment(event) {
+    event.preventDefault();
+    var date = $('#date').val().trim();
+    var times = $('#times').val().trim();
+    var eventDescription = $('#event-description').val().trim();
+    console.log(date, times, eventDescription);
+    $('#admin-input').hide();
+  };
+  //TODO use this handlebars method to ger real data from our user database
+  function userTest(userName, status) {
+    this.userName = userName;
+    this.status = status;
+  };
+  var testObject = [
+    new userTest('Bob', 'attending'),
+    new userTest('Bill', 'maybe'),
+    new userTest('Sarah', 'no')
+  ];
+  var newTemplate = $('#guests').html();
+  var compiled = Handlebars.compile(newTemplate);
+  var guestList = compiled({testObject:testObject});
+  $('#user-info').append(guestList);
 
   model.EventController = EventController;
 })(window);

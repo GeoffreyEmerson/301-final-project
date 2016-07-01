@@ -64,7 +64,7 @@ $('#create-event').on('submit', function(event) {
 });
 
 //gets text input from the name submission form and posts to the api and advances to event page
-$('#create-name').on('click', function(event){
+$('#create-name').on('submit', function(event){
   event.preventDefault();
   var nameValue = $('#name-value').val();
   console.log(nameValue);
