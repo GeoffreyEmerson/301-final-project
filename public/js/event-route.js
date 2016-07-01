@@ -60,6 +60,7 @@ $('#create-event').on('submit', function(event) {
   EventController.createEvent(eventValue, function() {
     history.pushState({},'','/name');
     showPage($name);
+    $('#name-value').focus();
   });
 });
 

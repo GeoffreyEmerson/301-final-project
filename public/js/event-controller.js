@@ -91,6 +91,8 @@
     $('#submit-event').on('submit', function(event) {
       event.preventDefault();
       geocodeAddress(geocoder, map);
+      var address = $('#address').val();
+      console.log(address);
     });
   };
 
