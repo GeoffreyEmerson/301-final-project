@@ -1,13 +1,14 @@
 (function(module) {
   var HomeView = {};
   var $tatus = $('#status');
-  HomeView.initHomeView = function (next) {
-    console.log('initHomeView called');
+
+  HomeView.initHomeView = function (ctx,next) {
+    console.log('HomeView.initHomeView called');
     var eventHash = $('#event').data('eventhash');
     var userHash = $('#user-id').data('userhash');
     $('#event-name').text($('#event').data('eventname'));
     $('#user-id h4').text($('#user-id').data('username'));
-    // if (next) next();
+    if (next) next();
     $.ajax({
       url: '/api/rsvps/' + eventHash + '/' + userHash,
       type: 'GET',
