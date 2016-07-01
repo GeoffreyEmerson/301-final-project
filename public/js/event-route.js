@@ -20,13 +20,14 @@ page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.
 
 //////////////////////////////////////
 page('event/timing', logRoute, function() {
-  calendarView.initCalendarView();
+  CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
 });
 
 page(':id/event/timing', logRoute, function() {
+  CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
