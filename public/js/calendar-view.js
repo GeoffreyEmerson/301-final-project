@@ -113,7 +113,7 @@
           enabled: false,
         },
         borderWidth: 0,
-        id: 5, //TODO: TopicID
+        id: TopicId, //TODO: TopicID
         index: 1
       },
 //start of personal preference data series
@@ -136,16 +136,16 @@
             // var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
             var date = dateArray[event.point.y].toDateString();
             var xValue = event.point.x;
-            // var userHash = $('#user-id').data('userhash');
-            // var topicID = this.userOptions.id;
-            var userHash = 'Dummy User Hash';
-            var topicID = '5';
+            var userHash = $('#user-id').data('userhash');
+            var topicID = this.userOptions.id;
+            // var userHash = 'Dummy User Hash';
+            // var topicID = '5';
             // console.log(date, xValue, userHash, topicID);
-            CalendarView.sendClickToDatabase(date, xValue, userHash, topicID, CalendarView.getNewCalendarData);
+            CalendarView.sendClickToDatabase(date, xValue, userHash, topicID, CalendarView.getNewAggData);
           },
         },
         borderWidth: 0,
-        id: 5, //TODO: TopicID
+        id: TopicId, //TODO: TopicID
         colors: Highcharts.getOptions().colors[3],
         index: 0
       }
