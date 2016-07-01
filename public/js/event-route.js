@@ -108,7 +108,7 @@ $('#add').on('submit', function(event) {
       $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
       $('#' + topic).show();
       TopicView.topicCloudInit(topic);
-      $('#newClustersHere').append('<div> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf">');
+      $('#newClustersHere').append('<div class="page"> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf"></div>');
       $('#googleAPI').hide();
       $('.nav-main').show();
     });
