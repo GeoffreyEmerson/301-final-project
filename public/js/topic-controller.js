@@ -14,34 +14,55 @@
   // topicController.wordMe('anchovies', 'lksaf9pwurp2o', 'we09r20lksjdf');
   // topicController.wordMe('ferroconcrete', 'lksaf9pwurp2o', 'we09r20lksjdf');
   // topicController.wordMe('peppers', 'lksaf9pwurp2o', 'we09r20lksjdf');
-  //NOTE: In sand box context wordMe fails to invoke jQcloud properly when called by this handler more than once; calling wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
 
-  TopicController.topicCloudInit = function() {
-    console.log('Initiating jQCloud');
-    $('#cloud').jQCloud([], {
-      width: 500,
-      height: 350
-    });
+  // TopicController.topicCloudInit = function()
+  //   console.log('Initiating jQCloud');
+  //   $('#cloud').jQCloud([], {
+  //     width: 500,
+  //     height: 350
+  //   });
+    //@topic-view.js:56, Hey!  Maybe this is the place!
+    //CLICK HANDLER TO SET VOTE STATE OF CLOUD VIEW ITEMS FOR EXPORT BACK TO WD. OBJ.
+    // DONE: Change this method to an ajax call on the back end.
+  TopicController.initCloudItemClickHandler = function() {
+    $('#cloud').on('click', 'span', function(ctx) {
+      console.log('Click detected! Initiating word cloud click handler');
+      var text = $(this).text();
+      console.log('optionClickText:',text);
+      var uHash = this.getAttribute('data-usid');
+      console.log('userHash:',uHash);
+      var tHash = this.getAttribute('data-topicid');
+      console.log('topicId:',tHash);
+      TopicController.wordClick(text, uHash, tHash);
 
-    console.log('Initiating word cloud click handler');
-    $('#creator').on('click', function() {
-      console.log('new word created');
-      var text = $('#wdText').val();
-      var uHash = $('#userHash').val();
-      var tHash = $('#topicHash').val();
-      wordClick(text, uHash, tHash);
-      console.log('end of word cloud initiation');
-    });
+      // sendClickEvent(text,userHash,topicId, callback); //callback function needs to be what redraws the topic cloud.
+    })
 
-    function wordClick(text, userHashArg, topicIdArg, callback) {
-      $.ajax({
-        url: '/api/votes',
-        type: 'POST',
-        data: {name: text, userHash: userHashArg, topicId: topicIdArg},
-        cache: false
-      })
+     ('#creator').on('click', function() {
+       console.log('new word created');
+       var text = $('#wdText').val();
+       var uHash = $('#userHash').val();
+       var tHash = $('#topicHash').val();
+       TopicController.wordClick(text, uHash, tHash);
+       console.log('end of word cloud initiation');
+     });
+  };
+
+  TopicController.wordClick = function(text, userHashArg, topicIdArg, callback) {
+    $.ajax({
+      url: '/api/votes',
+      type: 'POST',
+      data: {name: text, userHash: userHashArg, topicId: topicIdArg},
+      cache: false
+    })
       .done( function (data) {
         // call the callback function here
+        $.ajax({
+          url: '/api/votes',
+          type: 'GET',
+          data: {name: text, userHash: userHashArg, topicId: topicIdArg},
+          cache: false
+        });
         console.log('Successful ajax call:');
         console.log(data);
         // data will return an array of word objects like this: {text:"lorem",weight:5,voteState:-1};
@@ -52,11 +73,10 @@
         console.log('Failed to send click to database.');
         // call the error version of the callback if any
       });
-    }
   };
 
-  // TODO: find the right place to run topicCloudInit();
 
+  // DONE: find the right place to run topicCloudInit();
   // topicController.newOpt = function() {
   //   $('#creator').on('click', function() {
   //     console.log('newOpt start');
@@ -67,8 +87,6 @@
   //     console.log('newOpt complete');
   //   });
   // };
-
-  // topicController.newOpt(); //TODO: I suspect this needs to be invoked differently?
 
   module.TopicController = TopicController;
 
