@@ -8,14 +8,29 @@
   CalendarView.initCalendarView = function () {
     console.log('initCalendarView called.');
     var userHash = $('#user-id').data('userhash');
-    var topicId = $('#timing').data(''); //TODO: ensure that this is turned on.
+    var topicId = $('#timing').data('topicid');
+    console.log(userHash,topicId);
     //Build dateArray.
     for (var i = 0; i < 7; i++) {
       dateArray.unshift(new Date());
       dateArray[0].setDate(dateArray[0].getDate() + i);
     }
     //Build perData and aggData with getNewCalendarData.
-    CalendarView.getNewAggData(5, userHash); //TODO: populate this with arguments
+    if (false) {CalendarView.getNewAggData(topicId, userHash);} else {
+      perData = CalendarView.blankArray();
+      aggData = CalendarView.blankArray();
+      CalendarView.render();
+      //Set Hover Behavior
+      $('g.highcharts-series-group').hover(
+        function() {
+          chart.series[1].setVisible();
+          chart.setTitle({text: 'Click on times to set your preferences.'});
+        },
+        function () {
+          chart.series[1].setVisible();
+          chart.setTitle({text: null});
+        });
+    }
     // var aggData = CalendarView.assembleArray(); //Uncomment these lines to use random dummy data.
     // var perData = aggData.map(function(ele) {
       // return [ele[0], ele[1], Math.random() * 100];});
@@ -24,23 +39,21 @@
     // CalendarView.render(); //TODO: remember, this line actually has to be properly dependent on getNewCalendarData's completion
   };
 
-  CalendarView.assembleArray = function() { //Legacy code to generate random datasets
+  CalendarView.blankArray = function() { //Legacy code to generate random datasets
     var arr = [];
     for (var ii = 0; ii < 24; ii++) {
       for (var iii = 0; iii < 6; iii++) {
-        arr.push([ii,iii,Math.random() * 150]);
+        arr.push([ii,iii,0]);
       }
     }
     return arr;
   };
 
   CalendarView.updateData = function(data) {
-    console.log(data.votes);
     series = [];
     var procDates = dateArray.map(function(ele){return ele.toDateString();});
     data.votes.forEach(function(ele) {
       if (procDates.indexOf(ele.date) != -1) { //This should discard votes that have fallen off the dateArray.
-        console.log(ele);
         var firstCoOrd = procDates.indexOf(ele.date);
         series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
       }
@@ -168,8 +181,6 @@
 
   CalendarView.getNewAggData = function(topicIdArg,userHashArg) {
     //AJAXing aggData
-    topicIdArg = '5'; // TODO: test value only!
-    userHashArg = 'placeholderUserHash';
     $.ajax({
       url: '/api/votes/',
       type: 'GET',
@@ -204,7 +215,7 @@
       var filteredData = data.votes.filter(function(vote){
         if(vote.topicId == topicIdArg && vote.userHash == userHashArg) return true;
       });
-      // console.log('Personal data:',filteredData);
+      console.log('Personal data:',filteredData);
       // data will be a list of a given user's choices and weights
       perData = CalendarView.updateData(data);
       //Now render the chart.
