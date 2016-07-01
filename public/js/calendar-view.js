@@ -180,16 +180,21 @@
   };
 
   CalendarView.getNewCalendarData = function(topicIdArg,userHashArg) {
-  //AJAXing aggData
+    //AJAXing aggData
+    topicIdArg = '5774a3c571e2b98a54857318'; // TODO: test value only!
+    userHashArg = '0a73f7f08883029bc59a4e47c31aa58b2e92bb53';
     $.ajax({
-      url: '/api/votes/' + topicIdArg,
+      url: '/api/votes/',
       type: 'GET',
       cache: false
     })
     .done( function (data) {
       // call the callback function here
-      console.log('Successful ajax call:');
-      console.log(data);
+      console.log('Successful ajax call: /api/votes/');
+      var filteredData = data.votes.filter(function(vote){
+        if(vote.topicId == topicIdArg) return true;
+      });
+      console.log('Aggregate data:',filteredData);
       // data will be full list of vote options and weights for a specific topic
       CalendarView.updateData(data, aggData);
     })
@@ -197,16 +202,20 @@
       console.log('Failed to acquire preferences from database.');
       // call the error version of the callback if any
     });
-//AJAXing perData
+
+    //AJAXing perData
     $.ajax({
-      url: '/api/votes/' + topicIdArg + '/' + userHashArg,
+      url: '/api/votes/',
       type: 'GET',
       cache: false
     })
     .done( function (data, callback) {
       // call the callback function here
-      console.log('Successful ajax call:');
-      console.log(data);
+      console.log('Successful ajax call: GET /api/votes/');
+      var filteredData = data.votes.filter(function(vote){
+        if(vote.topicId == topicIdArg && vote.userHash == userHashArg) return true;
+      });
+      console.log('Personal data:',filteredData);
       // data will be a list of a given user's choices and weights
       CalendarView.updateData(data, perData);
     })

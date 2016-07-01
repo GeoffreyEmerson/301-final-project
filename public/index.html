@@ -23,8 +23,7 @@
 <body>
   <nav class="nav-main">
     <div class="container">
-      <a href="/">Create</a>
-      <a href="/event"></a>
+      <a href="/">Convoke</a>
       <a href="/admin"></a>
       <a href="/name"></a>
     </div>
@@ -46,7 +45,8 @@
     </div>
     <br>
     <div class="row">
-      <nav class="u-pull-right">
+      <nav class="u-pull-right" id="event-navigation">
+        <a class="button button-primary" href="/event">Event</a>
         <a class="button button-primary" href="./event/timing">Timing</a>
         <a class="button button-primary" href="./event/status/">Status</a>
         <a class="button button-primary" href="./event/clusters/">Clusters</a>
@@ -73,7 +73,7 @@
         <section class="page" id="add">
           <form class="row">
             <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
-            <input class="button-primary u-full-width" type="submit" value="Convoke It!" id="add-topic">
+            <input class="button-primary u-full-width" type="submit" value="Create Topic" id="add-topic">
           </form>
         </section>
         <!-- done: This should coexist next to the google Map. Currently it sits atop it. -->
@@ -85,7 +85,7 @@
               <input class="u-full-width" type="text" placeholder="Date" id="date">
               <input class="u-full-width" type="text" placeholder="Times" id="times">
               <textarea class="u-full-width" type="text" placeholder="Event description..." id="event-description"></textarea>
-              <input class="button-primary u-full-width" type="submit" value="Submit" id="add-topic">
+              <input class="button-primary u-full-width" type="submit" value="Submit">
             </form>
             <p> Share this URL with your guests: </p>
             <input class="u-full-width" type="text" readonly id="share-url">
@@ -126,7 +126,7 @@
   </section>
   <section class="container page" id="name">
     <div style="margin-top: 15%">
-      <h1 class="center">Enter your Name</h1>
+      <h1 class="center">Enter Your Name</h1>
       <br>
       <br>
       <br>
