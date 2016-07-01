@@ -22,7 +22,7 @@
         console.log('eventHash found in DOM.');
         // Here we get the eventHash from the DOM.
         showLandingPage();
-        console.log('callback is currently:',callback);
+        // console.log('callback is currently:',callback);
         getEventData($('#event').attr('data-eventHash'),callback);
       } else {
         console.log('No eventHash in DOM.');

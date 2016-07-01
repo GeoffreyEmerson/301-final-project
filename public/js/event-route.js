@@ -19,15 +19,15 @@ page('name', logRoute, function() {
 
 page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
   $('.nav-main').show();
-}); //TODO: initHomeView resolving far further forward in the chain than we'd like.
+});
 
 page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
   $('.nav-main').show();
 });
 
 //////////////////////////////////////
-page('event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
-  CalendarView.initCalendarView();
+page('event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function() {
+  // CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -37,7 +37,7 @@ page('event/timing', logRoute, EventController.initEventPage, EventView.initEven
 });
 
 page(':id/event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
-  CalendarView.initCalendarView();
+  // CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
