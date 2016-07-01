@@ -14,7 +14,7 @@
       cache: false
     })
     .done(function(data) {
-      console.log(data);
+      console.log(data); //TODO: This function should, when done, persist attendance state.
     });
   };
 

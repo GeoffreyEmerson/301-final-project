@@ -24,13 +24,72 @@ router
 
 // A POST route to Create a new vote
 .post('/', function(req,res){
-  var vote = req.body;
-  Vote.create(vote, function(err,vote){
-    if (err) {
-      return res.status(503).json({err: err.message, call: 'POST /votes'});
-    }
-    res.json({'vote':vote, message: 'Vote Created'});
-  });
+  console.log(req.body);
+  var voteBody = req.body;
+  // Check to see if this vote exists
+  if(voteBody.xValue && voteBody.date) {
+    console.log('voteBody.xValue && voteBody.date found!');
+    Vote.findOne({
+      'userHash': voteBody.userHash,
+      'topicId': voteBody.topicId,
+      'xValue': voteBody.xValue,
+      'date': voteBody.date
+    }, function(err,vote){
+      console.log('error?',err);
+      console.log('vote:',vote);
+      if (vote) {
+        // do vote calculations
+        vote.weight++;
+        if(vote.weight == 3) vote.weight = -1;
+        vote.save(function(err) {  // Then save the change.
+          if (err){
+            console.log(err);
+            return res.status(503).json({message: err.message, call: 'saving incremented vote status'});
+          }
+          return res.json({'vote':vote});
+        });
+      } else {
+        console.log('Vote not found. Creating new vote record.');
+        voteBody.weight = 1;
+        Vote.create(voteBody, function(err,vote){
+          if (err) {
+            return res.status(503).json({err: err.message, call: 'POST /votes'});
+          }
+          return res.json({'vote':vote});
+        });
+      };
+    });
+
+  } else if(voteBody.name) {
+    // regular topic voting
+    Vote.findOne({
+      'userHash': voteBody.userHash,
+      'topicId': voteBody.topicId,
+      'name': voteBody.name
+    }, function(err,vote){
+      console.log(vote);
+      if (vote) {
+        // do vote calculations
+        vote.weight++;
+        if(vote.weight == 3) vote.weight = -1;
+        vote.save(function(err) {  // Then save the change.
+          if (err){
+            console.log(err);
+            return res.status(503).json({message: err.message, call: 'saving incremented vote status'});
+          }
+          return res.json({'vote':vote});
+        });
+      } else {
+        voteBody.weight = 1;
+        Vote.create(voteBody, function(err,vote){
+          if (err) {
+            return res.status(503).json({err: err.message, call: 'POST /votes'});
+          }
+          return res.json({'vote':vote});
+        });
+      };
+    });
+  };
 })
 
 // A GET route with ID argument to get data on a specific vote

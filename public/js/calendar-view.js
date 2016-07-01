@@ -43,7 +43,6 @@
   var aggData = CalendarView.assembleArray();
   var perData = aggData.map(function(ele) {
     return [ele[0], ele[1], Math.random() * 100];});
-
   CalendarView.updateData = function(data, series) { //TODO: function here translates AJAX response into an array usable by render.
     series = [];
     data.forEach(function(ele) {
