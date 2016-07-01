@@ -2,6 +2,8 @@
 
   TopicController = {};
 
+  var wordArr = [];
+
   // TopicController.wordMe = function(wordName, userHash, topicHash) {
   //   var newWd = new Word(wordName, userHash, topicHash);
   //   console.log(newWd);
@@ -36,16 +38,16 @@
       TopicController.wordClick(text, uHash, tHash);
 
       // sendClickEvent(text,userHash,topicId, callback); //callback function needs to be what redraws the topic cloud.
-    })
+    });
 
-     ('#creator').on('click', function() {
-       console.log('new word created');
-       var text = $('#wdText').val();
-       var uHash = $('#userHash').val();
-       var tHash = $('#topicHash').val();
-       TopicController.wordClick(text, uHash, tHash);
-       console.log('end of word cloud initiation');
-     });
+    $('#creator').on('click', function() {
+      console.log('new word created');
+      var text = $('#wdText').val();
+      var uHash = $('#userHash').val();
+      var tHash = $('#topicHash').val();
+      TopicController.wordClick(text, uHash, tHash);
+      console.log('end of word cloud initiation');
+    });
   };
 
   TopicController.wordClick = function(text, userHashArg, topicIdArg, callback) {
@@ -65,8 +67,19 @@
         });
         console.log('Successful ajax call:');
         console.log(data);
-        // data will return an array of word objects like this: {text:"lorem",weight:5,voteState:-1};
-        $('#cloud').jQCloud('update', data);
+        wordInsert = [{
+          text: data.vote.name,
+          weight: data.vote.weight,
+          html: {
+            'data-usid': data.vote.userHash,
+            'data-topicid': data.vote.topicId,
+            'data-votestate': 0,
+            'class' : 'noSelect'
+          }
+        }];
+        wordArr.push(wordInsert);
+// data will return an array of word objects like this: {text:"lorem",weight:5,voteState:-1};
+        $('#cloud').jQCloud('update', wordArr);
         // update voteStates
       })
       .fail( function(jqXHR, textStatus, errorThrown) {
