@@ -5,8 +5,8 @@
     console.log('initHomeView called');
     var eventHash = $('#event').data('eventhash');
     var userHash = $('#user-id').data('userhash');
-    $('#event-name').text($('#event').data('eventname')); //TODO: Get this to be defined. Appears to be stalled out because of asynch problems.
-    $('#user-id h4').text($('#user-id').data('username')); //TODO: get this to be defined. Appears to be stalled out because of asynch problems.
+    $('#event-name').text($('#event').data('eventname'));
+    $('#user-id h4').text($('#user-id').data('username'));
     // if (next) next();
     $.ajax({
       url: '/api/rsvps/' + eventHash + '/' + userHash,

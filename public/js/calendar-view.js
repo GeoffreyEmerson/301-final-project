@@ -4,6 +4,8 @@
   var dateArray = [];
   var aggData = [];
   var perData = [];
+  // var userHash = $('#user-id').attr('data-userHash');
+  var userHash = $('#user-id').data('userhash'); //Do both versions of this still work?
 
   calendarView.initCalendarView = function () {
     //Build dateArray.
@@ -12,7 +14,7 @@
       dateArray[0].setDate(dateArray[0].getDate() + i);
     }
     //Build perData and aggData with getNewCalendarData.
-    calendarView.getNewCalendarData(topicIdArg,userHashArg); //TODO: populate this with arguments
+    calendarView.getNewCalendarData(topicIdArg, userHash); //TODO: populate this with arguments
     //Render the Table.
     calendarView.render(); //TODO: remember, this line actually has to be properly dependent on getNewCalendarData's completion
   };
@@ -116,7 +118,6 @@
               //   event.point.series.name,
               //   this.userOptions.id);
             var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
-            var userHash = $('#user-id').attr('data-userHash');
             var topicID = this.userOptions.id;
             calendarView.sendClickToDatabase(vote, userHash, topicID, getNewCalendarData);
           },
