@@ -14,10 +14,11 @@ br {
   width: 100%;
   border: 5px solid #33C3F0;
 }
-.nav-main {
-  border-bottom: 1px solid #eee;
-  margin-bottom: 2rem;
+#timing {
+  min-height: 30rem;
+  width: 100%;
 }
+
 .nav-main a {
   color: #000;
   font-size: 1.6rem;
@@ -50,3 +51,32 @@ span[data-votestate="-1"] {
   color: red !important;
 }
 /*END CSS FOR TOPIC VIEWS*/
+
+/*BEGIN CSS STATUS BUTTON*/
+.maybe {
+  color: white;
+  background-color: lime;
+}
+.approve {
+  color: white;
+  background-color: green;
+}
+.disapprove {
+  color: white;
+  background-color: red;
+}
+/*END CSS FOR STATUS BUTTON*/
+
+/*Make Unselectable Text Possible*/
+.noSelect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.page {
+  display: none;
+}

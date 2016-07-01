@@ -13,6 +13,7 @@ var router = express.Router();
 
 router
 .get('/',function(req,res) {
+  console.log('events.js Matched GET /');
   Event.find({}, function(err,events){
     if (err){
       console.log(err);
