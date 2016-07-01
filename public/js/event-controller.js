@@ -12,6 +12,7 @@
 
     if (ctx && ctx.params.eventHash) {
       console.log('Context:',ctx);
+      showLandingPage();
       getEventData(ctx.params.eventHash,callback); // ajax call for event data.
     } else {
       console.log('No ctx object or ctx.params.eventHash parameter.'); // Remove this in production.
@@ -20,6 +21,8 @@
       if ( $('#event').attr('data-eventHash') ) {
         console.log('eventHash found in DOM.');
         // Here we get the eventHash from the DOM.
+        showLandingPage();
+        console.log('callback is currently:',callback);
         getEventData($('#event').attr('data-eventHash'),callback);
       } else {
         console.log('No eventHash in DOM.');
@@ -27,17 +30,28 @@
         if (EventController.getCookie('eventHash')) {
           console.log('eventHash found in cookie!');
           // Here we get the eventHash from a cookie.
+          showLandingPage();
           getEventData(EventController.getCookie('eventHash'),callback);
+          var userHash = EventController.getCookie('userHash');
+          var userName = EventController.getCookie('userName');
+          if(userHash) {
+            saltDom('#user-id','user',userHash,userName);
+          }
         } else {
-          console.log('No cookie either. Redirect to main page.');
-          window.location = '/'; // TODO: Fix this as a proper SPA redirect.
+          console.warn('No cookie either. Redirect to main page.');
+          page.show('/');
         };
       };
     };
-    showPage($('#event'));
-    $('#details').show();
-    $('#googleAPI').show();
-    EventController.triggerMapResize();
+
+    function showLandingPage() {
+      $('.page').hide();
+      $('#event').show();
+      $('#details').show();
+      $('#googleAPI').show();
+      EventController.triggerMapResize();
+    };
+
     // TODO: If no userName, go to name input view.
 
     console.log('initEventPage completed.');
@@ -68,6 +82,7 @@
       console.log('textStatus:',textStatus);
       console.log('errorThrown:',errorThrown);
       // call the error version of the callback if any
+      if (callback) callback();
     });
   };
 
@@ -132,6 +147,7 @@
       console.log('textStatus:',textStatus);
       console.log('errorThrown:',errorThrown);
       // call the error version of the callback if any
+      if (callback) callback();
     });
   };
 
@@ -150,6 +166,7 @@
     })
     .fail( function() {
       console.error('Name creation failed (event-controller.js)');
+      if (callback) callback();
     });
   };
 
