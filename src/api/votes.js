@@ -12,19 +12,9 @@ var router = express.Router();
 -----------------*/
 
 router
-.get('/',function(req,res) {
-  Vote.find({}, function(err,votes){
-    if (err){
-      console.log(err);
-      res.status(503).json({message: err.message, call: 'GET /votes'});
-    }
-    res.json({votes: votes});
-  });
-})
-
 // A POST route to Create a new vote
 .post('/', function(req,res){
-  console.log(req.body);
+  console.log('Matched POST /votes with', req.body);
   var voteBody = req.body;
   // Check to see if this vote exists
   if(voteBody.xValue && voteBody.date) {
@@ -94,6 +84,7 @@ router
 
 // A GET route with ID argument to get data on a specific vote
 .get('/:id',function(req,res) {
+  console.log('Matched GET /:id with', req.params.id);
   var idArg = req.params.id;
   Vote.findOne({_id: idArg}, function(err,vote){
     if (err){
@@ -104,8 +95,48 @@ router
   });
 })
 
+// A GET route with topicID argument to get aggregated data on a specific topic
+.get('topic/:topicId',function(req,res) {
+  console.log('Matched with GET topic/:topicId');
+  var topicIdArg = req.params.topicId;
+  Vote.find({topicId: topicIdArg}, function(err,votes){
+    if (err){
+      console.log(err);
+      return res.status(503).json({message: err.message, call: 'GET /votes/topic/:topicId'});
+    }
+    return res.json({votes: votes});
+  });
+})
+
+// A GET route with userHash argument to get full list of choices for a specific user on a given topic
+.get('user/:userId',function(req,res) {
+  console.log('Matched GET votes/user/:userId');
+  var userId = req.params.userId;
+  var reqBody = req.body;
+  Vote.find({userId: userIdArg}, function(err,votes){
+    if (err){
+      console.log(err);
+      return res.status(503).json({message: err.message, call: 'GET /votes/user/:userId'});
+    }
+    return res.json({votes: votes});
+  });
+})
+
+// UNAVAILABLE?: A GET route to browse all votes in the table.
+.get('/',function(req,res) {
+  console.log('Matched GET /votes');
+  Vote.find({}, function(err,votes){
+    if (err){
+      console.log(err);
+      res.status(503).json({message: err.message, call: 'GET /votes'});
+    }
+    res.json({votes: votes});
+  });
+})
+
 // A PUT route to update existing entries. Name, email, passHash changes.
 .put('/:id',function(req,res) {
+  console.log('Matched PUT votes/:id with',req.params.id);
   var idArg = req.params.id;
   Vote.findOne({_id: idArg}, function(err,vote){
     vote.name = req.body.name; // Make the change...
@@ -122,6 +153,7 @@ router
 
 // A DELETE route to delete vote by ID.
 .delete('/:id',function(req,res) {
+  console.log('Matched DELETE votes/:id with',req.params.id);
   var idArg = req.params.id;
   Vote.findOne({_id: idArg}, function(err,vote){
     vote.remove(function(err) {
