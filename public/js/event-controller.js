@@ -12,6 +12,7 @@
 
     if (ctx && ctx.params.eventHash) {
       console.log('Context:',ctx);
+      showLandingPage();
       getEventData(ctx.params.eventHash,callback); // ajax call for event data.
     } else {
       console.log('No ctx object or ctx.params.eventHash parameter.'); // Remove this in production.
@@ -20,6 +21,8 @@
       if ( $('#event').attr('data-eventHash') ) {
         console.log('eventHash found in DOM.');
         // Here we get the eventHash from the DOM.
+        showLandingPage();
+        console.log('callback is currently:',callback);
         getEventData($('#event').attr('data-eventHash'),callback);
       } else {
         console.log('No eventHash in DOM.');
@@ -27,17 +30,29 @@
         if (EventController.getCookie('eventHash')) {
           console.log('eventHash found in cookie!');
           // Here we get the eventHash from a cookie.
+          showLandingPage();
           getEventData(EventController.getCookie('eventHash'),callback);
+          var userHash = EventController.getCookie('userHash');
+          var userName = EventController.getCookie('userName');
+          if(userHash) {
+            saltDom('#user-id','user',userHash,userName);
+          }
         } else {
-          console.log('No cookie either. Redirect to main page.');
-          window.location = '/'; // TODO: Fix this as a proper SPA redirect.
+          console.warn('No cookie either. Redirect to main page.');
+          page.show('/'); // TODO: Fix this as a proper SPA redirect.
+          if (callback) callback();
         };
       };
     };
-    showPage($('#event'));
-    $('#details').show();
-    $('#googleAPI').show();
-    EventController.triggerMapResize();
+
+    function showLandingPage() {
+      $('.page').hide();
+      $('#event').show();
+      $('#details').show();
+      $('#googleAPI').show();
+      EventController.triggerMapResize();
+    };
+
     // TODO: If no userName, go to name input view.
 
     console.log('initEventPage completed.');
@@ -68,6 +83,7 @@
       console.log('textStatus:',textStatus);
       console.log('errorThrown:',errorThrown);
       // call the error version of the callback if any
+      if (callback) callback();
     });
   };
 
@@ -91,6 +107,8 @@
     $('#submit-event').on('submit', function(event) {
       event.preventDefault();
       geocodeAddress(geocoder, map);
+      var address = $('#address').val();
+      console.log(address);
     });
   };
 
@@ -132,6 +150,7 @@
       console.log('textStatus:',textStatus);
       console.log('errorThrown:',errorThrown);
       // call the error version of the callback if any
+      if (callback) callback();
     });
   };
 
@@ -150,6 +169,7 @@
     })
     .fail( function() {
       console.error('Name creation failed (event-controller.js)');
+      if (callback) callback();
     });
   };
 
@@ -180,6 +200,35 @@
     }
     return '';
   };
+  $('#admin-input').on('submit',handleSubmitComment);
+  $('#event-description').on('keydown', function(event){
+    if(event.keyCode === 13) {
+      handleSubmitComment(event);
+    }
+  });
+  function handleSubmitComment(event) {
+    event.preventDefault();
+    var date = $('#date').val().trim();
+    var times = $('#times').val().trim();
+    var eventDescription = $('#event-description').val().trim();
+    console.log(date, times, eventDescription);
+    $('#admin-input').hide();
+  };
+  //TODO use this handlebars method to ger real data from our user database
+  function userTest(userName, status, css) {
+    this.userName = userName;
+    this.status = status;
+    this.css = css;
+  };
+  var testObject = [
+    new userTest('Bob', 'attending','approve'),
+    new userTest('Bill', 'maybe', 'maybe'),
+    new userTest('Sarah', 'no', 'disapprove')
+  ];
+  var newTemplate = $('#guests').html();
+  var compiled = Handlebars.compile(newTemplate);
+  var guestList = compiled({testObject:testObject});
+  $('#user-info').append(guestList);
 
   model.EventController = EventController;
 })(window);
