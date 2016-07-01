@@ -34,7 +34,7 @@
           getEventData(EventController.getCookie('eventHash'),callback);
           var userHash = EventController.getCookie('userHash');
           var userName = EventController.getCookie('userName');
-          if(userHash) {
+          if(userHash && userName) {
             saltDom('#user-id','user',userHash,userName);
           }
         } else {
@@ -71,11 +71,12 @@
         saltDom('#event','event',data.event.hash,data.event.name);
         setCookie('eventHash', data.event.hash, 10);
         setCookie('eventName', data.event.name, 10);
+        getTopicId(data.event.hash,callback)
       } else {
         // Hopefully this will never happen.
         console.error('Ajax call successful, but no eventHash returned!');
+        if (callback) callback();
       };
-      if (callback) callback();
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.warn('Ajax call failed: GET /api/events/' + eventHash);
@@ -85,6 +86,37 @@
       // call the error version of the callback if any
       if (callback) callback();
     });
+
+    function getTopicId(eventHash,callback) {
+      $.ajax({
+        url: '/api/topics/',
+        type: 'GET',
+        cache: false
+      })
+      .done( function (data) {
+        // call the callback function here
+        console.log('getTopicId data:',data);
+        var topicId = data.topics.filter(function(topic){
+          if(topic.eventHash == eventHash) return true;
+        });
+        if (topicId.length) {
+          $('#timing').attr('data-topicId',topicId[0]._id);
+          if (callback) callback();
+        } else {
+          // Hopefully this will never happen.
+          console.error('GET /api/topics/ Ajax call successful, but no topicIds returned!');
+          if (callback) callback();
+        };
+      })
+      .fail( function(jqXHR, textStatus, errorThrown) {
+        console.warn('Ajax call failed: GET /api/events/' + eventHash);
+        console.log('jqXHR.responseText:',jqXHR.responseText);
+        console.log('textStatus:',textStatus);
+        console.log('errorThrown:',errorThrown);
+        // call the error version of the callback if any
+        if (callback) callback();
+      });
+    }
   };
 
   //links up with our google maps api and makes initial location over portland
@@ -142,6 +174,30 @@
       saltDom('#event','event',data.event.hash,data.event.name);
       setCookie('eventHash', data.event.hash, 10);
       setCookie('eventName', data.event.name, 10);
+      createTimingTopic(data.event.hash, 'eventStartTopic', 'Click on the calendar to indicate your availability.', callback);
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.warn('Ajax call failed: POST /api/events');
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      // call the error version of the callback if any
+      if (callback) callback();
+    });
+  };
+
+  var createTimingTopic = function(eventHashArg, nameArg, descriptionArg ,callback) {
+    $.ajax({
+      url: '/api/topics',
+      type: 'POST',
+      data: {name: nameArg, description:descriptionArg, eventHash:eventHashArg},
+      cache: false
+    })
+    .done( function (data) {
+      console.log('creating topic ajax call. returned data:',data);
+      $('#timing').attr('data-topicId',data.topic._id);
+      // saltDom('#event','event',data.event.hash,data.event.name);
+      // call the callback function here
       if (callback) callback();
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
