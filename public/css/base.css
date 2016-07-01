@@ -55,7 +55,6 @@ span[data-votestate="-1"] {
 
 /*BEGIN CSS STATUS BUTTON*/
 .maybe {
-  font-weight: bold;
   color: white;
   background-color: lime;
 }

@@ -15,7 +15,7 @@
   <link rel="stylesheet" href="/vendor/jqcloud.css">
   <script id="guests" type="text/x-handlebars-template">
     {{#each testObject}}
-        <p>Guest: {{userName}} Status: {{status}}</p>
+        <p class = "{{css}}">Guest: <b>{{userName}}</b> Status: <b>{{status}}</b></p>
     {{/each}}
    </script>
 </head>
@@ -100,6 +100,7 @@
       <div class="six columns" id="googleAPI">
         <form id="submit-event">
           <input id="address" class="u-full-width" name="address" type="text" placeholder="Address">
+          <p> Tell your guests where it's at: </p>
           <input class="button-primary u-full-width" type="submit" value="Submit">
         </form>
         <div id="map">
@@ -155,12 +156,12 @@
   <script type="text/javascript" src="/js/topic-model.js"></script>
   <script type="text/javascript" src="/js/event-view.js"></script>
   <script type="text/javascript" src="/js/topic-view.js"></script>
-  <script src="/js/calendar-view.js"></script>
-  <script src="/js/home-view.js"></script>
+  <script type="text/javascript" src="/js/calendar-view.js"></script>
+  <script type="text/javascript" src="/js/home-view.js"></script>
   <script type="text/javascript" src="/js/topic-controller.js"></script>
   <script type="text/javascript" src="/js/home-controller.js"></script>
-  <script src="/js/event-controller.js"></script>
-  <script src="/js/event-route.js"></script>
+  <script type="text/javascript" src="/js/event-controller.js"></script>
+  <script type="text/javascript" src="/js/event-route.js"></script>
 </body>
 
 </html>
