@@ -5,18 +5,17 @@
   var aggData = [];
   var perData = [];
   // var userHash = $('#user-id').attr('data-userHash');
-  var userHash = $('#user-id').data('userhash'); //Do both versions of this still work?
-  console.log(userHash); //TODO: this is undefined because it isn't preceeded by initEventPage
-
   CalendarView.initCalendarView = function () {
     console.log('initCalendarView called.');
+    var userHash = $('#user-id').data('userhash');
+    var topicId = $('#timing').data(''); //TODO: ensure that this is turned on.
     //Build dateArray.
     for (var i = 0; i < 7; i++) {
       dateArray.unshift(new Date());
       dateArray[0].setDate(dateArray[0].getDate() + i);
     }
     //Build perData and aggData with getNewCalendarData.
-    // CalendarView.getNewCalendarData(5, userHash); //TODO: populate this with arguments
+    CalendarView.getNewCalendarData(5, userHash); //TODO: populate this with arguments
     //Render the Table.
     CalendarView.render(); //TODO: remember, this line actually has to be properly dependent on getNewCalendarData's completion
     //Set Hover Behavior
