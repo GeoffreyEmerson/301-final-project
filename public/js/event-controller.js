@@ -200,6 +200,7 @@
     }
     return '';
   };
+
   $('#admin-input').on('submit',handleSubmitComment);
   $('#event-description').on('keydown', function(event){
     if(event.keyCode === 13) {

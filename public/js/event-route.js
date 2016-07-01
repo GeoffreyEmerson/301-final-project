@@ -90,12 +90,23 @@ $('#create-name').on('submit', function(event){
   // EventController.initEventPage(); //this was commented
 });
 
-//gets text input from the add button and will push to database, which will in turn populate the word cluster.
+//this is what Curt is trying to get working
+function makeRoute(a) {
+  console.log(a);
+  page('a', function() {
+    console.log(a);
+  });
+}
 //Then the function automatically takes us to the clusters page.
-$('#add-topic').on('click', function(event) {
+$('#add').on('submit', function(event) {
   event.preventDefault();
-  var topicValue = $('#topic').val();
-  console.log(topicValue);
+  var topic = $('#topic').val().trim();
+  if(topic){
+    $('#topic').val('');
+    console.log(topic);
+    $('<a class="button button-primary">' + topic + '<a>').prependTo('#event-navigation');
+  }
+  makeRoute(topic);
   // location = '/event/clusters';
 });
 
