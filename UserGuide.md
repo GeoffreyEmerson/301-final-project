@@ -10,8 +10,8 @@ You can also set up Preference Finder topics. What do your guests want to eat? W
 
 As the Event Organizer, here are the steps to get started:
 
-1. Start on the main page: (TODO: root URL goes here)
-1. Click on the "New Event" button.
+1. Start on the main page: [Heroku link](https://convoke.herokuapp.com)
+1. Enter a name for your event and click on the "Submit" button.
 1. Enter your name. If this is not your first time using the app, Convoke may remember you!
 1. You will now be looking at your event's main admin view.
 
