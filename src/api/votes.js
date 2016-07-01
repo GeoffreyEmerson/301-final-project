@@ -166,6 +166,30 @@ router
   });
 })
 
+// url: '/api/votes',
+// type: 'POST',
+// data: {name: text, userHash: userHashArg, topicId: topicIdArg},
+
+// name: String, // "2016-07-04 18:00:00"
+// userHash: String, // "ajhbj5bkqhvq5h4kq5"
+// topicId: String, // "hj2v54j3d2hv6jh2v6"
+// weight: Number // 2
+
+.post('/',function(req,res) {
+  var voteText = req.body.name;
+  var userHashArg = req.body.userHash;
+  var topicIdArg = req.body.topicId;
+  Vote.findOne({name:voteText,userHash:userHashArg,topicId:topicIdArg}, function(err,vote) {
+    if(err) {
+      console.log('New choice for this user. Default weight will be 1.');
+      // TODO: Add new vote record.
+    } else {
+      console.log('Already chosen. Computing new weight.');
+      // TODO: Computations go here
+    }
+  });
+});
+
 ;
 
 module.exports = router;
