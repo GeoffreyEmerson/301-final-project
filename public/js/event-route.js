@@ -26,18 +26,19 @@ page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.
 
 //////////////////////////////////////
 page('event/timing', logRoute, function() {
-  CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
   $('.nav-main').show();
+  CalendarView.initCalendarView();
+
 });
 
 page(':id/event/timing', logRoute, function() {
-  CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
+  CalendarView.initCalendarView();
 });
 
 //////////////////////////////////////
