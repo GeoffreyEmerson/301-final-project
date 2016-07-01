@@ -1,7 +1,7 @@
 (function(module) {
   var HomeView = {};
   var $tatus = $('#status');
-  HomeView.initHomeView = function (next) {
+  HomeView.initHomeView = function (ctx,next) {
     console.log('HomeView.initHomeView called');
     $('#event-name').text('Boop'); //TODO: Get this to be defined. Appears to be stalled out because of asynch problems.
     $('#user-id h4').text('Beep'); //TODO: get this to be defined. Appears to be stalled out because of asynch problems.
