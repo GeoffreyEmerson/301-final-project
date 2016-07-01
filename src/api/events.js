@@ -50,8 +50,7 @@ router
 .put('/:hashArg',function(req,res) {
   var hashArg = req.params.hashArg;
   Event.findOne({hash: hashArg}, function(err,event){
-    // event.name = req.body.name; // Make the change...
-    Object.assign(event, req.body);
+    event.name = req.body.name; // Make the change...
     event.save(function(err) {  // Then save the change.
       if (err){
         console.log(err);
