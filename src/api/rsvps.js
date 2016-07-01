@@ -65,6 +65,24 @@ router
   });
 })
 
+// A GET route for checking a specific user's rsvp status
+.get('/:eventHashArg/:userHashArg', function(req,res) {
+  var eventHashArg = req.params.eventHashArg;
+  var userHashArg = req.params.userHashArg;
+  Rsvp.findOne({userHash:userHashArg,eventHash: eventHashArg}, function(err,rsvp){
+    if(!err){
+      console.log(rsvp);
+      if(rsvp) {
+        res.json({'status':rsvp.status});
+      } else {
+        res.json({'status':0});
+      };
+    } else {
+      return res.status(503).json({err: err.message, call: 'GET /rsvps/:eventHash/:userHash'});
+    }
+  });
+})
+
 // A PUT route to update existing entries. Changing RSVP status will need this.
 .put('/',function(req,res) {
   var userHashArg = req.body.userHash;
