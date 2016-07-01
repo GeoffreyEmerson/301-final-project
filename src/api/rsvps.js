@@ -42,7 +42,7 @@ router
       });
       return res.json({'rsvp':rsvp});
     } else {
-      rsvp.weight = 1;
+      rsvp.status = 1;
       Rsvp.create(rsvp, function(err,rsvp){
         if (err) {
           return res.status(503).json({err: err.message, call: 'POST /rsvps'});
