@@ -42,6 +42,9 @@ router
       });
       return res.json({'rsvp':rsvp});
     } else {
+      var rsvp = {};
+      rsvp.userHash = userHashArg;
+      rsvp.eventHash = eventHashArg;
       rsvp.status = 1;
       Rsvp.create(rsvp, function(err,rsvp){
         if (err) {
