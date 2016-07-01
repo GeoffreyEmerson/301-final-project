@@ -32,12 +32,12 @@ page('event/timing', logRoute, function() {
   $('.nav-main').show();
 });
 
-page(':id/event/timing', logRoute, function() {
-  showPage($event);
-  $('#timing').show();
-  $('#googleAPI').hide();
-  $('.nav-main').show();
-});
+// page(':id/event/timing', logRoute, function() {
+//   showPage($event);
+//   $('#timing').show();
+//   $('#googleAPI').hide();
+//   $('.nav-main').show();
+// });
 
 //////////////////////////////////////
 page('event/status', logRoute, function() {
@@ -70,10 +70,9 @@ $('#create-event').on('submit', function(event) {
   console.log(eventValue);
   EventController.createEvent(eventValue, function() {
     page.show('name');
-    // history.pushState({},'','/name');
-    // showPage($name);
+    history.pushState({},'','/name');//this was commented
+    showPage($name); //this was commented
     $('#name-value').focus();
-    $('.nav-main').show();
   });
 });
 
@@ -84,8 +83,9 @@ $('#create-name').on('submit', function(event){
   console.log(nameValue);
   EventController.createUserName(nameValue);
   page.show('event');
-  // history.pushState({},'','/event');
-  // EventController.initEventPage();
+  $('.nav-main').show();
+  history.pushState({},'','/event'); //this was commented
+  EventController.initEventPage(); //this was commented
 });
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
