@@ -1,6 +1,6 @@
-var $homepage = $('#homepage, #navigation');
+var $homepage = $('#homepage');
 var $event = $('#event');
-var $name = $('#name, #navigation');
+var $name = $('#name');
 var $admin = $('#event');
 var $404 = $('#not-found');
 
@@ -15,11 +15,12 @@ page('name', logRoute, function() {
   showPage($name);
 });
 
-page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView); //TODO: initHomeView resolving far further forward in the chain than we'd like.
+page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView);
 page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView);
 
 //////////////////////////////////////
 page('event/timing', logRoute, function() {
+  calendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -52,14 +53,8 @@ page('event/add', logRoute, function() {
   $('#googleAPI').show();
 });
 
-//right now the admin page is just set to be equal with the event page. leaving the code
-//below in case we need to use it.
-// page('admin', function() {
-//   showPage($admin);
-// });
-
 //gets text input from the event submission form and logs it to page and advances to name page
-$('#create-event').on('click', function(event){
+$('#create-event').on('submit', function(event) {
   event.preventDefault();
   var eventValue = $('#event-value').val();
   console.log(eventValue);
@@ -67,11 +62,12 @@ $('#create-event').on('click', function(event){
     page.show('name');
     // history.pushState({},'','/name');
     // showPage($name);
+    $('#name-value').focus();
   });
 });
 
 //gets text input from the name submission form and posts to the api and advances to event page
-$('#create-name').on('click', function(event){
+$('#create-name').on('submit', function(event){
   event.preventDefault();
   var nameValue = $('#name-value').val();
   console.log(nameValue);
@@ -83,16 +79,12 @@ $('#create-name').on('click', function(event){
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
 //Then the function automatically takes us to the clusters page.
-$('#add-topic').on('click', function(event){
+$('#add-topic').on('click', function(event) {
   event.preventDefault();
   var topicValue = $('#topic').val();
   console.log(topicValue);
-  location = '/event/clusters';
+  // location = '/event/clusters';
 });
-
-// page('admin/timing', function() {});
-// page('admin/status', function() {});
-// page('admin/clusters', function() {});
 
 page();
 
