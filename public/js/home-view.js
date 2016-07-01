@@ -15,15 +15,14 @@
     })
     .done(function(data) {
       console.log(data); //TODO: This function should, when done, persist attendance state. I'm getting an object but it's always the same.
-      if (data.status == 1) {$tatus.addClass('maybe');
-      } else if (data.status == 2) {$tatus.addClass('approve');
-      } else if(data.status == -1) {$tatus.addClass('approve');}
+      if (data.status == 1) {$tatus.removeClass('blank');$tatus.addClass('maybe');
+      } else if (data.status == 2) {$tatus.removeClass('blank');$tatus.addClass('approve');
+      } else if(data.status == -1) {$tatus.removeClass('blank');$tatus.addClass('approve');}
     });
     if (next) next();
   };
 
-  $tatus.on('click', function() {
-    //Cycle through a collection of states.
+  HomeView.updateButton = function () {
     if ($tatus.hasClass('blank')) { //If blank -> maybe
       $tatus.toggleClass('blank maybe');
       $tatus.children().text('Maybe');
@@ -42,6 +41,13 @@
       $tatus.children().text('Going?');
       //Send state to backend
     }
+  };
+
+  $tatus.on('click', function() {
+    // console.log($('#event').data('eventhash'),$('#user-id').data('userhash'));
+    HomeController.updateAttendance($('#event').data('eventhash'),$('#user-id').data('userhash'));
+    //Cycle through a collection of states.
+    HomeView.updateButton();
   });
   module.HomeView = HomeView;
 })(window);

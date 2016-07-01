@@ -32,15 +32,18 @@
   // topicController.wordMe('ferroconcrete', 'lksaf9pwurp2o', 'we09r20lksjdf');
   // topicController.wordMe('peppers', 'lksaf9pwurp2o', 'we09r20lksjdf');
 
-  // TopicController.topicCloudInit = function()
+  //NOTE: In sand box context wordMe fails to invoke jQcloud properly when called by this handler more than once; calling wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
+  // topicController.topicCloudInit = function(div) {
   //   console.log('Initiating jQCloud');
-  //   $('#cloud').jQCloud([], {
+  //   cloudDiv = $('#' + div);
+  //   // console.log(cloudDiv);
+  //   cloudDiv.jQCloud([], {
   //     width: 500,
   //     height: 350
   //   });
-    //@topic-view.js:56, Hey!  Maybe this is the place!
-    //CLICK HANDLER TO SET VOTE STATE OF CLOUD VIEW ITEMS FOR EXPORT BACK TO WD. OBJ.
-    // DONE: Change this method to an ajax call on the back end.
+
+  //CLICK HANDLER TO SET VOTE STATE OF CLOUD VIEW ITEMS FOR EXPORT BACK TO WD. OBJ.
+  // DONE: Change this method to an ajax call on the back end.
   TopicController.initCloudItemClickHandler = function() {
     $('#cloud').on('click', 'span', function(ctx) {
       console.log('Click detected! Initiating word cloud click handler');
@@ -130,18 +133,18 @@
       });
   };
 
-  // DONE: find the right place to run topicCloudInit();
-  // topicController.newOpt = function() {
-  //   $('#creator').on('click', function() {
-  //     console.log('newOpt start');
-  //     var text = $('#wdText').val();
-  //     var uHash = $('#userHash').val();
-  //     var tHash = $('#topicHash').val();
-  //     topicController.wordMe(text, uHash, tHash);
-  //     console.log('newOpt complete');
-  //   });
-  // };
+  //NOTE: In sand box context topicController.wordMe fails to invoke jQcloud properly when called by this handler more than once; calling topicController.wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
+  // topicController.newOpt = function() {$('#creator').on('click', function() {
+  //   console.log('newOpt start');
+  //   var text = $('#wdText').val();
+  //   var uHash = $('#userHash').val();
+  //   var tHash = $('#topicHash').val();
+  //   topicController.wordMe(text, uHash, tHash);
+  //   console.log('newOpt complete');
+  // });
+  //};
 
+  //topicController.newOpt(); //TODO: I suspect this needs to be invoked differently?
   module.TopicController = TopicController;
 
 })(window);

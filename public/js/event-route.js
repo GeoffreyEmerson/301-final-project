@@ -58,7 +58,7 @@ page('event/clusters', logRoute, EventController.initEventPage, EventView.initEv
   $('#cluster').show();
   $('#googleAPI').show();
   $('.nav-main').show();
-  TopicView.topicCloudInit();
+  TopicView.topicCloudInit('cloud');
   TopicController.initCloudItemClickHandler();
 });
 
@@ -95,24 +95,29 @@ $('#create-name').on('submit', function(event){
   // EventController.initEventPage(); //this was commented
 });
 
-//this is what Curt is trying to get working
-function makeRoute(a) {
-  console.log(a);
-  page('a', function() {
-    console.log(a);
-  });
-}
-//Then the function automatically takes us to the clusters page.
+//This function creates a nw ahref button and appends to the nav bar. the a href is given
+//to the cluster section. Can not figure out out to dynamically make a route
 $('#add').on('submit', function(event) {
   event.preventDefault();
   var topic = $('#topic').val().trim();
   if(topic){
     $('#topic').val('');
     console.log(topic);
-    $('<a class="button button-primary">' + topic + '<a>').prependTo('#event-navigation');
+    page('event/' + topic, logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
+      showPage($event);
+      $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
+      $('#' + topic).show();
+      TopicView.topicCloudInit(topic);
+      $('#newClustersHere').append('<div> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf">');
+      $('#googleAPI').hide();
+      $('.nav-main').show();
+    });
+    $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
   }
-  makeRoute(topic);
   // location = '/event/clusters';
+});
+$('#clear-topic').on('click', function(){
+  $('a').remove('#new-topic');
 });
 
 page();

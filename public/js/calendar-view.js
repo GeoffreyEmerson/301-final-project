@@ -16,21 +16,9 @@
       dateArray[0].setDate(dateArray[0].getDate() + i);
     }
     //Build perData and aggData with getNewCalendarData.
-    if (false) {CalendarView.getNewAggData(topicId, userHash);} else {
-      perData = CalendarView.blankArray();
-      aggData = CalendarView.blankArray();
-      CalendarView.render();
-      //Set Hover Behavior
-      $('g.highcharts-series-group').hover(
-        function() {
-          chart.series[1].setVisible();
-          chart.setTitle({text: 'Click on times to set your preferences.'});
-        },
-        function () {
-          chart.series[1].setVisible();
-          chart.setTitle({text: null});
-        });
-    }
+    perData = CalendarView.blankArray();
+    aggData = CalendarView.blankArray();
+    CalendarView.getNewAggData(topicId, userHash);
     // var aggData = CalendarView.assembleArray(); //Uncomment these lines to use random dummy data.
     // var perData = aggData.map(function(ele) {
       // return [ele[0], ele[1], Math.random() * 100];});
@@ -42,20 +30,48 @@
   CalendarView.blankArray = function() { //Legacy code to generate random datasets
     var arr = [];
     for (var ii = 0; ii < 24; ii++) {
-      for (var iii = 0; iii < 6; iii++) {
-        arr.push([ii,iii,0]);
+      for (var iii = 0; iii < 7; iii++) {
+        arr.push([ii,iii,null]);
       }
     }
     return arr;
   };
 
-  CalendarView.updateData = function(data) {
+  CalendarView.aggregator = function(rawdata){
+    var series = [];
+    var newAggData = CalendarView.blankArray(); // For aggregating data, start with a base of zero for each cell.
+    var procDates = dateArray.map(function(ele){return ele.toDateString();}); // chop off hours and seconds
+    rawdata.forEach(function(ele) {
+      if (procDates.indexOf(ele.date) != -1) { //This should discard votes that have fallen off the dateArray.
+        var yAxisValue = procDates.indexOf(ele.date);
+
+        //series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
+        series = newAggData.map(function(cell) {
+          if(cell[0] == ele.xValue && cell[1] == yAxisValue) {
+            cell[2] += ele.weight;
+          }
+          return cell;
+        });
+      }
+    });
+    // console.log('updateData outputs',series);
+    return series;
+  };
+
+  CalendarView.updateData = function(data, globalArray) {
     series = [];
-    var procDates = dateArray.map(function(ele){return ele.toDateString();});
-    data.votes.forEach(function(ele) {
+    var procDates = dateArray.map(function(ele){return ele.toDateString();}); // chop off hours and seconds
+    data.forEach(function(ele) {
       if (procDates.indexOf(ele.date) != -1) { //This should discard votes that have fallen off the dateArray.
         var firstCoOrd = procDates.indexOf(ele.date);
-        series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
+
+        //series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
+        series = globalArray.map(function(cell) {
+          if(cell[0] == ele.xValue && cell[1] == firstCoOrd) {
+            cell[2] = ele.weight;
+          }
+          return cell;
+        });
       }
     });
     // console.log('updateData outputs',series);
@@ -63,6 +79,7 @@
   };
 
   CalendarView.render = function () {
+    var topicId = $('#timing').data('topicid');
     $container.highcharts({
       chart: {
         type: 'heatmap',
@@ -71,7 +88,7 @@
         plotBorderWidth: 1,
       },
       title: {
-        text: null
+        text: 'This is how everybody has voted so far!'
       },
       xAxis: {
         categories: ['1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12a', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p', '12p']
@@ -113,7 +130,7 @@
           enabled: false,
         },
         borderWidth: 0,
-        id: TopicId, //TODO: TopicID
+        id: topicId, //TODO: TopicID
         index: 1
       },
 //start of personal preference data series
@@ -144,8 +161,9 @@
             CalendarView.sendClickToDatabase(date, xValue, userHash, topicID, CalendarView.getNewAggData);
           },
         },
-        borderWidth: 0,
-        id: TopicId, //TODO: TopicID
+        borderWidth: 1,
+        borderColor: '#afe8f9',
+        id: topicId,
         colors: Highcharts.getOptions().colors[3],
         index: 0
       }
@@ -153,6 +171,18 @@
     });
 
     chart = $container.highcharts();
+
+    //Set Hover Behavior
+    $('g.highcharts-series-group').hover(
+      function() {
+        chart.series[1].setVisible();
+        chart.setTitle({text: 'Click on times to set your preferences.'});
+      },
+      function () {
+        chart.series[1].setVisible();
+        chart.setTitle({text: 'This is how everybody has voted so far!'});
+      });
+
   };
 
   // $('.highcharts-series-1').on('click', function() {
@@ -188,13 +218,18 @@
     })
     .done( function (data) {
       console.log('gNCD Agg: Successful ajax call: /api/votes/');
-      // console.log('rawdata:', data);
+      console.log('gNCD Agg rawdata:', data);
       var filteredData = data.votes.filter(function(vote){
         if(vote.topicId == topicIdArg) return true;
       });
-      // console.log('Aggregate data:',filteredData);
+      if (!filteredData.length) {
+        CalendarView.render();
+        return;
+      }
+      console.log('gNCD Aggregate data:',filteredData);
       // data will be full list of vote options and weights for a specific topic
-      aggData = CalendarView.updateData(data);
+      aggData = CalendarView.aggregator(filteredData);
+      console.log('aggData after translation',aggData);
       CalendarView.getNewPerData(topicIdArg,userHashArg);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
@@ -217,20 +252,12 @@
       });
       console.log('Personal data:',filteredData);
       // data will be a list of a given user's choices and weights
-      perData = CalendarView.updateData(data);
+      if (filteredData.length) {
+        perData = CalendarView.updateData(filteredData,perData);
+      }
       //Now render the chart.
       CalendarView.render();
-      console.log(aggData);
-      //Set Hover Behavior
-      $('g.highcharts-series-group').hover(
-        function() {
-          chart.series[1].setVisible();
-          chart.setTitle({text: 'Click on times to set your preferences.'});
-        },
-        function () {
-          chart.series[1].setVisible();
-          chart.setTitle({text: null});
-        });
+      // console.log(aggData);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.log('Failed to acquire preferences from database.');
