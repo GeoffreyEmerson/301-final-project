@@ -58,6 +58,8 @@ page('event/clusters', logRoute, EventController.initEventPage, EventView.initEv
   $('#cluster').show();
   $('#googleAPI').show();
   $('.nav-main').show();
+  TopicView.topicCloudInit();
+  TopicController.initCloudItemClickHandler();
 });
 
 //////////////////////////////////////

@@ -43,7 +43,7 @@
     var arr = [];
     for (var ii = 0; ii < 24; ii++) {
       for (var iii = 0; iii < 6; iii++) {
-        arr.push([ii,iii,0]);
+        arr.push([ii,iii,null]);
       }
     }
     return arr;
