@@ -4,7 +4,6 @@ var $name = $('#name');
 var $admin = $('#event');
 var $404 = $('#not-found');
 
-var secondCluster = '';
 page.base('/');
 // page('*', logRoute);
 
@@ -37,10 +36,6 @@ page('event/timing', logRoute, EventController.initEventPage, EventView.initEven
 
 });
 
-page('event/' + secondCluster, logRoute, function(){
-  showPage($event);
-});
-
 page(':id/event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
   // CalendarView.initCalendarView();
   showPage($event);
@@ -63,6 +58,7 @@ page('event/clusters', logRoute, EventController.initEventPage, EventView.initEv
   $('#cluster').show();
   $('#googleAPI').show();
   $('.nav-main').show();
+  topicController.topicCloudInit('cloud');
 });
 
 //////////////////////////////////////
@@ -106,8 +102,15 @@ $('#add').on('submit', function(event) {
   if(topic){
     $('#topic').val('');
     console.log(topic);
-    secondCluster = topic;
-    console.log(secondCluster);
+    page('event/' + topic, logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
+      showPage($event);
+      $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
+      $('#' + topic).show();
+      topicController.topicCloudInit(topic);
+      $('#newClustersHere').append('<div> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf">');
+      $('#googleAPI').hide();
+      $('.nav-main').show();
+    });
     $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
   }
   // location = '/event/clusters';

@@ -13,11 +13,12 @@
   // topicController.wordMe('ferroconcrete', 'lksaf9pwurp2o', 'we09r20lksjdf');
   // topicController.wordMe('peppers', 'lksaf9pwurp2o', 'we09r20lksjdf');
 
-
 //NOTE: In sand box context wordMe fails to invoke jQcloud properly when called by this handler more than once; calling wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
-  function topicCloudInit() {
+  topicController.topicCloudInit = function(div) {
     console.log('Initiating jQCloud');
-    $('#cloud').jQCloud([], {
+    cloudDiv = $('#' + div);
+    // console.log(cloudDiv);
+    cloudDiv.jQCloud([], {
       width: 500,
       height: 350
     });
@@ -55,7 +56,6 @@
 
   };
 
-  topicCloudInit();
   //NOTE: In sand box context topicController.wordMe fails to invoke jQcloud properly when called by this handler more than once; calling topicController.wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
   topicController.newOpt = function() {$('#creator').on('click', function() {
     console.log('newOpt start');
