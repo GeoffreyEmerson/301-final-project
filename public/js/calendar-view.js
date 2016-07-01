@@ -117,9 +117,11 @@
               //   event.point.series.yAxis.categories[event.point.y],
               //   event.point.series.name,
               //   this.userOptions.id);
-            var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
+            // var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
+            var date = dateArray[event.point.y].toDateString();
+            var xValue = event.point.x;
             var topicID = this.userOptions.id;
-            CalendarView.sendClickToDatabase(vote, userHash, topicID, getNewCalendarData);
+            CalendarView.sendClickToDatabase(date, xValue, userHash, topicID, getNewCalendarData);
           },
         },
         borderWidth: 0,
@@ -138,11 +140,11 @@
   //   $(this).css('background-color', 'red !important');
   // });
 
-  CalendarView.sendClickToDatabase = function(vote,userHashArg,topicIdArg, callback) {
+  CalendarView.sendClickToDatabase = function(dateArg, xValueArg, userHashArg,topicIdArg, callback) {
     $.ajax({
       url: '/api/votes',
       type: 'POST',
-      data: {name: vote,userHash: userHashArg, topicId: topicIdArg},
+      data: {date: dateArg, xValue: xValueArg, userHash: userHashArg, topicId: topicIdArg},
       cache: false
     })
     .done( function (data) {
