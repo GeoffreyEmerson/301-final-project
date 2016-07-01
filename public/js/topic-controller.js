@@ -13,8 +13,6 @@
   // topicController.wordMe('ferroconcrete', 'lksaf9pwurp2o', 'we09r20lksjdf');
   // topicController.wordMe('peppers', 'lksaf9pwurp2o', 'we09r20lksjdf');
 
-
-//NOTE: In sand box context wordMe fails to invoke jQcloud properly when called by this handler more than once; calling wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
   function topicCloudInit() {
     console.log('Initiating jQCloud');
     $('#cloud').jQCloud([], {
@@ -55,17 +53,17 @@
 
   };
 
-  topicCloudInit();
-  //NOTE: In sand box context topicController.wordMe fails to invoke jQcloud properly when called by this handler more than once; calling topicController.wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
-  topicController.newOpt = function() {$('#creator').on('click', function() {
-    console.log('newOpt start');
-    var text = $('#wdText').val();
-    var uHash = $('#userHash').val();
-    var tHash = $('#topicHash').val();
-    topicController.wordMe(text, uHash, tHash);
-    console.log('newOpt complete');
-  });
-  };
-  topicController.newOpt(); //TODO: I suspect this needs to be invoked differently?
+  // topicCloudInit();
+  // //NOTE: In sand box context topicController.wordMe fails to invoke jQcloud properly when called by this handler more than once; calling topicController.wordMe directly from code works fine as per above; problem may not persist once pulling wordArr from storage.
+  // topicController.newOpt = function() {$('#creator').on('click', function() {
+  //   console.log('newOpt start');
+  //   var text = $('#wdText').val();
+  //   var uHash = $('#userHash').val();
+  //   var tHash = $('#topicHash').val();
+  //   topicController.wordMe(text, uHash, tHash);
+  //   console.log('newOpt complete');
+  // });
+  // };
+  // topicController.newOpt(); //TODO: I suspect this needs to be invoked differently?
   module.topicController = topicController;
 })(window);
