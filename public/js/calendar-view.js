@@ -35,12 +35,14 @@
   };
 
   CalendarView.updateData = function(data) {
+    console.log(data.votes);
     series = [];
     var procDates = dateArray.map(function(ele){return ele.toDateString();});
     data.votes.forEach(function(ele) {
       if (procDates.indexOf(ele.date) != -1) { //This should discard votes that have fallen off the dateArray.
+        console.log(ele);
         var firstCoOrd = procDates.indexOf(ele.date);
-        series.push([firstCoOrd, Number(ele.xValue), ele.weight]);
+        series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
       }
     });
     // console.log('updateData outputs',series);
