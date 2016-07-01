@@ -1,5 +1,4 @@
 (function(module) {
-
   var EventView = {};
 
   EventView.initEventView = function (ctx, next) {
