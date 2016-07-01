@@ -9,6 +9,7 @@
   console.log(userHash); //TODO: this is undefined because it isn't preceeded by initEventPage
 
   CalendarView.initCalendarView = function () {
+    console.log('initCalendarView called.');
     //Build dateArray.
     for (var i = 0; i < 7; i++) {
       dateArray.unshift(new Date());
@@ -28,11 +29,6 @@
         chart.series[1].setVisible();
         chart.setTitle({text: null});
       });
-      //updatatata sandbox
-    CalendarView.updateData(
-      [['Fri Jul 01 2016', 12, 15], ['Sat Jul 02 2016', 35, 15], ['Fri Jun 28 2016', 1, 55], ['Fri Jul 01 2016', 1, 25], ['Wed Jul 06 2016', 1, 55]]
-      , aggData);
-    console.log(aggData);
   };
 
   CalendarView.assembleArray = function() { //Legacy code to generate random datasets
@@ -50,7 +46,6 @@
     return [ele[0], ele[1], Math.random() * 100];});
   CalendarView.updateData = function(data, series) { //TODO: function here translates AJAX response into an array usable by render.
     series = [];
-    console.log('inside updata aggdata is' + aggData);
     var procDates = dateArray.map(function(ele){return ele.toDateString();});
     data.forEach(function(ele) {
       if (procDates.indexOf(ele[0]) != -1) { //This should discard votes that have fallen off the dateArray.
@@ -180,21 +175,16 @@
   };
 
   CalendarView.getNewCalendarData = function(topicIdArg,userHashArg) {
-    //AJAXing aggData
-    topicIdArg = '5774a3c571e2b98a54857318'; // TODO: test value only!
-    userHashArg = '0a73f7f08883029bc59a4e47c31aa58b2e92bb53';
+  //AJAXing aggData
     $.ajax({
-      url: '/api/votes/',
+      url: '/api/votes/' + topicIdArg,
       type: 'GET',
       cache: false
     })
     .done( function (data) {
       // call the callback function here
-      console.log('Successful ajax call: /api/votes/');
-      var filteredData = data.votes.filter(function(vote){
-        if(vote.topicId == topicIdArg) return true;
-      });
-      console.log('Aggregate data:',filteredData);
+      console.log('Successful ajax call:');
+      console.log(data);
       // data will be full list of vote options and weights for a specific topic
       CalendarView.updateData(data, aggData);
     })
@@ -202,20 +192,16 @@
       console.log('Failed to acquire preferences from database.');
       // call the error version of the callback if any
     });
-
-    //AJAXing perData
+//AJAXing perData
     $.ajax({
-      url: '/api/votes/',
+      url: '/api/votes/' + topicIdArg + '/' + userHashArg,
       type: 'GET',
       cache: false
     })
     .done( function (data, callback) {
       // call the callback function here
-      console.log('Successful ajax call: GET /api/votes/');
-      var filteredData = data.votes.filter(function(vote){
-        if(vote.topicId == topicIdArg && vote.userHash == userHashArg) return true;
-      });
-      console.log('Personal data:',filteredData);
+      console.log('Successful ajax call:');
+      console.log(data);
       // data will be a list of a given user's choices and weights
       CalendarView.updateData(data, perData);
     })

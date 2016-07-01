@@ -1,7 +1,7 @@
 (function(module) {
   var HomeView = {};
   var $tatus = $('#status');
-  HomeView.initHomeView = function (next) {
+  HomeView.initHomeView = function (ctx, next) {
     console.log('initHomeView called');
     var eventHash = $('#event').data('eventhash');
     var userHash = $('#user-id').data('userhash');
@@ -14,12 +14,15 @@
       cache: false
     })
     .done(function(data) {
-      console.log(data); //TODO: This function should, when done, persist attendance state.
+      console.log(data); //TODO: This function should, when done, persist attendance state. I'm getting an object but it's always the same.
+      if (data.status == 1) {$tatus.addClass('maybe');
+      } else if (data.status == 2) {$tatus.addClass('approve');
+      } else if(data.status == -1) {$tatus.addClass('approve');}
     });
+    if (next) next();
   };
 
   $tatus.on('click', function() {
-    console.log('ping');
     //Cycle through a collection of states.
     if ($tatus.hasClass('blank')) { //If blank -> maybe
       $tatus.toggleClass('blank maybe');
