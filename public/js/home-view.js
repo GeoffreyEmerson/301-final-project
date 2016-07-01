@@ -23,6 +23,11 @@
   };
 
   $tatus.on('click', function() {
+    $.ajax({
+      url: '/api/rsvps/' + eventHash + '/' + userHash,
+      type: 'GET',
+      cache: false
+    });
     //Cycle through a collection of states.
     if ($tatus.hasClass('blank')) { //If blank -> maybe
       $tatus.toggleClass('blank maybe');
