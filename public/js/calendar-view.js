@@ -15,19 +15,13 @@
       dateArray[0].setDate(dateArray[0].getDate() + i);
     }
     //Build perData and aggData with getNewCalendarData.
-    CalendarView.getNewCalendarData(5, userHash); //TODO: populate this with arguments
-    //Render the Table.
-    CalendarView.render(); //TODO: remember, this line actually has to be properly dependent on getNewCalendarData's completion
-    //Set Hover Behavior
-    $('g.highcharts-series-group').hover(
-      function() {
-        chart.series[1].setVisible();
-        chart.setTitle({text: 'Click on times to set your preferences.'});
-      },
-      function () {
-        chart.series[1].setVisible();
-        chart.setTitle({text: null});
-      });
+    CalendarView.getNewAggData(5, userHash); //TODO: populate this with arguments
+    // var aggData = CalendarView.assembleArray(); //Uncomment these lines to use random dummy data.
+    // var perData = aggData.map(function(ele) {
+      // return [ele[0], ele[1], Math.random() * 100];});
+    // //Render the Table.
+    // console.log(aggData,perData);
+    // CalendarView.render(); //TODO: remember, this line actually has to be properly dependent on getNewCalendarData's completion
   };
 
   CalendarView.assembleArray = function() { //Legacy code to generate random datasets
@@ -40,19 +34,16 @@
     return arr;
   };
 
-  var aggData = CalendarView.assembleArray();
-  var perData = aggData.map(function(ele) {
-    return [ele[0], ele[1], Math.random() * 100];});
-  CalendarView.updateData = function(data, series) { //TODO: function here translates AJAX response into an array usable by render.
+  CalendarView.updateData = function(data) {
     series = [];
     var procDates = dateArray.map(function(ele){return ele.toDateString();});
-    data.forEach(function(ele) {
-      if (procDates.indexOf(ele[0]) != -1) { //This should discard votes that have fallen off the dateArray.
-        var firstCoOrd = procDates.indexOf(ele[0]);
-        series.push([firstCoOrd, ele[1], ele[2]]);
+    data.votes.forEach(function(ele) {
+      if (procDates.indexOf(ele.date) != -1) { //This should discard votes that have fallen off the dateArray.
+        var firstCoOrd = procDates.indexOf(ele.date);
+        series.push([firstCoOrd, Number(ele.xValue), ele.weight]);
       }
     });
-    console.log(series);
+    // console.log('updateData outputs',series);
     return series;
   };
 
@@ -163,7 +154,7 @@
     })
     .done( function (data) {
       // call the callback function here
-      console.log('Successful ajax call:');
+      console.log('sendClickToDatabase: Successful ajax call:');
       console.log(data);
       if(callback) callback(topicIdArg,userHashArg);
     })
@@ -173,29 +164,32 @@
     });
   };
 
-  CalendarView.getNewCalendarData = function(topicIdArg,userHashArg) {
+  CalendarView.getNewAggData = function(topicIdArg,userHashArg) {
     //AJAXing aggData
-    topicIdArg = '5774a3c571e2b98a54857318'; // TODO: test value only!
-    userHashArg = '0a73f7f08883029bc59a4e47c31aa58b2e92bb53';
+    topicIdArg = '5'; // TODO: test value only!
+    userHashArg = 'placeholderUserHash';
     $.ajax({
       url: '/api/votes/',
       type: 'GET',
       cache: false
     })
     .done( function (data) {
-      // call the callback function here
-      console.log('Successful ajax call: /api/votes/');
+      console.log('gNCD Agg: Successful ajax call: /api/votes/');
+      // console.log('rawdata:', data);
       var filteredData = data.votes.filter(function(vote){
         if(vote.topicId == topicIdArg) return true;
       });
-      console.log('Aggregate data:',filteredData);
+      // console.log('Aggregate data:',filteredData);
       // data will be full list of vote options and weights for a specific topic
-      CalendarView.updateData(data, aggData);
+      aggData = CalendarView.updateData(data);
+      CalendarView.getNewPerData(topicIdArg,userHashArg);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.log('Failed to acquire preferences from database.');
       // call the error version of the callback if any
     });
+  };
+  CalendarView.getNewPerData = function (topicIdArg,userHashArg) {
     //AJAXing perData
     $.ajax({
       url: '/api/votes/',
@@ -203,14 +197,27 @@
       cache: false
     })
     .done( function (data, callback) {
-      // call the callback function here
-      console.log('Successful ajax call: GET /api/votes/');
+      console.log('gNCD Per: Successful ajax call: /api/votes/');
+      // console.log('rawdata:', data);
       var filteredData = data.votes.filter(function(vote){
         if(vote.topicId == topicIdArg && vote.userHash == userHashArg) return true;
       });
-      console.log('Personal data:',filteredData);
+      // console.log('Personal data:',filteredData);
       // data will be a list of a given user's choices and weights
-      CalendarView.updateData(data, perData);
+      perData = CalendarView.updateData(data);
+      //Now render the chart.
+      CalendarView.render();
+      console.log(aggData);
+      //Set Hover Behavior
+      $('g.highcharts-series-group').hover(
+        function() {
+          chart.series[1].setVisible();
+          chart.setTitle({text: 'Click on times to set your preferences.'});
+        },
+        function () {
+          chart.series[1].setVisible();
+          chart.setTitle({text: null});
+        });
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.log('Failed to acquire preferences from database.');
