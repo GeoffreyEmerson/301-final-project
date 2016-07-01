@@ -198,14 +198,15 @@
     $('#admin-input').hide();
   };
   //TODO use this handlebars method to ger real data from our user database
-  function userTest(userName, status) {
+  function userTest(userName, status, css) {
     this.userName = userName;
     this.status = status;
+    this.css = css;
   };
   var testObject = [
-    new userTest('Bob', 'attending'),
-    new userTest('Bill', 'maybe'),
-    new userTest('Sarah', 'no')
+    new userTest('Bob', 'attending','approve'),
+    new userTest('Bill', 'maybe', 'maybe'),
+    new userTest('Sarah', 'no', 'disapprove')
   ];
   var newTemplate = $('#guests').html();
   var compiled = Handlebars.compile(newTemplate);
