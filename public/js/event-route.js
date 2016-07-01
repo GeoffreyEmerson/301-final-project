@@ -20,12 +20,14 @@ page('name', logRoute, function() {
 page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
   $('.nav-main').show();
 }); //TODO: initHomeView resolving far further forward in the chain than we'd like.
+
 page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
   $('.nav-main').show();
 });
 
 //////////////////////////////////////
-page('event/timing', logRoute, function() {
+page('event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
+  CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -34,7 +36,8 @@ page('event/timing', logRoute, function() {
 
 });
 
-page(':id/event/timing', logRoute, function() {
+page(':id/event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
+  CalendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -42,7 +45,7 @@ page(':id/event/timing', logRoute, function() {
 });
 
 //////////////////////////////////////
-page('event/status', logRoute, function() {
+page('event/status', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
   showPage($event);
   $('#status-content').show();
   $('#googleAPI').show();
@@ -50,7 +53,7 @@ page('event/status', logRoute, function() {
 });
 
 //////////////////////////////////////
-page('event/clusters', logRoute, function() {
+page('event/clusters', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
   showPage($event);
   $('#cluster').show();
   $('#googleAPI').show();
@@ -58,7 +61,7 @@ page('event/clusters', logRoute, function() {
 });
 
 //////////////////////////////////////
-page('event/add', logRoute, function() {
+page('event/add', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
   showPage($event);
   $('#add').show();
   $('#googleAPI').show();
