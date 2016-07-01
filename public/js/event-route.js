@@ -58,7 +58,8 @@ page('event/clusters', logRoute, EventController.initEventPage, EventView.initEv
   $('#cluster').show();
   $('#googleAPI').show();
   $('.nav-main').show();
-  topicController.topicCloudInit('cloud');
+  TopicView.topicCloudInit('cloud');
+  TopicController.initCloudItemClickHandler();
 });
 
 //////////////////////////////////////
@@ -106,7 +107,7 @@ $('#add').on('submit', function(event) {
       showPage($event);
       $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
       $('#' + topic).show();
-      topicController.topicCloudInit(topic);
+      TopicView.topicCloudInit(topic);
       $('#newClustersHere').append('<div> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf">');
       $('#googleAPI').hide();
       $('.nav-main').show();
