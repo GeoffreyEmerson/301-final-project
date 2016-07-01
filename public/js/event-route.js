@@ -4,6 +4,7 @@ var $name = $('#name');
 var $admin = $('#event');
 var $404 = $('#not-found');
 
+var secondCluster = '';
 page.base('/');
 // page('*', logRoute);
 
@@ -34,6 +35,10 @@ page('event/timing', logRoute, EventController.initEventPage, EventView.initEven
   $('.nav-main').show();
   CalendarView.initCalendarView();
 
+});
+
+page('event/' + secondCluster, logRoute, function(){
+  showPage($event);
 });
 
 page(':id/event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
@@ -93,24 +98,22 @@ $('#create-name').on('submit', function(event){
   // EventController.initEventPage(); //this was commented
 });
 
-//this is what Curt is trying to get working
-function makeRoute(a) {
-  console.log(a);
-  page('a', function() {
-    console.log(a);
-  });
-}
-//Then the function automatically takes us to the clusters page.
+//This function creates a nw ahref button and appends to the nav bar. the a href is given
+//to the cluster section. Can not figure out out to dynamically make a route
 $('#add').on('submit', function(event) {
   event.preventDefault();
   var topic = $('#topic').val().trim();
   if(topic){
     $('#topic').val('');
     console.log(topic);
-    $('<a class="button button-primary">' + topic + '<a>').prependTo('#event-navigation');
+    secondCluster = topic;
+    console.log(secondCluster);
+    $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
   }
-  makeRoute(topic);
   // location = '/event/clusters';
+});
+$('#clear-topic').on('click', function(){
+  $('a').remove('#new-topic');
 });
 
 page();

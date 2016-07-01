@@ -71,7 +71,7 @@
         saltDom('#event','event',data.event.hash,data.event.name);
         setCookie('eventHash', data.event.hash, 10);
         setCookie('eventName', data.event.name, 10);
-        getTopicId(data.event.hash,callback)
+        getTopicId(data.event.hash,callback);
       } else {
         // Hopefully this will never happen.
         console.error('Ajax call successful, but no eventHash returned!');
@@ -269,7 +269,7 @@
     var times = $('#times').val().trim();
     var eventDescription = $('#event-description').val().trim();
     console.log(date, times, eventDescription);
-    $('#admin-input').hide();
+    alert('Success!');
   };
   //TODO use this handlebars method to ger real data from our user database
   function userTest(userName, status, css) {
