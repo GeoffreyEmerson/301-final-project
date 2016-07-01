@@ -37,7 +37,28 @@
     return arr;
   };
 
-  CalendarView.updateData = function(data, globalArray, type) {
+  CalendarView.aggregator = function(rawdata){
+    var series = [];
+    var newAggData = CalendarView.blankArray(); // For aggregating data, start with a base of zero for each cell.
+    var procDates = dateArray.map(function(ele){return ele.toDateString();}); // chop off hours and seconds
+    rawdata.forEach(function(ele) {
+      if (procDates.indexOf(ele.date) != -1) { //This should discard votes that have fallen off the dateArray.
+        var yAxisValue = procDates.indexOf(ele.date);
+
+        //series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
+        series = newAggData.map(function(cell) {
+          if(cell[0] == ele.xValue && cell[1] == yAxisValue) {
+            cell[2] += ele.weight;
+          }
+          return cell;
+        });
+      }
+    });
+    // console.log('updateData outputs',series);
+    return series;
+  };
+
+  CalendarView.updateData = function(data, globalArray) {
     series = [];
     var procDates = dateArray.map(function(ele){return ele.toDateString();}); // chop off hours and seconds
     data.forEach(function(ele) {
@@ -47,15 +68,10 @@
         //series.push([Number(ele.xValue), firstCoOrd, ele.weight]);
         series = globalArray.map(function(cell) {
           if(cell[0] == ele.xValue && cell[1] == firstCoOrd) {
-            if(type == 'Aggregate') {
-              cell[2] += ele.weight; // TODO: Stop aggregating on every click cycle!
-            } else {
-              cell[2] = ele.weight;
-            }
+            cell[2] = ele.weight;
           }
           return cell;
         });
-
       }
     });
     // console.log('updateData outputs',series);
@@ -72,7 +88,7 @@
         plotBorderWidth: 1,
       },
       title: {
-        text: null
+        text: 'This is how everybody has voted so far!'
       },
       xAxis: {
         categories: ['1a', '2a', '3a', '4a', '5a', '6a', '7a', '8a', '9a', '10a', '11a', '12a', '1p', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '9p', '10p', '11p', '12p']
@@ -102,7 +118,7 @@
       },
       tooltip: {
         formatter: function () {
-          return '<b> At ' + this.series.xAxis.categories[this.point.x] + ' on ' + this.series.yAxis.categories[this.point.y] + '=' + this.point.value;
+          return '<b> At ' + this.series.xAxis.categories[this.point.x] + ' on ' + this.series.yAxis.categories[this.point.y];
           //  + ':</b> <br> '; //TODO: List of guests with preference greater than 0.
         }
       },
@@ -145,8 +161,9 @@
             CalendarView.sendClickToDatabase(date, xValue, userHash, topicID, CalendarView.getNewAggData);
           },
         },
-        borderWidth: 0,
-        id: topicId, //TODO: TopicID
+        borderWidth: 1,
+        borderColor: '#afe8f9',
+        id: topicId,
         colors: Highcharts.getOptions().colors[3],
         index: 0
       }
@@ -163,7 +180,7 @@
       },
       function () {
         chart.series[1].setVisible();
-        chart.setTitle({text: null});
+        chart.setTitle({text: 'This is how everybody has voted so far!'});
       });
 
   };
@@ -207,11 +224,11 @@
       });
       if (!filteredData.length) {
         CalendarView.render();
-        return res.send('No votes yet.');
+        return;
       }
       console.log('gNCD Aggregate data:',filteredData);
       // data will be full list of vote options and weights for a specific topic
-      aggData = CalendarView.updateData(filteredData,aggData,'Aggregate');
+      aggData = CalendarView.aggregator(filteredData);
       console.log('aggData after translation',aggData);
       CalendarView.getNewPerData(topicIdArg,userHashArg);
     })
@@ -236,7 +253,7 @@
       console.log('Personal data:',filteredData);
       // data will be a list of a given user's choices and weights
       if (filteredData.length) {
-        perData = CalendarView.updateData(filteredData,perData,'Personal');
+        perData = CalendarView.updateData(filteredData,perData);
       }
       //Now render the chart.
       CalendarView.render();
