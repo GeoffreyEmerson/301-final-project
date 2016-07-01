@@ -28,6 +28,11 @@
         chart.series[1].setVisible();
         chart.setTitle({text: null});
       });
+      //updatatata sandbox
+    CalendarView.updateData(
+      [['Fri Jul 01 2016', 12, 15], ['Sat Jul 02 2016', 35, 15], ['Fri Jun 28 2016', 1, 55], ['Fri Jul 01 2016', 1, 25], ['Wed Jul 06 2016', 1, 55]]
+      , aggData);
+    console.log(aggData);
   };
 
   CalendarView.assembleArray = function() { //Legacy code to generate random datasets
@@ -45,22 +50,17 @@
     return [ele[0], ele[1], Math.random() * 100];});
   CalendarView.updateData = function(data, series) { //TODO: function here translates AJAX response into an array usable by render.
     series = [];
+    console.log('inside updata aggdata is' + aggData);
+    var procDates = dateArray.map(function(ele){return ele.toDateString();});
     data.forEach(function(ele) {
-      console.log(ele);
-      if (dateArray.indexOf(ele[0]) != -1) { //This should discard votes that have fallen off the dateArray.
-        var firstCoOrd = dateArray.indexOf(ele[0]);
+      if (procDates.indexOf(ele[0]) != -1) { //This should discard votes that have fallen off the dateArray.
+        var firstCoOrd = procDates.indexOf(ele[0]);
         series.push([firstCoOrd, ele[1], ele[2]]);
       }
     });
     console.log(series);
     return series;
   };
-
-  var testSeries = [];
-  CalendarView.updateData(
-    [['Fri Jul 01 2016', 12, 15], ['Fri Jul 02 2016', 35, 15], ['Fri Jun 28 2016', 1, 55]]
-    , testSeries);
-  console.log(testSeries);
 
   CalendarView.render = function () {
     $container.highcharts({
@@ -136,8 +136,10 @@
             // var vote = dateArray[event.point.y].toDateString() + '@' + event.point.series.xAxis.categories[event.point.x];
             var date = dateArray[event.point.y].toDateString();
             var xValue = event.point.x;
-            var userHash = $('#user-id').data('userhash');
-            var topicID = this.userOptions.id;
+            // var userHash = $('#user-id').data('userhash');
+            // var topicID = this.userOptions.id;
+            var userHash = 'Dummy User Hash';
+            var topicID = '5';
             // console.log(date, xValue, userHash, topicID);
             CalendarView.sendClickToDatabase(date, xValue, userHash, topicID, CalendarView.getNewCalendarData);
           },
