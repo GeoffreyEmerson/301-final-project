@@ -25,6 +25,7 @@ page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.
 
 //////////////////////////////////////
 page('event/timing', logRoute, function() {
+  calendarView.initCalendarView();
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -68,9 +69,11 @@ $('#create-event').on('submit', function(event) {
   var eventValue = $('#event-value').val();
   console.log(eventValue);
   EventController.createEvent(eventValue, function() {
-    history.pushState({},'','/name');
-    showPage($name);
+    page.show('name');
+    // history.pushState({},'','/name');
+    // showPage($name);
     $('#name-value').focus();
+    $('.nav-main').show();
   });
 });
 
@@ -80,9 +83,9 @@ $('#create-name').on('submit', function(event){
   var nameValue = $('#name-value').val();
   console.log(nameValue);
   EventController.createUserName(nameValue);
-  history.pushState({},'','/event');
-  $('.nav-main').show();
-  EventController.initEventPage();
+  page.show('event');
+  // history.pushState({},'','/event');
+  // EventController.initEventPage();
 });
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
