@@ -3,11 +3,19 @@
   var $tatus = $('#status');
   HomeView.initHomeView = function (next) {
     console.log('initHomeView called');
+    var eventHash = $('#event').data('eventhash');
+    var userHash = $('#user-id').data('userhash');
     $('#event-name').text($('#event').data('eventname')); //TODO: Get this to be defined. Appears to be stalled out because of asynch problems.
     $('#user-id h4').text($('#user-id').data('username')); //TODO: get this to be defined. Appears to be stalled out because of asynch problems.
-    console.log($('#user-id').data());
-    console.log($('#event').data());
     // if (next) next();
+    $.ajax({
+      url: '/api/rsvps/' + eventHash + '/' + userHash,
+      type: 'GET',
+      cache: false
+    })
+    .done(function(data) {
+      console.log(data);
+    });
   };
 
   $tatus.on('click', function() {
