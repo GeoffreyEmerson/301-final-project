@@ -14,6 +14,7 @@ page('/', logRoute, function() {
 
 page('name', logRoute, function() {
   showPage($name);
+  $('.nav-main').hide();
 });
 
 page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
@@ -70,9 +71,9 @@ $('#create-event').on('submit', function(event) {
   console.log(eventValue);
   EventController.createEvent(eventValue, function() {
     page.show('name');
-    history.pushState({},'','/name');//this was commented
-    showPage($name); //this was commented
     $('#name-value').focus();
+    // history.pushState({},'','/name');//this was commented
+    // showPage($name); //this was commented
   });
 });
 
@@ -84,8 +85,8 @@ $('#create-name').on('submit', function(event){
   EventController.createUserName(nameValue);
   page.show('event');
   $('.nav-main').show();
-  history.pushState({},'','/event'); //this was commented
-  EventController.initEventPage(); //this was commented
+  // history.pushState({},'','/event'); //this was commented
+  // EventController.initEventPage(); //this was commented
 });
 
 //gets text input from the add button and will push to database, which will in turn populate the word cluster.
@@ -101,7 +102,7 @@ page();
 
 function showPage($element) {
   $('.page').hide();
-  $element.fadeIn('slow');
+  $element.fadeIn();
 }
 
 function logRoute(ctx, next) {
