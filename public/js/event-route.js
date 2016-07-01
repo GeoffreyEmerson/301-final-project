@@ -87,7 +87,7 @@ page();
 
 function showPage($element) {
   $('.page').hide();
-  $element.show();
+  $element.fadeIn('slow');
 }
 
 function logRoute(ctx, next) {
