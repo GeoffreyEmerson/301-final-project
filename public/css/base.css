@@ -82,9 +82,11 @@ span[data-votestate="-1"] {
 }
 
 /*--------------------
---- CSS for Footer ---
---------------------*/
 
+CSS for Footer
+Adapted from https://github.com/mahmoud/skeleton_sticky_footer
+
+--------------------*/
 
   html, body {
     height: 100%;
