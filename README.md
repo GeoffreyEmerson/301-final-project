@@ -2,10 +2,10 @@
 
 ## Code Fellows 301 Final Project
 
-Team name: The Black Council  
+Team name: Team Sleep Deprived  
 Team members: Geoffrey Emerson, Charles Emrich, Nathan Keene, Curt Newcomer
 
-Live Demo: (TODO: Heroku link goes here)
+Live Demo: [Heroku link](https://convoke.herokuapp.com)
 
 Project pitch: An event planning app that creates a heat map of participant availability and word clouds of related topic preferences (such as food choices and activity preferences).
 
