@@ -21,136 +21,149 @@
 </head>
 
 <body>
-  <!--main nav bar that also has our page routes-->
-  <nav class="nav-main">
-    <div class="container">
-      <a href="/">Convoke</a>
-      <a href="/admin"></a>
-      <a href="/name"></a>
-    </div>
-  </nav>
-  <!--our main event page-->
-  <div class="container page" id="event">
-    <!--header that contains our event name, user name, attendance status-->
-    <div class="row">
-      <div class="six columns">
-        <h1 id="event-name">Event Name</h1>
-      </div>
-      <div class="three columns" style="margin-top:1%" id="user-id">
+  <div class="table-container">
+    <div class="table-block footer-push">
 
-        <h4 style="margin-top:10%">User Name</h4>
-      </div>
-      <div class="three columns blank" style="margin-top:1%" id="status">
-        <h4 class="noSelect" style="margin-top:10%">Going?</h4>
-      </div>
-      <span class="u-pull-right" id="status-instructions"> Click here to say so. </span>
-    </div>
-    <br>
-<!--sub pages within our event page-->
-    <div class="row">
-      <nav class="u-pull-right" id="event-navigation">
-        <a class="button button-primary" href="/event">Event</a>
-        <a class="button button-primary" href="/event/timing">Timing</a>
-        <a class="button button-primary" href="./event/status/">Status</a>
-        <a class="button button-primary" href="./event/clusters/">Clusters</a>
-        <a class="button button-primary" href="./event/add/">+</a>
+      <!-- minimalist top nav bar-->
+      <nav class="nav-main">
+        <div class="container">
+          <a href="/">Convoke</a>
+        </div>
       </nav>
-    </div>
-    <div class="row">
-<!--new topic page for  new clusters-->
-      <div class="six columns" id="newClustersHere">
-        <!--where our users information gets rendered-->
-        <section class="page" id="status-content">
-          <h1>RSVP</h1>
-          <div id="user-info"></div>
-        </section>
-<!--Static cluster tab page-->
-        <section class="page" id="cluster">
-          <div id="cloud" class="row six columns"></div>
-          <div id="wordsy">
-            <form class="row" action="index.html" method="post">
-              <input class="u-full-width" id="wdText" type="text" name="word" placeholder="Create Option">
-              <input class="button-primary u-full-width" id="creator" type="button" name="submit" value="CREATE">
-              <input type="text" visibility="hidden">
-              <input type="text" id="topicHash" value="we09r20lksjdf">
-            </form>
+      <!--our main event page-->
+      <div class="container page" id="event">
+        <!--header that contains our event name, user name, attendance status-->
+        <div class="row">
+          <div class="six columns">
+            <h1 id="event-name">Event Name</h1>
           </div>
-        </section>
-<!--button which will add the new topic clusters-->
-        <section class="page" id="add">
-          <form class="row">
-            <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
-            <input class="button-primary u-full-width" type="submit" value="Create Topic" id="add-topic">
-            <input class="button-primary u-full-width" type="submit" value="Clear Topics" id="clear-topic">
-          </form>
-        </section>
-<!--this is our event details submission form which lives on the main event page for admin user-->
-        <section class="page" id="details">
-          <div class="twelve columns">
-            <form class="row" id="admin-input">
-              <input class="u-full-width" type="text" placeholder="Date" id="date">
-              <input class="u-full-width" type="text" placeholder="Times" id="times">
-              <textarea class="u-full-width" type="text" placeholder="Event description..." id="event-description"></textarea>
+          <div class="three columns" style="margin-top:1%" id="user-id">
+
+            <h4 style="margin-top:10%">User Name</h4>
+          </div>
+          <div class="three columns blank" style="margin-top:1%" id="status">
+            <h4 class="noSelect" style="margin-top:10%">Going?</h4>
+          </div>
+          <span class="u-pull-right" id="status-instructions"> Click here to say so. </span>
+        </div>
+        <br>
+        <!--sub pages within our event page-->
+        <div class="row">
+          <nav class="u-pull-right" id="event-navigation">
+            <a class="button button-primary" href="/event">Event</a>
+            <a class="button button-primary" href="/event/timing">Timing</a>
+            <a class="button button-primary" href="./event/status/">Status</a>
+            <a class="button button-primary" href="./event/clusters/">Clusters</a>
+            <a class="button button-primary" href="./event/add/">+</a>
+          </nav>
+        </div>
+        <div class="row">
+          <!--new topic page for  new clusters-->
+          <div class="six columns" id="newClustersHere">
+            <!--where our users information gets rendered-->
+            <section class="page" id="status-content">
+              <h1>RSVP</h1>
+              <div id="user-info"></div>
+            </section>
+            <!--Static cluster tab page-->
+            <section class="page" id="cluster">
+              <div id="cloud" class="row six columns"></div>
+              <div id="wordsy">
+                <form class="row" action="index.html" method="post">
+                  <input class="u-full-width" id="wdText" type="text" name="word" placeholder="Create Option">
+                  <input class="button-primary u-full-width" id="creator" type="button" name="submit" value="CREATE">
+                  <input type="text" visibility="hidden">
+                  <input type="text" id="topicHash" value="we09r20lksjdf">
+                </form>
+              </div>
+            </section>
+            <!--button which will add the new topic clusters-->
+            <section class="page" id="add">
+              <form class="row">
+                <input class="u-full-width" type="text" placeholder="Add a Topic" id="topic">
+                <input class="button-primary u-full-width" type="submit" value="Create Topic" id="add-topic">
+                <input class="button-primary u-full-width" type="submit" value="Clear Topics" id="clear-topic">
+              </form>
+            </section>
+            <!--this is our event details submission form which lives on the main event page for admin user-->
+            <section class="page" id="details">
+              <div class="twelve columns">
+                <form class="row" id="admin-input">
+                  <input class="u-full-width" type="text" placeholder="Date" id="date">
+                  <input class="u-full-width" type="text" placeholder="Times" id="times">
+                  <textarea class="u-full-width" type="text" placeholder="Event description..." id="event-description"></textarea>
+                  <input class="button-primary u-full-width" type="submit" value="Submit">
+                </form>
+                <!--url link to be shared with guests-->
+                <p> Share this URL with your guests: </p>
+                <input class="u-full-width" type="text" readonly id="share-url">
+              </div>
+            </section>
+          </div>
+          <!--timing sub page which contains heat cluster chart-->
+          <section class="page twelve columns" id="timing">
+            <p>
+              <div id="container"></div>
+            </p>
+          </section>
+          <!--google address input and map that lives in multiple sub pages-->
+          <div class="six columns" id="googleAPI">
+            <form id="submit-event">
+              <input id="address" class="u-full-width" name="address" type="text" placeholder="Address">
+              <p> Tell your guests where it's at: </p>
               <input class="button-primary u-full-width" type="submit" value="Submit">
             </form>
-<!--url link to be shared with guests-->
-            <p> Share this URL with your guests: </p>
-            <input class="u-full-width" type="text" readonly id="share-url">
+            <div id="map">
+            </div>
           </div>
-        </section>
+        </div>
       </div>
-<!--timing sub page which contains heat cluster chart-->
-      <section class="page twelve columns" id="timing">
-        <p>
-          <div id="container"></div>
-        </p>
+      <!--convoke homepage-->
+      <section class="container page" id="homepage">
+        <div style="margin-top: 15%">
+          <h1 class="center">Convoke</h1>
+          <br>
+          <br>
+          <br>
+          <form class="row" id="create-event">
+            <div class="eight columns">
+              <input class="u-full-width" type="text" placeholder="Event Name" required id="event-value" autofocus required>
+            </div>
+            <div class="four columns">
+              <input class="button-primary u-full-width" type="submit" value="Create">
+            </div>
+          </form>
+        </div>
       </section>
-<!--google address input and map that lives in multiple sub pages-->
-      <div class="six columns" id="googleAPI">
-        <form id="submit-event">
-          <input id="address" class="u-full-width" name="address" type="text" placeholder="Address">
-          <p> Tell your guests where it's at: </p>
-          <input class="button-primary u-full-width" type="submit" value="Submit">
-        </form>
-        <div id="map">
+      <!--convoke name input page-->
+      <section class="container page" id="name">
+        <div style="margin-top: 15%">
+          <h1 class="center">Enter Your Name</h1>
+          <br>
+          <br>
+          <br>
+          <form class="row" id="create-name">
+            <div class="eight columns">
+              <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" required>
+            </div>
+            <div class="four columns">
+              <input class="button-primary u-full-width" type="submit" value="Add">
+            </div>
+          </form>
         </div>
-      </div>
-    </div>
+      </section>
+    </div> <!-- end primary div.table-block -->
+
+    <div class="table-block">
+      <!-- Page Footer Layout
+           –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div>
+        <footer id="footer" class="twelve columns">
+          &copy; 2016 Team Sleep Deprived - <a href="https://github.com/GeoffreyEmerson/301-final-project">Check out our Github!</a>
+        </footer>
+      </div> <!-- end footer div.container -->
+    </div>  <!-- end footer div.table-block -->
   </div>
-<!--convoke homepage-->
-  <section class="container page" id="homepage">
-    <div style="margin-top: 15%">
-      <h1 class="center">Convoke</h1>
-      <br>
-      <br>
-      <br>
-      <form class="row" id="create-event">
-        <div class="eight columns">
-          <input class="u-full-width" type="text" placeholder="Event Name" required id="event-value" autofocus required>
-        </div>
-        <div class="four columns">
-          <input class="button-primary u-full-width" type="submit" value="Create">
-        </div>
-      </form>
-    </div>
-  </section>
-<!--convoke name input page-->
-  <section class="container page" id="name">
-    <div style="margin-top: 15%">
-      <h1 class="center">Enter Your Name</h1>
-      <br>
-      <br>
-      <br>
-      <form class="row" id="create-name">
-        <div class="eight columns">
-          <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" required>
-        </div>
-        <div class="four columns">
-          <input class="button-primary u-full-width" type="submit" value="Add">
-        </div>
-      </form>
-    </div>
-  </section>
 
 
   <!-- Libraries -->

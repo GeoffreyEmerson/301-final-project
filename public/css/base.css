@@ -80,3 +80,43 @@ span[data-votestate="-1"] {
 .page {
   display: none;
 }
+
+/*--------------------
+--- CSS for Footer ---
+--------------------*/
+
+
+  html, body {
+    height: 100%;
+  }
+
+  html {
+    background-color: black;
+  }
+
+  body {
+    background-color: white;
+  }
+
+  .table-container {
+    display: table;
+    height: 100%;
+    width: 100%;
+  }
+
+  .table-block {
+    display: table-row;
+    height: 1px;
+  }
+
+  .footer-push {
+    height: auto;
+  }
+
+  #footer {
+    margin-top: 1rem;
+    width: 100%;
+    text-align: center;
+    background-color: black;
+    color: white;
+  }
