@@ -35,6 +35,8 @@
           var userHash = EventController.getCookie('userHash');
           var userName = EventController.getCookie('userName');
           if(userHash && userName) {
+            // TODO: Get data from proper source.
+            throw 'saltDom is deprecated';
             saltDom('#user-id','user',userHash,userName);
           }
         } else {
@@ -68,6 +70,8 @@
       // call the callback function here
       console.log('data:',data);
       if (data.event && data.event.hash) {
+        // TODO: Get data from proper source.
+        throw 'saltDom is deprecated';
         saltDom('#event','event',data.event.hash,data.event.name);
         setCookie('eventHash', data.event.hash, 10);
         setCookie('eventName', data.event.name, 10);
@@ -162,29 +166,29 @@
     });
   }
 
-  EventController.createEvent = function(eventName, callback) {
-    $.ajax({
-      url: '/api/events',
-      type: 'POST',
-      data: {name: eventName},
-      cache: false
-    })
-    .done( function (data) {
-      // call the callback function here
-      saltDom('#event','event',data.event.hash,data.event.name);
-      setCookie('eventHash', data.event.hash, 10);
-      setCookie('eventName', data.event.name, 10);
-      createTimingTopic(data.event.hash, 'eventStartTopic', 'Click on the calendar to indicate your availability.', callback);
-    })
-    .fail( function(jqXHR, textStatus, errorThrown) {
-      console.warn('Ajax call failed: POST /api/events');
-      console.log('jqXHR.responseText:',jqXHR.responseText);
-      console.log('textStatus:',textStatus);
-      console.log('errorThrown:',errorThrown);
-      // call the error version of the callback if any
-      if (callback) callback();
-    });
-  };
+  // EventController.createEvent = function(eventName, callback) {
+  //   $.ajax({
+  //     url: '/api/events',
+  //     type: 'POST',
+  //     data: {name: eventName},
+  //     cache: false
+  //   })
+  //   .done( function (data) {
+  //     // call the callback function here
+  //     saltDom('#event','event',data.event.hash,data.event.name);
+  //     setCookie('eventHash', data.event.hash, 10);
+  //     setCookie('eventName', data.event.name, 10);
+  //     createTimingTopic(data.event.hash, 'eventStartTopic', 'Click on the calendar to indicate your availability.', callback);
+  //   })
+  //   .fail( function(jqXHR, textStatus, errorThrown) {
+  //     console.warn('Ajax call failed: POST /api/events');
+  //     console.log('jqXHR.responseText:',jqXHR.responseText);
+  //     console.log('textStatus:',textStatus);
+  //     console.log('errorThrown:',errorThrown);
+  //     // call the error version of the callback if any
+  //     if (callback) callback();
+  //   });
+  // };
 
   var createTimingTopic = function(eventHashArg, nameArg, descriptionArg ,callback) {
     $.ajax({
@@ -218,6 +222,8 @@
       cache: false
     })
     .done( function (data) {
+      // TODO: Get data from proper source.
+      throw 'saltDom is deprecated';
       saltDom('#user-id','user',data.user.userHash,data.user.name);
       setCookie('userHash', data.user.userHash, 10);
       setCookie('userName', data.user.name, 10);
@@ -229,10 +235,10 @@
     });
   };
 
-  function saltDom(element,type,hash,name) {
-    $(element).attr('data-' + type + 'Hash',hash);
-    $(element).attr('data-' + type + 'Name',name);
-  }
+  // function saltDom(element,type,hash,name) {
+  //   $(element).attr('data-' + type + 'Hash',hash);
+  //   $(element).attr('data-' + type + 'Name',name);
+  // }
 
   // Cookie functions adapted from http://www.w3schools.com/js/js_cookies.asp
   function setCookie(cookieName, cookieValue, days) {
@@ -258,18 +264,18 @@
   };
 
   $('#admin-input').on('submit',handleSubmitComment);
-  $('#event-description').on('keydown', function(event){
-    if(event.keyCode === 13) {
-      handleSubmitComment(event);
-    }
-  });
+  // $('#event-description').on('keydown', function(event){
+  //   if(event.keyCode === 13) { // 13 is the 'enter' or 'return' key.
+  //     handleSubmitComment(event);
+  //   }
+  // });
   function handleSubmitComment(event) {
     event.preventDefault();
     var date = $('#date').val().trim();
     var times = $('#times').val().trim();
-    var eventDescription = $('#event-description').val().trim();
+    var description = $('#event-description').val().trim();
     console.log(date, times, eventDescription);
-    alert('Success!');
+    // alert('Success!');
   };
   //TODO use this handlebars method to ger real data from our user database
   function userTest(userName, status, css) {
