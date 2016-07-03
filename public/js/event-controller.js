@@ -2,6 +2,7 @@
 
   var EventController = {};
 
+  // TODO: Consider removing this method. Either this one or the event-view init.
   EventController.initEventPage = function(ctx,callback) {
     console.log('initEventPage called.');
 
@@ -60,6 +61,7 @@
     console.log('initEventPage completed.');
   };
 
+  // TODO: Has this been replaced by Session?
   function getEventData(eventHash,callback) {
     $.ajax({
       url: '/api/events/' + eventHash,
@@ -190,7 +192,7 @@
   //   });
   // };
 
-  var createTimingTopic = function(eventHashArg, nameArg, descriptionArg ,callback) {
+  EventController.createTimingTopic = function(eventHashArg, nameArg, descriptionArg ,callback) {
     $.ajax({
       url: '/api/topics',
       type: 'POST',

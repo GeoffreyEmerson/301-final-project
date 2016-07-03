@@ -1,20 +1,12 @@
-var $homepage = $('#homepage');
 var $event = $('#event');
-var $name = $('#name');
 var $admin = $('#event');
 var $404 = $('#not-found');
 
 page.base('/');
 
-page('/', logRoute, function() {
-  showPage($homepage);
-  $('.nav-main').hide();
-});
+page('/', logRoute, CreateController.init);
 
-page('name', logRoute, function() {
-  showPage($name);
-  $('.nav-main').hide();
-});
+page('name', logRoute, NameController.init);
 
 page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
   $('.nav-main').show();
@@ -64,27 +56,6 @@ page('event/add', logRoute, EventController.initEventPage, EventView.initEventVi
   showPage($event);
   $('#add').show();
   $('#googleAPI').show();
-  $('.nav-main').show();
-});
-
-//gets text input from the event submission form and logs it to page and advances to name page
-$('#create-event').on('submit', function(event) {
-  event.preventDefault();
-  var eventValue = $('#event-value').val();
-  console.log(eventValue);
-  EventController.createEvent(eventValue, function() {
-    page.show('name');
-    $('#name-value').focus();
-  });
-});
-
-//gets text input from the name submission form and posts to the api and advances to event page
-$('#create-name').on('submit', function(event){
-  event.preventDefault();
-  var nameValue = $('#name-value').val();
-  console.log(nameValue);
-  EventController.createUserName(nameValue);
-  page.show('event');
   $('.nav-main').show();
 });
 

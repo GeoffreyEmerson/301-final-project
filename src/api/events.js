@@ -47,7 +47,7 @@ router
   });
 })
 
-// A PUT route to update existing entries. Essentially only for a name change.
+// A PUT route to update existing entries.
 .put('/:hashArg',function(req,res) {
   var hashArg = req.params.hashArg;
   Event.findOne({hash: hashArg}, function(err,event){

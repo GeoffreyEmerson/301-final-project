@@ -1,16 +1,27 @@
 (function(module) {
+
   var HomeController = {};
-  //Your code goes below here. Remember to declare functions [objectName].[functionName] = function () {...}
-  HomeController.updateAttendance = function(eventHashArg, userHashArg) {
+
+  HomeController.updateRsvp = function(eventHashArg, userHashArg, callback) {
     $.ajax({
       url: '/api/rsvps',
       type: 'POST',
       data: {eventHash: eventHashArg, userHash: userHashArg},
       cache: false
     })
-    .done(function() {
+    .done(function(data) {
       console.log('Sent ' + eventHashArg + ' and ' + userHashArg);
+      if (callback) callback(data);
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.error('Ajax call failed: POST /api/events');
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      // call the error version of the callback if any
+      if (callback) callback();
     });
   };
+
   module.HomeController = HomeController;
 })(window);

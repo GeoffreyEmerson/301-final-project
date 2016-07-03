@@ -1,25 +1,34 @@
 (function(module) {
+
   var HomeView = {};
+
   var $tatus = $('#status');
+
   HomeView.initHomeView = function (ctx, next) {
     console.log('initHomeView called');
-    var eventHash = $('#event').data('eventhash');
-    var userHash = $('#user-id').data('userhash');
-    $('#event-name').text($('#event').data('eventname'));
-    $('#user-id h4').text($('#user-id').data('username'));
-    // if (next) next();
-    $.ajax({
-      url: '/api/rsvps/' + eventHash + '/' + userHash,
-      type: 'GET',
-      cache: false
-    })
-    .done(function(data) {
-      console.log(data); //TODO: This function should, when done, persist attendance state. I'm getting an object but it's always the same.
-      if (data.status == 1) {$tatus.removeClass('blank');$tatus.addClass('maybe');
-      } else if (data.status == 2) {$tatus.removeClass('blank');$tatus.addClass('approve');
-      } else if(data.status == -1) {$tatus.removeClass('blank');$tatus.addClass('approve');}
+    var eventHash = Session.getEventHash();
+    var eventName = Session.getEventName();
+    console.assert(eventHash && eventName, {'message':'eventHash and/or eventName problem in home-view.js','eventHash':eventHash,'eventName':eventName});
+    var userHash = Session.getUserHash();
+    var userName = Session.getUserName();
+    console.assert(userHash && userName, {'message':'userHash and/or userName problem in home-view.js','userHash':userHash,'userName':userName});
+
+    // Set up event view with the event name and user name.
+    $('#event-name').text(eventName);
+    $('#user-id h4').text(userName);
+
+    // Set up the Rsvp status button colors for the current user
+    HomeModel.getRsvp(userHash,eventHash, function(data){
+      if (data.status == 1) {
+        $tatus.removeClass('blank');
+        $tatus.addClass('maybe');
+      } else if (data.status == 2) {
+        $tatus.removeClass('blank');
+        $tatus.addClass('approve');
+      } else if(data.status == -1) {
+        $tatus.removeClass('blank');
+        $tatus.addClass('approve');}
     });
-    if (next) next();
   };
 
   HomeView.updateButton = function () {
@@ -44,10 +53,10 @@
   };
 
   $tatus.on('click', function() {
-    // console.log($('#event').data('eventhash'),$('#user-id').data('userhash'));
-    HomeController.updateAttendance($('#event').data('eventhash'),$('#user-id').data('userhash'));
+    HomeController.updateRsvp(Session.getEventHash(),Session.getUserHash());
     //Cycle through a collection of states.
     HomeView.updateButton();
   });
+
   module.HomeView = HomeView;
 })(window);

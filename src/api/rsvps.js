@@ -25,13 +25,15 @@ router
 
 // A POST route to Create new RSVP entries
 .post('/', function(req,res){
-  var userHashArg = req.body.userHash;
-  var eventHashArg = req.body.eventHash;
+  var newRsvp = {
+    userHash: req.body.userHash,
+    eventHash: req.body.eventHash
+  };
   // Search for existing RSVP for this user and event
-  Rsvp.findOne({userHash:userHashArg,eventHash: eventHashArg}, function(err,rsvp){
+  Rsvp.findOne(newRsvp, function(err,rsvp){
     console.log(rsvp);
     if (rsvp) {
-      // do vote calculations
+      // If Rsvp record exists, update vote calculations
       rsvp.status++;
       if(rsvp.status == 3) rsvp.status = -1;
       rsvp.save(function(err) {  // Then save the change.
@@ -42,15 +44,13 @@ router
       });
       return res.json({'rsvp':rsvp});
     } else {
-      var rsvp = {};
-      rsvp.userHash = userHashArg;
-      rsvp.eventHash = eventHashArg;
-      rsvp.status = 1;
-      Rsvp.create(rsvp, function(err,rsvp){
+      // If no Rsvp record exists yet, create it.
+      newRsvp.status = 1;
+      Rsvp.create(newRsvp, function(err,rsvp){
         if (err) {
           return res.status(503).json({err: err.message, call: 'POST /rsvps'});
         }
-        res.json({'rsvp':rsvp, message: 'RSVP Created'});
+        res.json({'rsvp':rsvp, message: 'New RSVP Created'});
       });
     };
   });
