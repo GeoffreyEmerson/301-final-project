@@ -17,8 +17,37 @@
       this.select();
     });
 
+    // Set listener on admin input submit button
+    $('#admin-input').on('submit', EventController.handleSubmitComment);
+
     if (next) next();
   };
+
+  //links up with our google maps api and makes initial location over portland
+  var map; //??
+  EventView.triggerMapResize = function(){
+    if (map){
+      google.maps.event.trigger(map, 'resize');
+    }
+  };
+
+  //allows us to use submission form to input address, this function converts our address to lat & long
+  function geocodeAddress(geocoder, resultsMap) {
+    var address = $('#address').val();
+    geocoder.geocode({
+      'address': address
+    }, function(results, status) {
+      if (status === google.maps.GeocoderStatus.OK) {
+        resultsMap.setCenter(results[0].geometry.location);
+        var marker = new google.maps.Marker({
+          map: resultsMap,
+          position: results[0].geometry.location
+        });
+      } else {
+        alert('Geocode was not successful for the following reason: ' + status);
+      }
+    });
+  }
 
   module.EventView = EventView;
 })(window);

@@ -51,14 +51,24 @@ router
 .put('/:hashArg',function(req,res) {
   var hashArg = req.params.hashArg;
   Event.findOne({hash: hashArg}, function(err,event){
-    event.name = req.body.name; // Make the change...
-    event.save(function(err) {  // Then save the change.
-      if (err){
-        console.log(err);
-        return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
-      }
-    });
-    res.json({event: event}); // Puts JSON in the response object.
+    if (!err) {
+      console.log('Updating object:',event);
+      Object.keys(req.body).forEach(function(key) {
+        event[key] = req.body[key]; // Make the changes...
+      });
+      event.save(function(err) {  // Then save the change.
+        if (err){
+          console.log(err);
+          return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
+        } else {
+          console.log('New version object:',event);
+          res.json({event: event}); // Puts JSON in the response object.
+        };
+      });
+    } else {
+      console.log(err);
+      return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
+    }
   });
 })
 

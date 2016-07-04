@@ -1,6 +1,23 @@
 (function(module) {
 
-  TopicController = {};
+  var TopicController = {
+    topics: []
+  };
+
+  TopicController.createTopic = function(eventHashArg, nameArg, descriptionArg, callback) {
+    console.assert(eventHashArg && nameArg && descriptionArg, 'Issue with createTopic arguements:', eventHashArg, nameArg, descriptionArg);
+    this.topics.push(new TopicObject(eventHashArg, nameArg, descriptionArg, function(data) {
+
+      // TODO: Move this to Topic-View? Figure out how to create these tabs dynamically instead of hard coding starter tabs.
+      $('#timing').attr('data-topicId',data.topic._id);
+
+      if (callback) callback();
+    }));
+  };
+
+  TopicController.rebuildTopicArray = function(eventHash, callback) {
+    this.topics = TopicObject.rebuildTopicArray(eventHash, callback);
+  };
 
   var wordArr = [];
 

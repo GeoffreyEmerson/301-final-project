@@ -11,9 +11,8 @@
     $('#create-name').on('submit', function(event){
       event.preventDefault();
       var nameValue = $('#name-value').val();
-      Session.newUser(nameValue, function(){
+      UserController.newUser(nameValue, function(){
         // TODO: Deal with bad return value.
-        if (callback) callback();
         page.show('event');
       });
     });

@@ -11,12 +11,17 @@
     $('#create-event').on('submit', function(event) {
       event.preventDefault();
       var eventValue = $('#event-value').val();
-      Session.newEvent(eventValue, function() {
+      EventController.newEvent(eventValue, function(data) {
         // TODO: Handle bad return value
-        if (callback) callback();
+        TopicController.createTopic(
+          data.event.hash,
+          'eventStartTopic',
+          'Click on the calendar to indicate your availability.'
+        );
         page.show('name');
       });
     });
+    if (callback) callback();
   };
 
   module.CreateView = CreateView;

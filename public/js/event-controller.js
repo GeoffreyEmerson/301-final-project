@@ -125,14 +125,6 @@
     }
   };
 
-  //links up with our google maps api and makes initial location over portland
-  var map;
-  EventController.triggerMapResize = function(){
-    if (map){
-      google.maps.event.trigger(map, 'resize');
-    }
-  };
-
   EventController.initMap = function() {
     map = new google.maps.Map(document.getElementById('map'), {
       zoom: 8,
@@ -150,70 +142,8 @@
     });
   };
 
-  //allows us to use submission form to input address, this function converts our address to lat & long
-  function geocodeAddress(geocoder, resultsMap) {
-    var address = $('#address').val();
-    geocoder.geocode({
-      'address': address
-    }, function(results, status) {
-      if (status === google.maps.GeocoderStatus.OK) {
-        resultsMap.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-          map: resultsMap,
-          position: results[0].geometry.location
-        });
-      } else {
-        alert('Geocode was not successful for the following reason: ' + status);
-      }
-    });
-  }
-
-  // EventController.createEvent = function(eventName, callback) {
-  //   $.ajax({
-  //     url: '/api/events',
-  //     type: 'POST',
-  //     data: {name: eventName},
-  //     cache: false
-  //   })
-  //   .done( function (data) {
-  //     // call the callback function here
-  //     saltDom('#event','event',data.event.hash,data.event.name);
-  //     setCookie('eventHash', data.event.hash, 10);
-  //     setCookie('eventName', data.event.name, 10);
-  //     createTimingTopic(data.event.hash, 'eventStartTopic', 'Click on the calendar to indicate your availability.', callback);
-  //   })
-  //   .fail( function(jqXHR, textStatus, errorThrown) {
-  //     console.warn('Ajax call failed: POST /api/events');
-  //     console.log('jqXHR.responseText:',jqXHR.responseText);
-  //     console.log('textStatus:',textStatus);
-  //     console.log('errorThrown:',errorThrown);
-  //     // call the error version of the callback if any
-  //     if (callback) callback();
-  //   });
-  // };
-
-  EventController.createTimingTopic = function(eventHashArg, nameArg, descriptionArg ,callback) {
-    $.ajax({
-      url: '/api/topics',
-      type: 'POST',
-      data: {name: nameArg, description:descriptionArg, eventHash:eventHashArg},
-      cache: false
-    })
-    .done( function (data) {
-      console.log('creating topic ajax call. returned data:',data);
-      $('#timing').attr('data-topicId',data.topic._id);
-      // saltDom('#event','event',data.event.hash,data.event.name);
-      // call the callback function here
-      if (callback) callback();
-    })
-    .fail( function(jqXHR, textStatus, errorThrown) {
-      console.warn('Ajax call failed: POST /api/events');
-      console.log('jqXHR.responseText:',jqXHR.responseText);
-      console.log('textStatus:',textStatus);
-      console.log('errorThrown:',errorThrown);
-      // call the error version of the callback if any
-      if (callback) callback();
-    });
+  EventController.newEvent = function(eventName, callback) {
+    EventController = new EventObject(eventName, callback);
   };
 
   EventController.createUserName = function(nameArg, callback) {
@@ -237,48 +167,15 @@
     });
   };
 
-  // function saltDom(element,type,hash,name) {
-  //   $(element).attr('data-' + type + 'Hash',hash);
-  //   $(element).attr('data-' + type + 'Name',name);
-  // }
-
-  // Cookie functions adapted from http://www.w3schools.com/js/js_cookies.asp
-  function setCookie(cookieName, cookieValue, days) {
-    var date = new Date();
-    date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-    var expires = 'expires=' + date.toUTCString();
-    document.cookie = cookieName + '=' + cookieValue + '; ' + expires + '; path=/';
-  }
-
-  EventController.getCookie = function(cookieName) {
-    var name = cookieName + '=';
-    var crumbArray = document.cookie.split(';');
-    for(var i = 0; i < crumbArray.length; i++) {
-      var crumb = crumbArray[i];
-      while (crumb.charAt(0) == ' ') {
-        crumb = crumb.substring(1);
-      }
-      if (crumb.indexOf(name) == 0) {
-        return crumb.substring(name.length,crumb.length);
-      }
-    }
-    return '';
-  };
-
-  $('#admin-input').on('submit',handleSubmitComment);
-  // $('#event-description').on('keydown', function(event){
-  //   if(event.keyCode === 13) { // 13 is the 'enter' or 'return' key.
-  //     handleSubmitComment(event);
-  //   }
-  // });
-  function handleSubmitComment(event) {
+  EventController.handleSubmitComment = function(event) {
     event.preventDefault();
     var date = $('#date').val().trim();
     var times = $('#times').val().trim();
     var description = $('#event-description').val().trim();
     console.log(date, times, eventDescription);
-    // alert('Success!');
+    // TODO: Save admin input to DB.
   };
+
   //TODO use this handlebars method to ger real data from our user database
   function userTest(userName, status, css) {
     this.userName = userName;

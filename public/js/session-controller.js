@@ -1,29 +1,39 @@
 (function(module) {
-  var Session = {};
+  // This object will store current Event and current User reference info for the session.
+  var Session = new SessionObject();
 
-  Session.newEvent = function(eventName, callback) {
-    Session = new SessionObject(eventName);
-    EventController.createTimingTopic(Session.eventHash, 'eventStartTopic', 'Click on the calendar to indicate your availability.', callback);
+  Session.updateEvent = function(eventName, eventHash){
+    this.eventName = eventName;
+    this.eventHash = eventHash;
+
+    this.setSessionEvent(); // Save changes to window session and cookies
   };
 
   Session.getEventHash = function(){
     //TODO: Make this method more robust in case of error
-    return SessionObject.eventHash;
+    return this.eventHash;
   };
 
   Session.getEventName = function(){
     //TODO: Make this method more robust in case of error
-    return SessionObject.eventName;
+    return this.eventName;
   };
 
-  Session.getUserHash = function(){
-    //TODO: Make this method more robust in case of error
-    return SessionObject.userHash;
+  Session.setUser = function(userName, userHash){
+    this.userName = userName;
+    this.userHash = userHash;
+
+    this.setSessionUser(); // Save changes to window session and cookies
   };
 
   Session.getUserName = function(){
     //TODO: Make this method more robust in case of error
-    return SessionObject.userName;
+    return this.userName;
+  };
+
+  Session.getUserHash = function(){
+    //TODO: Make this method more robust in case of error
+    return this.userHash;
   };
 
   module.Session = Session;

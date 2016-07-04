@@ -1,49 +1,32 @@
 (function(module) {
   // This is the primary method for storing data about the current user session.
-  function SessionObject(eventNameArg) {
-    this.addEventToDB(eventNameArg);
-  }
+  function SessionObject() {}
 
-  // This method creates a new record in the database and stores the session information.
-  SessionObject.prototype.addEventToDB = function(eventName, callback) {
-    var currentEvent = this;
-    $.ajax({
-      url: '/api/events',
-      type: 'POST',
-      data: {name: eventName},
-      cache: false
-    })
-    .done( function (data) {
-      // After successfully creating a new record for the event, store the info
-      currentEvent.storeEventLocally(data.event.name, data.event.hash);
+  SessionObject.prototype.setSessionEvent = function(eventName, eventHash) {
+    if (eventName) this.eventName = eventName;
+    if (eventHash) this.eventHash = eventHash;
 
-      // call the callback function here
-      if (callback) callback(data);
-      return currentEvent;
-    })
-    .fail( function(jqXHR, textStatus, errorThrown) {
-      console.error('Ajax call failed: POST /api/events');
-      console.log('jqXHR.responseText:',jqXHR.responseText);
-      console.log('textStatus:',textStatus);
-      console.log('errorThrown:',errorThrown);
-      // call the error version of the callback if any
-      if (callback) callback();
-    });
-  };
-
-  SessionObject.prototype.storeEventLocally = function(eventName, eventHash) {
-    // Once we have confirmation that the event has been created in the database,
-    //  then put the data in the session object.
-    this.eventName = eventName;
-    this.eventHash = eventHash;
-
-    // Also store the info in the window session.
-    window.sessionStorage.setItem('eventName', eventName);
-    window.sessionStorage.setItem('eventHash', eventHash);
+    // These will definitely be needed.
+    // Store event info in the window session.
+    window.sessionStorage.setItem('eventName', this.eventName);
+    window.sessionStorage.setItem('eventHash', this.eventHash);
 
     // Also set cookies.
     setCookie('eventName', this.eventName, 10);
     setCookie('eventHash', this.eventHash, 10);
+  };
+
+  SessionObject.prototype.setSessionUser = function(userName, userHash) {
+    if (userName) this.userName = userName;
+    if (userHash) this.userHash = userHash;
+
+    // Also store the info in the window session.
+    window.sessionStorage.setItem('userName', this.userName);
+    window.sessionStorage.setItem('userHash', this.userHash);
+
+    // Also set cookies.
+    setCookie('userName', this.userName, 0); // User cookies are more or less permanent.
+    setCookie('userHash', this.userHash, 0);
   };
 
   // Cookie functions adapted from http://www.w3schools.com/js/js_cookies.asp
@@ -67,31 +50,6 @@
       }
     }
     return '';
-  };
-
-  // This method creates a new record in the database and stores the session information.
-  //  Note: it requires an object with the eventHash and any updated info.
-  SessionObject.updateEventInDB = function(eventInfo, callback) {
-    var currentEvent = this;
-    $.ajax({
-      url: '/api/events/' + currentEvent.eventHash,
-      type: 'PUT',
-      data: eventInfo,
-      cache: false
-    })
-    .done( function (data) {
-      // call the callback function here
-      if (callback) callback(data);
-      return data;
-    })
-    .fail( function(jqXHR, textStatus, errorThrown) {
-      console.error('Ajax call failed: POST /api/events');
-      console.log('jqXHR.responseText:',jqXHR.responseText);
-      console.log('textStatus:',textStatus);
-      console.log('errorThrown:',errorThrown);
-      // call the error version of the callback if any
-      if (callback) callback();
-    });
   };
 
   module.SessionObject = SessionObject;
