@@ -4,20 +4,28 @@ var $404 = $('#not-found');
 
 page.base('/');
 
-page('/', logRoute, CreateController.init);
+page('', logRoute, CreateController.init);
 
 page('name', logRoute, NameController.init);
 
-page('event', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
-  $('.nav-main').show();
-});
+page('event',
+  logRoute,
+  Event.initEventPage,
+  function(){
+    $('.nav-main').show();
+  }
+);
 
-page('eventhash/:eventHash', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
-  $('.nav-main').show();
-});
+page('eventhash/:eventHash',
+  logRoute,
+  Event.getEventFromHash,
+  function(){
+    page.show('name');
+  }
+);
 
 //////////////////////////////////////
-page('event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function() {
+page('event/timing', logRoute, Event.initEventPage, function() {
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -26,7 +34,7 @@ page('event/timing', logRoute, EventController.initEventPage, EventView.initEven
 
 });
 
-page(':id/event/timing', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
+page(':id/event/timing', logRoute, Event.initEventPage, function() {
   showPage($event);
   $('#timing').show();
   $('#googleAPI').hide();
@@ -34,7 +42,7 @@ page(':id/event/timing', logRoute, EventController.initEventPage, EventView.init
 });
 
 //////////////////////////////////////
-page('event/status', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
+page('event/status', logRoute, Event.initEventPage, function() {
   showPage($event);
   $('#status-content').show();
   $('#googleAPI').show();
@@ -42,7 +50,7 @@ page('event/status', logRoute, EventController.initEventPage, EventView.initEven
 });
 
 //////////////////////////////////////
-page('event/clusters', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
+page('event/clusters', logRoute, Event.initEventPage, function() {
   showPage($event);
   $('#cluster').show();
   $('#googleAPI').show();
@@ -52,7 +60,7 @@ page('event/clusters', logRoute, EventController.initEventPage, EventView.initEv
 });
 
 //////////////////////////////////////
-page('event/add', logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView,function() {
+page('event/add', logRoute, Event.initEventPage, function() {
   showPage($event);
   $('#add').show();
   $('#googleAPI').show();
@@ -60,14 +68,16 @@ page('event/add', logRoute, EventController.initEventPage, EventView.initEventVi
 });
 
 //This function creates a nw ahref button and appends to the nav bar. the a href is given
-//to the cluster section. Can not figure out out to dynamically make a route
+//to the cluster section.
+// TODO: Move this to event view.
+// TODO: figure out out to dynamically make a route, or otherwise show new topic when clicked
 $('#add').on('submit', function(event) {
   event.preventDefault();
   var topic = $('#topic').val().trim();
   if(topic){
     $('#topic').val('');
     console.log(topic);
-    page('event/' + topic, logRoute, EventController.initEventPage, EventView.initEventView, HomeView.initHomeView, function(){
+    page('event/' + topic, logRoute, Event.initEventPage, function(){
       showPage($event);
       $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
       $('#' + topic).show();

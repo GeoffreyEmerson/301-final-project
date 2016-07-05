@@ -1,8 +1,10 @@
 (function(module) {
-  // This object will store current Event and current User reference info for the session.
+  // TODO: Consider moving all of this functionality to the Event and User objects
   var Session = new SessionObject();
 
   Session.updateEvent = function(eventName, eventHash){
+    console.assert(eventName && eventHash, {'message':'Problem updating event record','eventName':eventName,'eventHash':eventHash});
+
     this.eventName = eventName;
     this.eventHash = eventHash;
 
@@ -10,11 +12,17 @@
   };
 
   Session.getEventHash = function(){
-    //TODO: Make this method more robust in case of error
-    return this.eventHash;
+    if (this.eventHash) {
+      // If all is good, let the callback chain proceed
+      return this.eventHash;
+    } else {
+      // If not, look for data in storage and cookies before continuing.
+      Session.recoverSession();
+      return this.eventHash;
+    }
   };
 
-  Session.getEventName = function(){
+  Session.getEventName = function(callback){
     //TODO: Make this method more robust in case of error
     return this.eventName;
   };
@@ -26,12 +34,12 @@
     this.setSessionUser(); // Save changes to window session and cookies
   };
 
-  Session.getUserName = function(){
+  Session.getUserName = function(callback){
     //TODO: Make this method more robust in case of error
     return this.userName;
   };
 
-  Session.getUserHash = function(){
+  Session.getUserHash = function(callback){
     //TODO: Make this method more robust in case of error
     return this.userHash;
   };

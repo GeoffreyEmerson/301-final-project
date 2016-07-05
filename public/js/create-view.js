@@ -11,10 +11,10 @@
     $('#create-event').on('submit', function(event) {
       event.preventDefault();
       var eventValue = $('#event-value').val();
-      EventController.newEvent(eventValue, function(data) {
+      Event.newEvent(eventValue, function(data) {
         // TODO: Handle bad return value
         TopicController.createTopic(
-          data.event.hash,
+          Event.eventHash,
           'eventStartTopic',
           'Click on the calendar to indicate your availability.'
         );

@@ -13,7 +13,6 @@
       cache: false
     })
     .done( function (data) {
-      console.log('Creating new Timing Topic. Returned data:',data);
       currentTopic.name = data.topic.name;
       currentTopic.description = data.topic.description;
       currentTopic.eventHash = data.topic.eventHash;

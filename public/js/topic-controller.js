@@ -5,7 +5,7 @@
   };
 
   TopicController.createTopic = function(eventHashArg, nameArg, descriptionArg, callback) {
-    console.assert(eventHashArg && nameArg && descriptionArg, 'Issue with createTopic arguements:', eventHashArg, nameArg, descriptionArg);
+    console.assert(eventHashArg && nameArg && descriptionArg, {'message':'Issue with createTopic arguements:', 'eventHashArg':eventHashArg, 'nameArg':nameArg, 'descriptionArg':descriptionArg});
     this.topics.push(new TopicObject(eventHashArg, nameArg, descriptionArg, function(data) {
 
       // TODO: Move this to Topic-View? Figure out how to create these tabs dynamically instead of hard coding starter tabs.

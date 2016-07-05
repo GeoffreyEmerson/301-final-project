@@ -6,26 +6,26 @@
 
   HomeView.initHomeView = function (ctx, next) {
     console.log('initHomeView called');
-    var eventHash = Session.getEventHash();
-    var eventName = Session.getEventName();
+    var eventHash = Event.eventHash;
+    var eventName = Event.eventName;
     console.assert(eventHash && eventName, {'message':'eventHash and/or eventName problem in home-view.js','eventHash':eventHash,'eventName':eventName});
-    var userHash = Session.getUserHash();
-    var userName = Session.getUserName();
+    var userHash = User.userHash;
+    var userName = User.userName;
     console.assert(userHash && userName, {'message':'userHash and/or userName problem in home-view.js','userHash':userHash,'userName':userName});
 
-    // Set up event view with the event name and user name.
+    // Display the event name and user name.
     $('#event-name').text(eventName);
     $('#user-id h4').text(userName);
 
     // Set up the Rsvp status button colors for the current user
-    HomeModel.getRsvp(userHash,eventHash, function(data){
-      if (data.status == 1) {
+    User.getRsvpStatus(function(rsvpStatus){
+      if (rsvpStatus == 1) {
         $tatus.removeClass('blank');
         $tatus.addClass('maybe');
-      } else if (data.status == 2) {
+      } else if (rsvpStatus == 2) {
         $tatus.removeClass('blank');
         $tatus.addClass('approve');
-      } else if(data.status == -1) {
+      } else if(rsvpStatus == -1) {
         $tatus.removeClass('blank');
         $tatus.addClass('approve');}
     });
@@ -52,10 +52,12 @@
     }
   };
 
+  //Cycle through a collection of states.
   $tatus.on('click', function() {
-    HomeController.updateRsvp(Session.getEventHash(),Session.getUserHash());
-    //Cycle through a collection of states.
-    HomeView.updateButton();
+    User.updateRsvp(function(result) {
+      HomeView.updateButton(result);
+      console.log('Rsvp status is now: ' + result);
+    });
   });
 
   module.HomeView = HomeView;

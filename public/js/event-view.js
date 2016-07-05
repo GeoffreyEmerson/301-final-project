@@ -1,30 +1,89 @@
 (function(module) {
 
   var EventView = {};
+  var $tatus = $('#status');
 
-  // TODO: Do we need seperate inits for the view and controller?
-  EventView.initEventView = function (ctx, next) {
+  EventView.initEventView = function () {
     console.log('EventView.initEventView called!');
 
+    $('.page').hide();
+    $('#event').show();
+    $('#details').show();
+    $('#googleAPI').show();
+    EventView.triggerMapResize();
+
     // Generate shareable link
-    $('#share-url').val(
-      window.location.protocol +
-      '//' + window.location.host +
-      '/eventhash/' +
-      EventController.getCookie('eventHash')
-    );
-    $('#share-url').on('focus', function(){
+    $('#share-url').val(Event.urlHash);
+    $('#share-url ').on('focus', function(){
       this.select();
     });
 
     // Set listener on admin input submit button
-    $('#admin-input').on('submit', EventController.handleSubmitComment);
+    $('#admin-input').on('submit', Event.handleSubmitComment);
 
-    if (next) next();
+    // Display the event name and user name.
+    $('#event-name').text(Event.eventName);
+    $('#user-id h4').text(User.userName);
+
+    // Set up the Rsvp status button colors for the current user
+    User.getRsvpStatus(function(rsvpStatus){
+      if (rsvpStatus == 1) {
+        $tatus.removeClass('blank');
+        $tatus.addClass('maybe');
+      } else if (rsvpStatus == 2) {
+        $tatus.removeClass('blank');
+        $tatus.addClass('approve');
+      } else if(rsvpStatus == -1) {
+        $tatus.removeClass('blank');
+        $tatus.addClass('approve');}
+    });
+
+    // Set listener for Rsvp button
+    $tatus.on('click', function() {
+      User.updateRsvp(function(result) {
+        EventView.updateButton(result);
+      });
+    });
+  };
+
+  EventView.updateButton = function (newStatus) {
+    // TODO: Consider using newStatus instead of toggles?
+    if ($tatus.hasClass('blank')) { //If blank -> maybe
+      $tatus.toggleClass('blank maybe');
+      $tatus.children().text('Maybe');
+      $('#status-instructions').remove();
+    } else if ($tatus.hasClass('maybe')) { //If maybe -> going
+      $tatus.toggleClass('maybe approve');
+      $tatus.children().text('Yep');
+    } else if ($tatus.hasClass('approve')) { //if going -> not going
+      $tatus.toggleClass('approve disapprove');
+      $tatus.children().text('Nope');
+    } else if ($tatus.hasClass('disapprove')) { //if not going -> blank
+      $tatus.toggleClass('disapprove blank');
+      $tatus.children().text('Going?');
+    }
   };
 
   //links up with our google maps api and makes initial location over portland
-  var map; //??
+  var map;
+
+  EventView.initMap = function() {
+    map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 8,
+      center: {
+        lat: 45.5231,
+        lng: -122.6765
+      },
+    });
+    var geocoder = new google.maps.Geocoder();
+    $('#submit-event').on('submit', function(event) {
+      event.preventDefault();
+      geocodeAddress(geocoder, map);
+      var address = $('#address').val();
+      console.log(address);
+    });
+  };
+
   EventView.triggerMapResize = function(){
     if (map){
       google.maps.event.trigger(map, 'resize');

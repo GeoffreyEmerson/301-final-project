@@ -16,6 +16,18 @@
     setCookie('eventHash', this.eventHash, 10);
   };
 
+  SessionObject.prototype.recoverSessionEvent = function() {
+    // Recover event info from the window session.
+    this.eventName = window.sessionStorage.getItem('eventName');
+    this.eventHash = window.sessionStorage.getItem('eventHash');
+
+    if (!this.eventName || !this.eventHash) {
+      // If that doesn't work, try getting session info from cookies.
+      this.eventName = getCookie('eventName');
+      this.eventHash = getCookie('eventHash');
+    };
+  };
+
   SessionObject.prototype.setSessionUser = function(userName, userHash) {
     if (userName) this.userName = userName;
     if (userHash) this.userHash = userHash;
@@ -29,15 +41,27 @@
     setCookie('userHash', this.userHash, 0);
   };
 
+  SessionObject.prototype.recoverSessionUser = function() {
+    // Recover session user info from the window session.
+    this.userName = window.sessionStorage.getItem('userName');
+    this.userHash = window.sessionStorage.getItem('userHash');
+
+    if (!this.userName || !this.userHash) {
+      // If that doesn't work, try getting session info from cookies.
+      this.userName = getCookie('userName');
+      this.userHash = getCookie('userHash');
+    };
+  };
+
   // Cookie functions adapted from http://www.w3schools.com/js/js_cookies.asp
-  setCookie = function(cookieName, cookieValue, days) {
+  var setCookie = function(cookieName, cookieValue, days) {
     var date = new Date();
     date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
     var expires = 'expires=' + date.toUTCString();
     document.cookie = cookieName + '=' + cookieValue + '; ' + expires + '; path=/';
   };
 
-  getCookie = function(cookieName) {
+  var getCookie = function(cookieName) {
     var name = cookieName + '=';
     var crumbArray = document.cookie.split(';');
     for(var i = 0; i < crumbArray.length; i++) {
@@ -49,7 +73,7 @@
         return crumb.substring(name.length,crumb.length);
       }
     }
-    return '';
+    return null;
   };
 
   module.SessionObject = SessionObject;
