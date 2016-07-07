@@ -31,7 +31,6 @@ router
   };
   // Search for existing RSVP for this user and event
   Rsvp.findOne(newRsvp, function(err,rsvp){
-    console.log(rsvp);
     if (rsvp) {
       // If Rsvp record exists, update vote calculations
       rsvp.status++;
@@ -74,7 +73,6 @@ router
   var userHashArg = req.params.userHashArg;
   Rsvp.findOne({userHash:userHashArg,eventHash: eventHashArg}, function(err,rsvp){
     if(!err){
-      console.log(rsvp);
       if(rsvp) {
         res.json({'status':rsvp.status});
       } else {

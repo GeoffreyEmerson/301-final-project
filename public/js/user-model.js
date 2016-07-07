@@ -58,7 +58,7 @@
       cache: false
     })
     .done(function(data) {
-      if (callback) callback(data);
+      if (callback) callback(data.status);
       return data;
     })
     .fail( function(jqXHR, textStatus, errorThrown) {

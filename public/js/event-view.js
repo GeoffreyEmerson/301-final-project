@@ -27,16 +27,23 @@
 
     // Set up the Rsvp status button colors for the current user
     User.getRsvpStatus(function(rsvpStatus){
+      console.log('RSVP status is:',rsvpStatus);
       if (rsvpStatus == 1) {
         $tatus.removeClass('blank');
         $tatus.addClass('maybe');
+        $tatus.children().text('Maybe');
+        $('#status-instructions').remove();
       } else if (rsvpStatus == 2) {
         $tatus.removeClass('blank');
         $tatus.addClass('approve');
+        $tatus.children().text('Yep');
+        $('#status-instructions').remove();
       } else if(rsvpStatus == -1) {
         $tatus.removeClass('blank');
-        $tatus.addClass('approve');}
-      //if (callback) callback();
+        $tatus.addClass('disapprove');
+        $tatus.children().text('Nope');
+        $('#status-instructions').remove();
+      }
     });
 
     // Set listener for Rsvp button

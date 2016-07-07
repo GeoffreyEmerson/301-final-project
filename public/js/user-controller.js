@@ -22,9 +22,10 @@
 
   User.getRsvpStatus = function(callback){
     if (!this.rsvp) {
-      this.getRsvpFromDB();
+      this.getRsvpFromDB(callback);
+    } else {
+      callback(this.rsvp);
     }
-    if (callback) callback(this.rsvp);
   };
 
   module.User = User;
