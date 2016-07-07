@@ -1,28 +1,12 @@
-var $event = $('#event');
-var $admin = $('#event');
-var $404 = $('#not-found');
+//var $event = $('#event');
+//var $404 = $('#not-found');
 
 page.base('/');
 
 page('', logRoute, CreateController.init);
-
 page('name', logRoute, NameController.init);
-
-page('event',
-  logRoute,
-  Event.initEventPage,
-  function(){
-    $('.nav-main').show();
-  }
-);
-
-page('eventhash/:eventHash',
-  logRoute,
-  Event.getEventFromHash,
-  function(){
-    page.show('name');
-  }
-);
+page('event', logRoute, Event.initEventPage);
+page('eventhash/:eventHash', logRoute, Event.getEventFromHash, Event.initEventPage);
 
 //////////////////////////////////////
 page('event/timing', logRoute, Event.initEventPage, function() {
@@ -31,7 +15,6 @@ page('event/timing', logRoute, Event.initEventPage, function() {
   $('#googleAPI').hide();
   $('.nav-main').show();
   CalendarView.initCalendarView();
-
 });
 
 page(':id/event/timing', logRoute, Event.initEventPage, function() {
@@ -67,33 +50,18 @@ page('event/add', logRoute, Event.initEventPage, function() {
   $('.nav-main').show();
 });
 
-//This function creates a nw ahref button and appends to the nav bar. the a href is given
-//to the cluster section.
-// TODO: Move this to event view.
-// TODO: figure out out to dynamically make a route, or otherwise show new topic when clicked
-$('#add').on('submit', function(event) {
-  event.preventDefault();
-  var topic = $('#topic').val().trim();
-  if(topic){
-    $('#topic').val('');
-    console.log(topic);
-    page('event/' + topic, logRoute, Event.initEventPage, function(){
-      showPage($event);
-      $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
-      $('#' + topic).show();
-      TopicView.topicCloudInit(topic);
-      $('#newClustersHere').append('<div class="page"> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf"></div>');
-      $('#googleAPI').hide();
-      $('.nav-main').show();
-    });
-    $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
-  }
-});
-$('#clear-topic').on('click', function(){
-  $('a').remove('#new-topic');
-});
+// page('*', logRoute, notFound); // TODO: Figure out how to not match every damn time
 
 page();
+
+// function notFound(ctx,next) {
+//   console.error('Route not found:',ctx);
+//   if (next) next();
+// }
+
+// $('#clear-topic').on('click', function(){
+//   $('a').remove('#new-topic');
+// });
 
 function showPage($element) {
   $('.page').hide();
@@ -101,6 +69,8 @@ function showPage($element) {
 }
 
 function logRoute(ctx, next) {
-  console.log('page.js route called: ',ctx.path);
+  console.log('▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼▼');
+  console.log('page.js route called: ', ctx.path);
   if (next) next();
+  console.log('▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲');
 }

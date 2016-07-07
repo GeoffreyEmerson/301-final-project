@@ -11,22 +11,48 @@
   };
 
   Event.initEventPage = function(ctx,next) {
-    console.log('initEventPage called.');
-
-    // If no session, go to home page. This is for unexpected direct links to the event route, such as a page reload after a long period of being away.
-    if (!Session.getEventName()) {
-      page.show('/');
-    }
-
-    EventView.initEventView();
-
-    console.log('initEventPage completed.');
-    if (next) next();
+    // If no data available, go to home page. This is for unexpected direct links to the event route, such as a page reload after a long period of being away.
+    checkForEventAndUser(EventView.initEventView);
   };
 
+  function checkForEventAndUser(init) {
+    if (!Event.eventName) {
+      Event.recoverSessionEvent(function(){
+        if (!Event.eventName) {
+          console.log('No event found. Diverting to create event view.');
+          page.show('/');
+        } else {
+          console.log('Event found: ' + Event.eventName);
+          checkForUser(init);
+        }
+      });
+    } else {
+      console.log('Event found: ' + Event.eventName);
+      checkForUser(init);
+    }
+  }
+
+  function checkForUser(init) {
+    if (!User.userName) {
+      User.getUserName(function(){
+        if (!User.userName) {
+          console.log('No user name found. Diverting to name view.');
+          page.show('name');
+        } else {
+          console.log('User found: ' + User.userName);
+          init();
+        }
+      });
+    } else {
+      console.log('User found: ' + User.userName);
+      init();
+    }
+  }
+
   Event.getEventFromHash = function(ctx,next) {
-    this.eventHash = ctx.params.eventHash;
-    this.recoverFromHash(function(result) {
+    console.log(Event);
+    Event.eventHash = ctx.params.eventHash;
+    Event.loadEventFromDB(function(result) {
       if (result && result.eventName) {
         Event = result;
         getTopicId(Event.eventHash,function(){

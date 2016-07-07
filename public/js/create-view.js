@@ -21,7 +21,7 @@
         page.show('name');
       });
     });
-    if (callback) callback();
+    //if (callback) callback(); // This is the only terminal route callback that doesn't trigger a page reload!
   };
 
   module.CreateView = CreateView;

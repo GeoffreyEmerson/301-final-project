@@ -3,10 +3,10 @@
   var EventView = {};
   var $tatus = $('#status');
 
-  EventView.initEventView = function () {
-    console.log('EventView.initEventView called!');
+  EventView.initEventView = function (callback) {
 
     $('.page').hide();
+    $('.nav-main').show();
     $('#event').show();
     $('#details').show();
     $('#googleAPI').show();
@@ -36,17 +36,41 @@
       } else if(rsvpStatus == -1) {
         $tatus.removeClass('blank');
         $tatus.addClass('approve');}
+      //if (callback) callback();
     });
 
     // Set listener for Rsvp button
     $tatus.on('click', function() {
       User.updateRsvp(function(result) {
-        EventView.updateButton(result);
+        EventView.updateRsvpButton(result);
       });
     });
+
+    //This function creates a new button and appends it to the nav bar. the a href is given
+    //to the cluster section.
+    // TODO: figure out out to dynamically make a route, or otherwise show new topic when clicked
+    $('#add').on('submit', function(event) {
+      event.preventDefault();
+      var topic = $('#topic').val().trim();
+      if(topic){
+        $('#topic').val('');
+        console.log('New Topic submitted:',topic);
+        // page('event/' + topic, logRoute, Event.initEventPage, function(){
+        //   showPage($event);
+        //   $('#newClustersHere').append('<section class="page" id="' + topic + '"></section>');
+        //   $('#' + topic).show();
+        //   TopicView.topicCloudInit(topic);
+        //   $('#newClustersHere').append('<div class="page"> <form class="row" action="index.html" method="post"> <input class="u-full-width" type="text" name="word" placeholder="Create Option"> <input class="button-primary u-full-width" type="button" name="submit" value="CREATE"> <input type="text" visibility="hidden" value="lksaf9pwurp2o"> <input type="text" value="we09r20lksjdf"></div>');
+        //   $('#googleAPI').hide();
+        //   $('.nav-main').show();
+        // });
+        $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
+      }
+    });
+
   };
 
-  EventView.updateButton = function (newStatus) {
+  EventView.updateRsvpButton = function (newStatus) {
     // TODO: Consider using newStatus instead of toggles?
     if ($tatus.hasClass('blank')) { //If blank -> maybe
       $tatus.toggleClass('blank maybe');

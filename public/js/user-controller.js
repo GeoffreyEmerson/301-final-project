@@ -5,9 +5,13 @@
     this.createUser(userName, function(result){
       // After successfully creating a new record for the event, store the info
       User = result;
-      Session.setUser(User.userName, User.userHash);
+      //Session.setUser(User.userName, User.userHash); // Moving away from session object pattern
       if (callback) callback();
     });
+  };
+
+  User.getUserName = function(callback){
+    this.recoverSessionUser(callback);
   };
 
   User.updateRsvp = function(callback) {

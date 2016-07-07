@@ -8,8 +8,8 @@
     $('#name').fadeIn();
 
     //Sets a listener to deal with the "Submit Name" button
-    $('#create-name').on('submit', function(event){
-      event.preventDefault();
+    $('#create-name').on('submit', function(clickEvent){
+      clickEvent.preventDefault();
       var nameValue = $('#name-value').val();
       User.newUser(nameValue, function(){
         // TODO: Deal with bad return value.

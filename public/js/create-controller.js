@@ -1,6 +1,6 @@
 (function(module) {
 
-  CreateController = {};
+  var CreateController = {};
 
   CreateController.init = function(ctx, callback){
     CreateView.init(callback);
