@@ -3,23 +3,11 @@
   var EventView = {};
   var $tatus = $('#status');
 
-  EventView.initEventView = function (callback) {
-
+  EventView.initEventView = function (next) {
+    // This only sets up the top section. A subsection (tab) is also needed to complete a page.
     $('.page').hide();
     $('.nav-main').show();
     $('#event').show();
-    $('#details').show();
-    $('#googleAPI').show();
-    EventView.triggerMapResize();
-
-    // Generate shareable link
-    $('#share-url').val(Event.urlHash);
-    $('#share-url ').on('focus', function(){
-      this.select();
-    });
-
-    // Set listener on admin input submit button
-    $('#admin-input').on('submit', Event.handleSubmitComment);
 
     // Display the event name and user name.
     $('#event-name').text(Event.eventName);
@@ -27,6 +15,7 @@
 
     // Set up the Rsvp status button colors for the current user
     User.getRsvpStatus(function(rsvpStatus){
+      // TODO: Consider moving the logic to the controller, and use a more direct version of EventView.updateRsvpButton for the view changes.
       console.log('RSVP status is:',rsvpStatus);
       if (rsvpStatus == 1) {
         $tatus.removeClass('blank');
@@ -47,6 +36,7 @@
     });
 
     // Set listener for Rsvp button
+    $tatus.off(); // Remove any previously applied.
     $tatus.on('click', function() {
       User.updateRsvp(function(result) {
         EventView.updateRsvpButton(result);
@@ -74,7 +64,28 @@
         $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
       }
     });
+    next(); // Goes to subview defined in route.
+  };
 
+  /*--------------------
+  -- Define Sub-Views --
+  --------------------*/
+
+  EventView.initDetailsSubview = function(ctx,next){
+    $('#details').show();
+    $('#googleAPI').show();
+    EventView.triggerMapResize();
+
+    // Generate shareable link
+    $('#share-url').val(Event.urlHash);
+    $('#share-url ').on('focus', function(){
+      this.select();
+    });
+
+    // Set listener on admin input submit button
+    $('#admin-input').on('submit', Event.handleSubmitComment);
+
+    //NOTE: Do not use next() for final subview inits. It causes a page reload by page.js.
   };
 
   EventView.updateRsvpButton = function (newStatus) {

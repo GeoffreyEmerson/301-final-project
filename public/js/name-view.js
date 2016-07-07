@@ -8,6 +8,7 @@
     $('#name').fadeIn();
 
     //Sets a listener to deal with the "Submit Name" button
+    $('#create-name').off(); // Remove any previously applied.
     $('#create-name').on('submit', function(clickEvent){
       clickEvent.preventDefault();
       var nameValue = $('#name-value').val();

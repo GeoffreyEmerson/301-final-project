@@ -3,51 +3,17 @@
   var Event = new EventObject();
 
   Event.newEvent = function(eventName, callback) {
-    this.eventName = eventName;
-    this.saveToDB(function(result) {
+    Event = new EventObject(); // TODO: See if this breaks everything.
+    Event.eventName = eventName;
+    Event.saveToDB(function(result) {
       Event = result;
       if(callback) callback();
     });
   };
 
   Event.initEventPage = function(ctx,next) {
-    // If no data available, go to home page. This is for unexpected direct links to the event route, such as a page reload after a long period of being away.
-    checkForEventAndUser(EventView.initEventView);
+    EventView.initEventView(next);
   };
-
-  function checkForEventAndUser(init) {
-    if (!Event.eventName) {
-      Event.recoverSessionEvent(function(){
-        if (!Event.eventName) {
-          console.log('No event found. Diverting to create event view.');
-          page.show('/');
-        } else {
-          console.log('Event found: ' + Event.eventName);
-          checkForUser(init);
-        }
-      });
-    } else {
-      console.log('Event found: ' + Event.eventName);
-      checkForUser(init);
-    }
-  }
-
-  function checkForUser(init) {
-    if (!User.userName) {
-      User.getUserName(function(){
-        if (!User.userName) {
-          console.log('No user name found. Diverting to name view.');
-          page.show('name');
-        } else {
-          console.log('User found: ' + User.userName);
-          init();
-        }
-      });
-    } else {
-      console.log('User found: ' + User.userName);
-      init();
-    }
-  }
 
   Event.getEventFromHash = function(ctx,next) {
     console.log(Event);

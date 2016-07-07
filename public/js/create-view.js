@@ -8,6 +8,7 @@
     $('#homepage').fadeIn();
 
     // Set up the listener for the "New Event" button
+    $('#create-event').off(); //Because of the SPA, remove already applied listener.
     $('#create-event').on('submit', function(event) {
       event.preventDefault();
       var eventValue = $('#event-value').val();

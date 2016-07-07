@@ -3,10 +3,10 @@
 
 page.base('/');
 
-page('', logRoute, CreateController.init);
+page(['','event'], logRoute, Session.check, Event.initEventPage, EventView.initDetailsSubview);
+page('new', logRoute, CreateController.init);
 page('name', logRoute, NameController.init);
-page('event', logRoute, Event.initEventPage);
-page('eventhash/:eventHash', logRoute, Event.getEventFromHash, Event.initEventPage);
+page('eventhash/:eventHash', logRoute, Event.getEventFromHash, Session.check, Event.initEventPage, EventView.initDetailsSubview);
 
 //////////////////////////////////////
 page('event/timing', logRoute, Event.initEventPage, function() {
