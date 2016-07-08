@@ -6,6 +6,7 @@
 
   TopicObject.prototype.createTopic = function(eventHashArg, nameArg, descriptionArg, callback) {
     var currentTopic = this;
+    console.log('Creating new topic: ' + nameArg);
     $.ajax({
       url: '/api/topics',
       type: 'POST',
@@ -13,6 +14,15 @@
       cache: false
     })
     .done( function (data) {
+      console.assert(
+        data.topic.name && data.topic.eventHash && data.topic._id,
+        {
+          'message':'Issue when saving new Topic:',
+          'data.topic.name':data.topic.name,
+          'data.topic.eventHash':data.topic.eventHash,
+          'data.topic._id':data.topic._id
+        }
+      );
       currentTopic.name = data.topic.name;
       currentTopic.description = data.topic.description;
       currentTopic.eventHash = data.topic.eventHash;

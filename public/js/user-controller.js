@@ -3,9 +3,8 @@
 
   User.newUser = function(userName, callback) {
     this.createUser(userName, function(result){
-      // After successfully creating a new record for the event, store the info
       User = result;
-      //Session.setUser(User.userName, User.userHash); // Moving away from session object pattern
+      console.log('New user created: ' + User.userName);
       if (callback) callback();
     });
   };
