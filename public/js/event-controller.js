@@ -3,10 +3,12 @@
   var Event = new EventObject();
 
   Event.newEvent = function(eventName, callback) {
-    Event = new EventObject(); // TODO: See if this breaks everything.
-    Event.eventName = eventName;
-    Event.saveToDB(function(result) {
+    var newEvent = new EventObject(); // TODO: See if this breaks everything.
+    newEvent.eventName = eventName;
+    newEvent.saveToDB(function(result) {
       Event = result;
+      console.log('New eventName set: ' + Event.eventName);
+      console.log('New Event:',Event);
       if(callback) callback();
     });
   };

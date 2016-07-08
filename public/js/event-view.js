@@ -16,7 +16,6 @@
     // Set up the Rsvp status button colors for the current user
     User.getRsvpStatus(function(rsvpStatus){
       // TODO: Consider moving the logic to the controller, and use a more direct version of EventView.updateRsvpButton for the view changes.
-      console.log('RSVP status is:',rsvpStatus);
       if (rsvpStatus == 1) {
         $tatus.removeClass('blank');
         $tatus.addClass('maybe');
@@ -64,6 +63,13 @@
         $('<a href="/event/' + topic + '" class="button button-primary" id="new-topic">' + topic + '<a>').prependTo('#event-navigation');
       }
     });
+
+    // Experimental: These methods set up subviews, even though they are hidden.
+    EventView.triggerMapResize();
+    CalendarView.initCalendarView();
+    TopicView.topicCloudInit('cloud');
+    TopicController.initCloudItemClickHandler();
+
     next(); // Goes to subview defined in route.
   };
 
@@ -74,7 +80,6 @@
   EventView.initDetailsSubview = function(ctx,next){
     $('#details').show();
     $('#googleAPI').show();
-    EventView.triggerMapResize();
 
     // Generate shareable link
     $('#share-url').val(Event.urlHash);
@@ -87,6 +92,30 @@
 
     //NOTE: Do not use next() for final subview inits. It causes a page reload by page.js.
   };
+
+  EventView.initTimingSubview = function(ctx,next){
+    $('#timing').show();
+    $('#googleAPI').hide();
+  };
+
+  EventView.initStatusSubview = function(ctx,next){
+    $('#status-content').show();
+    $('#googleAPI').show();
+  };
+
+  EventView.initClusterSubview = function(ctx,next){
+    $('#cluster').show();
+    $('#googleAPI').show();
+  };
+
+  EventView.initAddTopicSubview = function(ctx,next){
+    $('#add').show();
+    $('#googleAPI').show();
+  };
+
+  /*-----------------
+  -- Other Methods --
+  -----------------*/
 
   EventView.updateRsvpButton = function (newStatus) {
     // TODO: Consider using newStatus instead of toggles?
@@ -106,7 +135,10 @@
     }
   };
 
-  //links up with our google maps api and makes initial location over portland
+  /*----------------------
+  -- Google Map Methods --
+  ----------------------*/
+
   var map;
 
   EventView.initMap = function() {

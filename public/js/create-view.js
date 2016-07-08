@@ -11,8 +11,8 @@
     $('#create-event').off(); //Because of the SPA, remove already applied listener.
     $('#create-event').on('submit', function(event) {
       event.preventDefault();
-      var eventValue = $('#event-value').val();
-      Event.newEvent(eventValue, function(data) {
+      var eventName = $('#event-value').val();
+      Event.newEvent(eventName, function(data) {
         // TODO: Handle bad return value
         TopicController.createTopic(
           Event.eventHash,
@@ -22,7 +22,7 @@
         page.show('name');
       });
     });
-    //if (callback) callback(); // This is the only terminal route callback that doesn't trigger a page reload!
+    // if (callback) callback(); // Causes a page reload.
   };
 
   module.CreateView = CreateView;

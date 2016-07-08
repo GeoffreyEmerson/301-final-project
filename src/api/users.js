@@ -28,6 +28,7 @@ router
   user.hash = crypto.randomBytes(20).toString('hex');
   User.create(user, function(err,user){
     if (err) {
+      console.log(err);
       return res.status(503).json({err: err.message, call: 'POST /users'});
     }
     res.json({'user':user, message: 'User Created'});

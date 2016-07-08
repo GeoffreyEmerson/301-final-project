@@ -5,6 +5,7 @@
   // This method creates a new record in the database and stores the session information.
   EventObject.prototype.saveToDB = function(callback) {
     var currentEvent = this;
+    console.log('Saving to DB:',currentEvent.eventName);
     console.assert(currentEvent.eventName, {'message':'Problem with eventName', 'currentEvent.eventName':currentEvent.eventName});
     $.ajax({
       url: '/api/events',

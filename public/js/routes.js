@@ -7,57 +7,32 @@ page(['','event'], logRoute, Session.check, Event.initEventPage, EventView.initD
 page('new', logRoute, CreateController.init);
 page('name', logRoute, NameController.init);
 page('eventhash/:eventHash', logRoute, Event.getEventFromHash, Session.check, Event.initEventPage, EventView.initDetailsSubview);
+page('event/timing', logRoute, Session.check, Event.initEventPage, EventView.initTimingSubview);
+
+// TODO: What is this route for?
+// page(':id/event/timing', logRoute, Event.initEventPage, function() {
+//   showPage($event);
+//   $('#timing').show();
+//   $('#googleAPI').hide();
+//   CalendarView.initCalendarView();
+// });
+
+page('event/status', logRoute, Session.check, Event.initEventPage, EventView.initStatusSubview);
+
+// TODO: This needs to change to generic topic tabs
+page('event/clusters', logRoute, Session.check, Event.initEventPage, EventView.initClusterSubview);
 
 //////////////////////////////////////
-page('event/timing', logRoute, Event.initEventPage, function() {
-  showPage($event);
-  $('#timing').show();
-  $('#googleAPI').hide();
-  $('.nav-main').show();
-  CalendarView.initCalendarView();
-});
+page('event/add', logRoute, Session.check, Event.initEventPage, EventView.initAddTopicSubview);
 
-page(':id/event/timing', logRoute, Event.initEventPage, function() {
-  showPage($event);
-  $('#timing').show();
-  $('#googleAPI').hide();
-  CalendarView.initCalendarView();
-});
-
-//////////////////////////////////////
-page('event/status', logRoute, Event.initEventPage, function() {
-  showPage($event);
-  $('#status-content').show();
-  $('#googleAPI').show();
-  $('.nav-main').show();
-});
-
-//////////////////////////////////////
-page('event/clusters', logRoute, Event.initEventPage, function() {
-  showPage($event);
-  $('#cluster').show();
-  $('#googleAPI').show();
-  $('.nav-main').show();
-  TopicView.topicCloudInit('cloud');
-  TopicController.initCloudItemClickHandler();
-});
-
-//////////////////////////////////////
-page('event/add', logRoute, Event.initEventPage, function() {
-  showPage($event);
-  $('#add').show();
-  $('#googleAPI').show();
-  $('.nav-main').show();
-});
-
-// page('*', logRoute, notFound); // TODO: Figure out how to not match every damn time
+//page('*', logRoute, notFound); // TODO: Figure out how to not match every damn time
 
 page();
 
-// function notFound(ctx,next) {
-//   console.error('Route not found:',ctx);
-//   if (next) next();
-// }
+function notFound(ctx,next) {
+  console.error('Route not found:',ctx);
+  if (next) next();
+}
 
 // $('#clear-topic').on('click', function(){
 //   $('a').remove('#new-topic');

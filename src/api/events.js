@@ -13,7 +13,6 @@ var router = express.Router();
 
 router
 .get('/',function(req,res) {
-  console.log('events.js Matched GET /');
   Event.find({}, function(err,events){
     if (err){
       console.log(err);
@@ -52,7 +51,6 @@ router
   var hashArg = req.params.hashArg;
   Event.findOne({hash: hashArg}, function(err,event){
     if (!err) {
-      console.log('Updating object:',event);
       Object.keys(req.body).forEach(function(key) {
         event[key] = req.body[key]; // Make the changes...
       });

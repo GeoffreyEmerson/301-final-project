@@ -26,6 +26,7 @@ router
   var topic = req.body;
   Topic.create(topic, function(err,topic){
     if (err) {
+      console.log(err);
       return res.status(503).json({err: err.message, call: 'POST /topics'});
     }
     res.json({'topic':topic, message: 'Topic Created'});

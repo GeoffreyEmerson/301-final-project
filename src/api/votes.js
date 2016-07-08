@@ -14,19 +14,15 @@ var router = express.Router();
 router
 // A POST route to Create a new vote
 .post('/', function(req,res){
-  console.log('Matched POST /votes with', req.body);
   var voteBody = req.body;
   // Check to see if this vote exists
   if(voteBody.xValue && voteBody.date) {
-    console.log('voteBody.xValue && voteBody.date found!');
     Vote.findOne({
       'userHash': voteBody.userHash,
       'topicId': voteBody.topicId,
       'xValue': voteBody.xValue,
       'date': voteBody.date
     }, function(err,vote){
-      console.log('error?',err);
-      console.log('vote:',vote);
       if (vote) {
         // do vote calculations
         vote.weight++;
@@ -39,10 +35,10 @@ router
           return res.json({'vote':vote});
         });
       } else {
-        console.log('Vote not found. Creating new vote record.');
         voteBody.weight = 1;
         Vote.create(voteBody, function(err,vote){
           if (err) {
+            console.log(err);
             return res.status(503).json({err: err.message, call: 'POST /votes'});
           }
           return res.json({'vote':vote});
@@ -57,7 +53,6 @@ router
       'topicId': voteBody.topicId,
       'name': voteBody.name
     }, function(err,vote){
-      console.log(vote);
       if (vote) {
         // do vote calculations
         vote.weight++;
@@ -73,6 +68,7 @@ router
         voteBody.weight = 1;
         Vote.create(voteBody, function(err,vote){
           if (err) {
+            console.log(err);
             return res.status(503).json({err: err.message, call: 'POST /votes'});
           }
           return res.json({'vote':vote});
@@ -84,7 +80,6 @@ router
 
 // A GET route with ID argument to get data on a specific vote
 .get('/:id',function(req,res) {
-  console.log('Matched GET /:id with', req.params.id);
   var idArg = req.params.id;
   Vote.findOne({_id: idArg}, function(err,vote){
     if (err){
@@ -97,7 +92,6 @@ router
 
 // A GET route with topicID argument to get aggregated data on a specific topic
 .get('topic/:topicId',function(req,res) {
-  console.log('Matched with GET topic/:topicId');
   var topicIdArg = req.params.topicId;
   Vote.find({topicId: topicIdArg}, function(err,votes){
     if (err){
@@ -110,7 +104,6 @@ router
 
 // A GET route with userHash argument to get full list of choices for a specific user on a given topic
 .get('user/:userId',function(req,res) {
-  console.log('Matched GET votes/user/:userId');
   var userId = req.params.userId;
   var reqBody = req.body;
   Vote.find({userId: userIdArg}, function(err,votes){
@@ -124,7 +117,6 @@ router
 
 // UNAVAILABLE?: A GET route to browse all votes in the table.
 .get('/',function(req,res) {
-  console.log('Matched GET /votes');
   Vote.find({}, function(err,votes){
     if (err){
       console.log(err);
@@ -136,7 +128,6 @@ router
 
 // A PUT route to update existing entries. Name, email, passHash changes.
 .put('/:id',function(req,res) {
-  console.log('Matched PUT votes/:id with',req.params.id);
   var idArg = req.params.id;
   Vote.findOne({_id: idArg}, function(err,vote){
     vote.name = req.body.name; // Make the change...
@@ -153,7 +144,6 @@ router
 
 // A DELETE route to delete vote by ID.
 .delete('/:id',function(req,res) {
-  console.log('Matched DELETE votes/:id with',req.params.id);
   var idArg = req.params.id;
   Vote.findOne({_id: idArg}, function(err,vote){
     vote.remove(function(err) {
@@ -181,15 +171,11 @@ router
   var topicIdArg = req.body.topicId;
   Vote.findOne({name:voteText,userHash:userHashArg,topicId:topicIdArg}, function(err,vote) {
     if(err) {
-      console.log('New choice for this user. Default weight will be 1.');
       // TODO: Add new vote record.
     } else {
-      console.log('Already chosen. Computing new weight.');
       // TODO: Computations go here
     }
   });
 });
-
-;
 
 module.exports = router;
