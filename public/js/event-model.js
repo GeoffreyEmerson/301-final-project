@@ -115,7 +115,11 @@
       this.eventHash = getCookie('eventHash');
     };
 
-    if (this.eventHash) this.loadEventFromDB(callback);
+    if (this.eventHash) {
+      this.loadEventFromDB(callback);
+    } else {
+      callback();
+    }
   };
 
   // Cookie functions adapted from http://www.w3schools.com/js/js_cookies.asp

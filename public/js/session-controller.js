@@ -6,7 +6,7 @@
       Event.recoverSessionEvent(function(){
         if (!Event.eventName) {
           console.log('No event found. Diverting to create event view.');
-          page.show('/');
+          page.show('/new');
         } else {
           console.log('Event found: ' + Event.eventName);
           checkForUser(next);
