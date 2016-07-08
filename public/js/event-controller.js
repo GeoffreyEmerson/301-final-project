@@ -5,8 +5,8 @@
   Event.newEvent = function(eventName, callback) {
     this.createEvent(eventName,function(result) {
       Event = result;
-      console.log('New Event.name set: ' + Event.name);
-      console.log('New Event.hash set: ' + Event.hash);
+      // console.log('New Event.name set: ' + Event.name);
+      // console.log('New Event.hash set: ' + Event.hash);
       if(callback) callback(Event);
     });
   };
