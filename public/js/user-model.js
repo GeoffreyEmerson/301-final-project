@@ -77,8 +77,8 @@
     window.sessionStorage.setItem('userHash', this.userHash);
 
     // Also set cookies.
-    setCookie('userName', this.userName, 0); // User cookies are more or less permanent.
-    setCookie('userHash', this.userHash, 0);
+    setCookie('userName', this.userName, 365);
+    setCookie('userHash', this.userHash, 365);
   };
 
   UserObject.prototype.recoverSessionUser = function(callback) {

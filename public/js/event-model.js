@@ -98,8 +98,8 @@
     window.sessionStorage.setItem('eventHash', this.eventHash);
 
     // Also set cookies.
-    setCookie('eventName', this.eventName, 0); // User cookies are more or less permanent.
-    setCookie('eventHash', this.eventHash, 0);
+    setCookie('eventName', this.eventName, 365); // Not interested in expiring cookies at this time.
+    setCookie('eventHash', this.eventHash, 365);
   };
 
   EventObject.prototype.recoverSessionEvent = function(callback) {
