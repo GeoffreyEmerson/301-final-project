@@ -25,9 +25,10 @@ router
 // A POST route to Create a new user
 .post('/', function(req,res){
   var user = req.body;
-  user.userHash = crypto.randomBytes(20).toString('hex');
+  user.hash = crypto.randomBytes(20).toString('hex');
   User.create(user, function(err,user){
     if (err) {
+      console.log(err);
       return res.status(503).json({err: err.message, call: 'POST /users'});
     }
     res.json({'user':user, message: 'User Created'});
@@ -37,7 +38,7 @@ router
 // A GET route with ID argument to get data on a specific user
 .get('/:userHash',function(req,res) {
   var userHashArg = req.params.userHash;
-  User.findOne({userHash: userHashArg}, function(err,user){
+  User.findOne({hash: userHashArg}, function(err,user){
     if (err){
       console.log(err);
       return res.status(503).json({message: err.message, call: 'GET /users/:userHash'});
@@ -49,7 +50,7 @@ router
 // A PUT route to update existing entries. Name, email, passHash changes.
 .put('/:userHash',function(req,res) {
   var userHashArg = req.params.userHash;
-  User.findOne({userHash: userHashArg}, function(err,user){
+  User.findOne({hash: userHashArg}, function(err,user){
     user.name = req.body.name; // Make the change...
     user.userEmail = req.body.userEmail; // Make the change...
     user.passHash = req.body.passHash; // Make the change...
@@ -66,7 +67,7 @@ router
 // A DELETE route to delete user by ID.
 .delete('/:userHash',function(req,res) {
   var userHashArg = req.params.userHash;
-  User.findOne({userHash: userHashArg}, function(err,user){
+  User.findOne({hash: userHashArg}, function(err,user){
     user.remove(function(err) {
       if (err){
         console.log(err);

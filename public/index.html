@@ -27,7 +27,7 @@
       <!-- minimalist top nav bar-->
       <nav class="nav-main">
         <div class="container">
-          <a href="/">Convoke</a>
+          <a href="/new">Convoke</a>
         </div>
       </nav>
       <!--our main event page-->
@@ -95,7 +95,7 @@
                   <input class="button-primary u-full-width" type="submit" value="Submit">
                 </form>
                 <!--url link to be shared with guests-->
-                <p> Share this URL with your guests: </p>
+                <p> Share this link with your guests: </p>
                 <input class="u-full-width" type="text" readonly id="share-url">
               </div>
             </section>
@@ -127,7 +127,7 @@
           <br>
           <form class="row" id="create-event">
             <div class="eight columns">
-              <input class="u-full-width" type="text" placeholder="Event Name" required id="event-value" autofocus required>
+              <input class="u-full-width" type="text" placeholder="Event Name" id="event-value" autofocus required>
             </div>
             <div class="four columns">
               <input class="button-primary u-full-width" type="submit" value="Create">
@@ -144,19 +144,18 @@
           <br>
           <form class="row" id="create-name">
             <div class="eight columns">
-              <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" required>
+              <input class="u-full-width" type="text" placeholder="Your Name" id="name-value" autofocus required>
             </div>
             <div class="four columns">
-              <input class="button-primary u-full-width" type="submit" value="Add">
+              <input class="button-primary u-full-width" type="submit" value="That's me!">
             </div>
           </form>
         </div>
       </section>
     </div> <!-- end primary div.table-block -->
 
+    <!-- Page Footer Layout –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <div class="table-block">
-      <!-- Page Footer Layout
-           –––––––––––––––––––––––––––––––––––––––––––––––––– -->
       <div>
         <footer id="footer" class="twelve columns">
           &copy; 2016 Team Sleep Deprived - <a href="https://github.com/GeoffreyEmerson/301-final-project">Check out our Github!</a>
@@ -168,7 +167,7 @@
 
   <!-- Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0/handlebars.js"></script>
-  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/page.js/1.7.1/page.min.js"></script>
   <script type="text/javascript" src="/vendor/jqcloud.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highcharts/4.2.5/highcharts.js"></script>
@@ -176,17 +175,23 @@
   <!-- <script src="/vendor/noSelect.js"></script> -->
 
   <!-- Custom Scripts -->
+  <script type="text/javascript" src="/js/create-view.js"></script>
+  <script type="text/javascript" src="/js/create-controller.js"></script>
+  <script type="text/javascript" src="/js/user-model.js"></script>
+  <script type="text/javascript" src="/js/user-controller.js"></script>
+  <script type="text/javascript" src="/js/name-view.js"></script>
+  <script type="text/javascript" src="/js/name-controller.js"></script>
   <script type="text/javascript" src="/js/topic-model.js"></script>
-  <script type="text/javascript" src="/js/event-view.js"></script>
   <script type="text/javascript" src="/js/topic-view.js"></script>
-  <script type="text/javascript" src="/js/calendar-view.js"></script>
-  <script type="text/javascript" src="/js/home-view.js"></script>
   <script type="text/javascript" src="/js/topic-controller.js"></script>
-  <script type="text/javascript" src="/js/home-controller.js"></script>
+  <script type="text/javascript" src="/js/event-model.js"></script>
+  <script type="text/javascript" src="/js/event-view.js"></script>
   <script type="text/javascript" src="/js/event-controller.js"></script>
-  <script type="text/javascript" src="/js/event-route.js"></script>
+  <script type="text/javascript" src="/js/calendar-view.js"></script>
+  <script type="text/javascript" src="/js/session-controller.js"></script>
+  <script type="text/javascript" src="/js/routes.js"></script>
 
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=EventController.initMap" async defer></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyANkSpMspmZgzuktghs8xN3M9sBrQnZ-Ng&callback=EventView.initMap" async defer></script>
 </body>
 
 </html>
