@@ -31,7 +31,7 @@
     $.ajax({
       url: '/api/rsvps',
       type: 'POST',
-      data: {eventHash: Event.eventHash, userHash: this.userHash},
+      data: {eventHash: Event.hash, userHash: this.userHash},
       cache: false
     })
     .done(function(data) {
@@ -49,7 +49,7 @@
 
   UserObject.prototype.getRsvpFromDB = function(callback){
     console.assert(this.userHash, {'message':'Problem with userHash', 'this.userHash':this.userHash});
-    console.assert(Event.hash, {'message':'Problem with eventHash', 'Event':Event});
+    console.assert(Event.hash, {'message':'Problem with Event.hash', 'Event':Event});
     var userHash = this.userHash;
     var eventHash = Event.hash;
     $.ajax({
@@ -59,7 +59,6 @@
     })
     .done(function(data) {
       if (callback) callback(data.status);
-      return data;
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.error('Ajax call failed: POST /api/events');
