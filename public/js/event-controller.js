@@ -3,9 +3,7 @@
   var Event = new EventObject();
 
   Event.newEvent = function(eventName, callback) {
-    var newEvent = new EventObject(); // TODO: See if this breaks everything.
-    newEvent.eventName = eventName;
-    newEvent.saveToDB(function(result) {
+    this.createEvent(eventName,function(result) {
       Event = result;
       console.log('New Event.eventName set: ' + Event.eventName);
       console.log('New Event.eventHash set: ' + Event.eventHash);
