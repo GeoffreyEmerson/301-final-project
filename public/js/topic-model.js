@@ -6,7 +6,7 @@
 
   TopicObject.prototype.createTopic = function(eventHashArg, nameArg, descriptionArg, callback) {
     var currentTopic = this;
-    console.log('Creating new topic: ' + nameArg);
+    // console.log('Creating new topic: ' + nameArg);
     $.ajax({
       url: '/api/topics',
       type: 'POST',

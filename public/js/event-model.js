@@ -101,7 +101,7 @@
   };
 
   EventObject.prototype.recoverSessionEvent = function(callback) {
-    console.log('Recovering event info from session.');
+    //console.log('Recovering event info from session.');
     // Recover event info from the window session.
     this.name = window.sessionStorage.getItem('eventName');
     this.hash = window.sessionStorage.getItem('eventHash');

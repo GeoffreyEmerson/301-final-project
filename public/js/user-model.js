@@ -81,7 +81,7 @@
   };
 
   UserObject.prototype.recoverSessionUser = function(callback) {
-    console.log('Recovering user info from session.');
+    //console.log('Recovering user info from session.');
 
     // Recover user info from the window session.
     this.userName = window.sessionStorage.getItem('userName');

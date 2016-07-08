@@ -4,7 +4,7 @@
   User.newUser = function(userName, callback) {
     this.createUser(userName, function(result){
       User = result;
-      console.log('New user created: ' + User.userName);
+      // console.log('New user created: ' + User.userName);
       if (callback) callback();
     });
   };
