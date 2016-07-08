@@ -7,9 +7,9 @@
     newEvent.eventName = eventName;
     newEvent.saveToDB(function(result) {
       Event = result;
-      console.log('New eventName set: ' + Event.eventName);
-      console.log('New Event:',Event);
-      if(callback) callback();
+      console.log('New Event.eventName set: ' + Event.eventName);
+      console.log('New Event.eventHash set: ' + Event.eventHash);
+      if(callback) callback(Event);
     });
   };
 
@@ -64,27 +64,6 @@
         if (callback) callback();
       });
     }
-  };
-
-  Event.createUserName = function(nameArg, callback) {
-    $.ajax({
-      url: '/api/users',
-      type: 'POST',
-      data: {name: nameArg},
-      cache: false
-    })
-    .done( function (data) {
-      // TODO: Get data from proper source.
-      throw 'saltDom is deprecated';
-      saltDom('#user-id','user',data.user.userHash,data.user.name);
-      setCookie('userHash', data.user.userHash, 10);
-      setCookie('userName', data.user.name, 10);
-      if (callback) callback();
-    })
-    .fail( function() {
-      console.error('Name creation failed (event-controller.js)');
-      if (callback) callback();
-    });
   };
 
   Event.handleSubmitComment = function(event) {
