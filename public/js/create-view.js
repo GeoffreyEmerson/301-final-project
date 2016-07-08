@@ -15,7 +15,7 @@
       Event.newEvent(eventName, function(newEvent) {
         // TODO: Handle bad return value
         TopicController.createTopic(
-          newEvent.eventHash,
+          newEvent.hash,
           'eventStartTopic',
           'Click on the calendar to indicate your availability.'
         );

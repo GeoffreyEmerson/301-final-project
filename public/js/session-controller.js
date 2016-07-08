@@ -2,18 +2,18 @@
   var Session = {};
 
   Session.check = function(ctx, next) {
-    if (!Event.eventName) {
+    if (!Event.name) {
       Event.recoverSessionEvent(function(){
-        if (!Event.eventName) {
+        if (!Event.name) {
           console.log('No event found. Diverting to create event view.');
           page.show('/new');
         } else {
-          console.log('Event found: ' + Event.eventName);
+          console.log('Event found: ' + Event.name);
           checkForUser(next);
         }
       });
     } else {
-      console.log('Event found: ' + Event.eventName);
+      console.log('Event found: ' + Event.name);
       checkForUser(next);
     }
   };
