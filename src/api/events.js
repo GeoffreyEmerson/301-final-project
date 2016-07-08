@@ -59,7 +59,6 @@ router
           console.log(err);
           return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
         } else {
-          console.log('New version object:',event);
           res.json({event: event}); // Puts JSON in the response object.
         };
       });

@@ -49,9 +49,9 @@
 
   UserObject.prototype.getRsvpFromDB = function(callback){
     console.assert(this.userHash, {'message':'Problem with userHash', 'this.userHash':this.userHash});
-    console.assert(Event.eventHash, {'message':'Problem with eventHash', 'Event':Event});
+    console.assert(Event.hash, {'message':'Problem with eventHash', 'Event':Event});
     var userHash = this.userHash;
-    var eventHash = Event.eventHash;
+    var eventHash = Event.hash;
     $.ajax({
       url: '/api/rsvps/' + eventHash + '/' + userHash,
       type: 'GET',

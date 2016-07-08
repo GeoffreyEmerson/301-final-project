@@ -5,8 +5,8 @@
   Event.newEvent = function(eventName, callback) {
     this.createEvent(eventName,function(result) {
       Event = result;
-      console.log('New Event.eventName set: ' + Event.eventName);
-      console.log('New Event.eventHash set: ' + Event.eventHash);
+      console.log('New Event.name set: ' + Event.name);
+      console.log('New Event.hash set: ' + Event.hash);
       if(callback) callback(Event);
     });
   };
@@ -17,11 +17,11 @@
 
   Event.getEventFromHash = function(ctx,next) {
     console.log(Event);
-    Event.eventHash = ctx.params.eventHash;
+    Event.hash = ctx.params.eventHash;
     Event.loadEventFromDB(function(result) {
-      if (result && result.eventName) {
+      if (result && result.name) {
         Event = result;
-        getTopicId(Event.eventHash,function(){
+        getTopicId(Event.hash,function(){
           if (next) next();
         });
       } else {
@@ -64,13 +64,14 @@
     }
   };
 
-  Event.handleSubmitComment = function(event) {
-    event.preventDefault();
-    var date = $('#date').val().trim();
-    var times = $('#times').val().trim();
-    var description = $('#event-description').val().trim();
-    console.log(date, times, eventDescription);
-    // TODO: Save admin input to DB.
+  Event.handleSubmitComment = function(clickEvent) {
+    clickEvent.preventDefault();
+    Event.date = $('#date').val().trim();
+    Event.times = $('#times').val().trim();
+    Event.description = $('#event-description').val().trim();
+    Event.updateEventInDB(function(updatedEvent){
+      EventView.updateDetails(updatedEvent);
+    });
   };
 
   //TODO use this handlebars method to ger real data from our user database

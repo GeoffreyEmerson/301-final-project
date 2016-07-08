@@ -14,14 +14,14 @@
     .done( function (data) {
       console.assert(data.event.name && data.event.hash, {'message':'Problem creating event record','data.event.name':data.event.name,'data.event.hash':data.event.hash});
       // After successfully creating a new record for the event, store the info
-      currentEvent.eventName = data.event.name; // event.hash is created by the API.
-      currentEvent.eventHash = data.event.hash; // event.hash is created by the API.
-      currentEvent.urlHash = window.location.protocol + '//' + window.location.host + '/eventhash/' + currentEvent.eventHash;
+      currentEvent.name = data.event.name; // event.hash is created by the API.
+      currentEvent.hash = data.event.hash; // event.hash is created by the API.
+      currentEvent.urlHash = window.location.protocol + '//' + window.location.host + '/eventhash/' + currentEvent.hash;
       currentEvent.setSessionEvent();
       if (callback) callback(currentEvent);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
-      console.error('Ajax call failed: POST /api/events,', this.eventName);
+      console.error('Ajax call failed: POST /api/events,', this.name);
       console.log('jqXHR.responseText:',jqXHR.responseText);
       console.log('textStatus:',textStatus);
       console.log('errorThrown:',errorThrown);
@@ -31,19 +31,18 @@
 
   EventObject.prototype.loadEventFromDB = function(callback){
     currentEvent = this;
-    if (currentEvent.eventHash) {
+    if (currentEvent.hash) {
       $.ajax({
-        url: '/api/events/' + currentEvent.eventHash,
+        url: '/api/events/' + currentEvent.hash,
         type: 'GET',
         cache: false
       })
       .done( function (data) {
-        console.log('Loaded data from url hash:',data);
         if (data.event.name && data.event.hash) {
-          // TODO: Revover ALL data from DB.
-          currentEvent.eventName = data.event.name;
-          currentEvent.eventHash = data.event.hash;
-          currentEvent.urlHash = window.location.protocol + '//' + window.location.host + '/eventhash/' + currentEvent.eventHash;
+          Object.keys(data.event).forEach(function(key){
+            currentEvent[key] = data.event[key];
+          });
+          currentEvent.urlHash = window.location.protocol + '//' + window.location.host + '/eventhash/' + currentEvent.hash;
           currentEvent.setSessionEvent();
           if (callback) callback(currentEvent);
         } else {
@@ -53,7 +52,7 @@
         };
       })
       .fail( function(jqXHR, textStatus, errorThrown) {
-        console.warn('Ajax call failed: GET /api/events/' + eventHash);
+        console.warn('Ajax call failed: GET /api/events/' + currentEvent.hash);
         console.log('jqXHR.responseText:',jqXHR.responseText);
         console.log('textStatus:',textStatus);
         console.log('errorThrown:',errorThrown);
@@ -63,21 +62,21 @@
   };
 
   // This method updates the event record in the database and updates the session information.
-  //  Note: it requires an object with the eventHash and any updated info.
-  EventObject.prototype.updateEventInDB = function(eventInfo, callback) {
+  //  Note: it requires an event object with a hash and any updated info.
+  EventObject.prototype.updateEventInDB = function(callback) {
     var currentEvent = this;
-    console.assert(eventInfo, {'message':'Problem with eventInfo', 'eventInfo':eventInfo});
     $.ajax({
-      url: '/api/events/' + currentEvent.eventHash,
+      url: '/api/events/' + currentEvent.hash,
       type: 'PUT',
-      data: eventInfo,
+      data: {
+        name: currentEvent.name,
+        date: currentEvent.date,
+        times: currentEvent.times,
+        description: currentEvent.description
+      },
       cache: false
     })
     .done( function (data) {
-      console.log('Event data updated in DB. Returned data:', data);
-      // TODO: Put ALL new data in currentEvent variable.
-      if(data.event.eventName) currentEvent.eventName = data.event.eventName;
-      if(data.event.urlHash) currentEvent.urlHash = data.event.urlHash;
       currentEvent.setSessionEvent();
       if (callback) callback(currentEvent);
       return data;
@@ -93,28 +92,28 @@
 
   EventObject.prototype.setSessionEvent = function() {
     // Store the info in the window session.
-    window.sessionStorage.setItem('eventName', this.eventName);
-    window.sessionStorage.setItem('eventHash', this.eventHash);
+    window.sessionStorage.setItem('eventName', this.name);
+    window.sessionStorage.setItem('eventHash', this.hash);
 
     // Also set cookies.
-    setCookie('eventName', this.eventName, 365); // Not interested in expiring cookies at this time.
-    setCookie('eventHash', this.eventHash, 365);
+    setCookie('eventName', this.name, 365); // Not interested in expiring cookies at this time.
+    setCookie('eventHash', this.hash, 365);
   };
 
   EventObject.prototype.recoverSessionEvent = function(callback) {
     console.log('Recovering event info from session.');
     // Recover event info from the window session.
-    this.eventName = window.sessionStorage.getItem('eventName');
-    this.eventHash = window.sessionStorage.getItem('eventHash');
+    this.name = window.sessionStorage.getItem('eventName');
+    this.hash = window.sessionStorage.getItem('eventHash');
 
-    if (!this.eventName || !this.eventHash) {
+    if (!this.name || !this.hash) {
       console.log('Session recover failed. Looking for event info in cookies.');
       // If that doesn't work, try getting session info from cookies.
-      this.eventName = getCookie('eventName');
-      this.eventHash = getCookie('eventHash');
+      this.name = getCookie('eventName');
+      this.hash = getCookie('eventHash');
     };
 
-    if (this.eventHash) {
+    if (this.hash) {
       this.loadEventFromDB(callback);
     } else {
       callback();

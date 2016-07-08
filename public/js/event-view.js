@@ -10,7 +10,7 @@
     $('#event').show();
 
     // Display the event name and user name.
-    $('#event-name').text(Event.eventName);
+    $('#event-name').text(Event.name);
     $('#user-id h4').text(User.userName);
 
     // Set up the Rsvp status button colors for the current user
@@ -83,12 +83,17 @@
 
     // Generate shareable link
     $('#share-url').val(Event.urlHash);
-    $('#share-url ').on('focus', function(){
+    $('#share-url').off();
+    $('#share-url').on('focus', function(){
       this.select();
     });
 
     // Set listener on admin input submit button
+    $('#admin-input').off();
     $('#admin-input').on('submit', Event.handleSubmitComment);
+    if (Event.date || Event.times || Event.description) {
+      EventView.updateDetails(Event);
+    }
 
     //NOTE: Do not use next() for final subview inits. It causes a page reload by page.js.
   };
@@ -133,6 +138,13 @@
       $tatus.toggleClass('disapprove blank');
       $tatus.children().text('Going?');
     }
+  };
+
+  EventView.updateDetails = function(currentEvent) {
+    if (currentEvent.date) $('#date').attr('value', currentEvent.date);
+    if (currentEvent.times) $('#times').attr('value', currentEvent.times);
+    if (currentEvent.description) $('#event-description').val(currentEvent.description);
+    $('#admin-input-button').attr('value', 'Update');
   };
 
   /*----------------------
