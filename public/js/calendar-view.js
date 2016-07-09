@@ -199,8 +199,8 @@
     })
     .done( function (data) {
       // call the callback function here
-      console.log('sendClickToDatabase: Successful ajax call:');
-      console.log(data);
+      // console.log('sendClickToDatabase: Successful ajax call:');
+      // console.log(data);
       if(callback) callback(topicIdArg,userHashArg);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {

@@ -147,18 +147,17 @@
   EventObject.prototype.getRsvpListFromDB = function(callback){
     currentEvent = this;
     $.ajax({
-      url: '/api/rsvps/' + currentEvent.hash,
+      url: '/api/rsvps/' + currentEvent._id,
       type: 'GET',
       cache: false
     })
     .done( function (data) {
-      console.log('Ajax call getRsvpListFromDB successful:', data.rsvps);
-      // var rsvpList = data.rsvps.map(function(rsvp){
-      //   console.log('Current rsvp: ',rsvp);
-      //   var userName = User.getNameFromHash(rsvp.userHash);
-      //   return {username:userName,status:rsvp.status,css:'approve'};
-      // });
-      if (callback) callback(data);
+      var rsvpList = data.rsvps.map(function(rsvp){
+        return {
+          userName:rsvp.user.name,
+          status:rsvp.status};
+      });
+      if (callback) callback(rsvpList);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
       console.warn('Ajax call failed: GET /api/events/' + currentEvent.hash);

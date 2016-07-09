@@ -47,6 +47,7 @@ router
       newRsvp.status = 1;
       Rsvp.create(newRsvp, function(err,rsvp){
         if (err) {
+          console.log(err);
           return res.status(503).json({err: err.message, call: 'POST /rsvps'});
         }
         res.json({'rsvp':rsvp, message: 'New RSVP Created'});
@@ -56,19 +57,15 @@ router
 })
 
 // A GET route with eventId argument to get rsvp list for that event
-.get('/:eventIdArg',function(req,res) {
-  var eventIdArg = req.params.eventIdArg;
-  Rsvp.find({eventId: eventIdArg})
-  .populate({
-    path:'user',
-    select:'name'
-  })
+.get('/:eventId',function(req,res) {
+  var event = req.params.eventId;
+  Rsvp.find({event: event})
+  .populate('user event')
   .exec(function(err,rsvps){
     if (err){
       console.log(err);
       return res.status(503).json({message: err.message, call: 'GET /rsvps/:eventId'});
     }
-    console.log(rsvps);
     res.json({rsvps: rsvps});
   });
 })
@@ -86,6 +83,7 @@ router
         res.json({'status':0});
       };
     } else {
+      console.log(err);
       return res.status(503).json({err: err.message, call: 'GET /rsvps/:eventId/:userId'});
     }
   });

@@ -39,6 +39,7 @@
     $tatus.on('click', function() {
       User.updateRsvp(function(result) {
         EventView.updateRsvpButton(result);
+        Event.updateRsvps();
       });
     });
 
@@ -65,7 +66,6 @@
     });
 
     // Experimental: These methods set up subviews, even though they are hidden.
-    EventView.triggerMapResize();
     CalendarView.initCalendarView();
     TopicView.topicCloudInit('cloud');
     TopicController.initCloudItemClickHandler();
@@ -80,6 +80,7 @@
   EventView.initDetailsSubview = function(ctx,next){
     $('#details').show();
     $('#googleAPI').show();
+    EventView.triggerMapResize();
 
     // Generate shareable link
     $('#share-url').val(Event.urlHash);
@@ -146,6 +147,10 @@
     if (currentEvent.times) $('#times').attr('value', currentEvent.times);
     if (currentEvent.description) $('#event-description').val(currentEvent.description);
     $('#admin-input-button').attr('value', 'Update');
+  };
+
+  EventView.updateRsvpList = function(guestListHtml) {
+    $('#user-info').html(guestListHtml);
   };
 
   /*----------------------

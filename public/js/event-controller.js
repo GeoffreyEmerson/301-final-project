@@ -11,6 +11,21 @@
 
   Event.initEventPage = function(ctx,next) {
     Event.prepHandlebars();
+
+    Handlebars.registerHelper('css', function(status) {
+      if (status === -1) return 'disapprove';
+      if (status === 0) return '';
+      if (status === 1) return 'maybe';
+      if (status === 2) return 'approve';
+    });
+
+    Handlebars.registerHelper('text', function(status) {
+      if (status === -1) return 'nope';
+      if (status === 0) return 'no response';
+      if (status === 1) return 'maybe';
+      if (status === 2) return 'attending';
+    });
+
     EventView.initEventView(next);
   };
 
@@ -78,27 +93,10 @@
   };
 
   Event.updateRsvps = function(){
-    // get list of rsvps from DB
-    // ren the list through the handlebars function
-    // send the html to the view?
-    //TODO use this handlebars method to ger real data from our user database
-    function rsvpObject(userName, status, css) {
-      this.userName = userName;
-      this.status = status;
-      this.css = css;
-    };
-    var rsvpList = [
-      new rsvpObject('Bob', 'attending','approve'),
-      new rsvpObject('Bill', 'maybe', 'maybe'),
-      new rsvpObject('Sarah', 'no', 'disapprove')
-    ];
-
     this.getRsvpListFromDB(function(updatedRsvpList){
-      console.log('updatedRsvpList',updatedRsvpList);
-      var guestListHtml = Event.rsvpsToHtml({rsvp:rsvpList});
-      $('#user-info').append(guestListHtml); // TODO: put this in EventView
+      var guestListHtml = Event.rsvpsToHtml({rsvp:updatedRsvpList});
+      EventView.updateRsvpList(guestListHtml);
     });
-
   };
 
   model.Event = Event;
