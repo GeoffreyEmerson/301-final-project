@@ -26,8 +26,8 @@ router
 // A POST route to Create new RSVP entries
 .post('/', function(req,res){
   var newRsvp = {
-    userHash: req.body.userHash,
-    eventHash: req.body.eventHash
+    user: req.body.userId,
+    event: req.body.eventId
   };
   // Search for existing RSVP for this user and event
   Rsvp.findOne(newRsvp, function(err,rsvp){
@@ -55,23 +55,30 @@ router
   });
 })
 
-// A GET route with eventHash argument to get rsvp list for that event
-.get('/:eventHashArg',function(req,res) {
-  var eventHashArg = req.params.eventHashArg;
-  Rsvp.find({eventHash: eventHashArg}, function(err,rsvps){
+// A GET route with eventId argument to get rsvp list for that event
+.get('/:eventIdArg',function(req,res) {
+  var eventIdArg = req.params.eventIdArg;
+  Rsvp.find({eventId: eventIdArg})
+  .populate({
+    path:'user',
+    select:'name'
+  })
+  .exec(function(err,rsvps){
     if (err){
       console.log(err);
-      return res.status(503).json({message: err.message, call: 'GET /rsvps/:eventHash'});
+      return res.status(503).json({message: err.message, call: 'GET /rsvps/:eventId'});
     }
+    console.log(rsvps);
     res.json({rsvps: rsvps});
   });
 })
 
 // A GET route for checking a specific user's rsvp status
-.get('/:eventHashArg/:userHashArg', function(req,res) {
-  var eventHashArg = req.params.eventHashArg;
-  var userHashArg = req.params.userHashArg;
-  Rsvp.findOne({userHash:userHashArg,eventHash: eventHashArg}, function(err,rsvp){
+.get('/:eventIdArg/:userIdArg', function(req,res) {
+  var eventIdArg = req.params.eventIdArg;
+  var userIdArg = req.params.userIdArg;
+  Rsvp.findOne({user:userIdArg,event: eventIdArg})
+  .exec(function(err,rsvp){
     if(!err){
       if(rsvp) {
         res.json({'status':rsvp.status});
@@ -79,16 +86,16 @@ router
         res.json({'status':0});
       };
     } else {
-      return res.status(503).json({err: err.message, call: 'GET /rsvps/:eventHash/:userHash'});
+      return res.status(503).json({err: err.message, call: 'GET /rsvps/:eventId/:userId'});
     }
   });
 })
 
 // A PUT route to update existing entries. Changing RSVP status will need this.
 .put('/',function(req,res) {
-  var userHashArg = req.body.userHash;
-  var eventHashArg = req.body.eventHash;
-  Rsvp.findOne({userHash:userHashArg, eventHash:eventHashArg}, function(err,rsvp){
+  var userIdArg = req.body.userId;
+  var eventIdArg = req.body.eventId;
+  Rsvp.findOne({user:userIdArg, event:eventIdArg}, function(err,rsvp){
     if (rsvp) {
       rsvp.status = req.body.status; // Make the change...
       rsvp.save(function(err) {  // Then save the change.
@@ -104,7 +111,7 @@ router
   });
 })
 
-// A DELETE route to delete events by eventHash.
+// A DELETE route to delete rsvp by id.
 .delete('/:id',function(req,res) {
   var idArg = req.params.id;
   Rsvp.findOne({_id: idArg}, function(err,rsvp){

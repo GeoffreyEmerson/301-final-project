@@ -19,9 +19,9 @@
   };
 
   function checkForUser(next) {
-    if (!User.userName) {
-      User.getUserName(function(){
-        if (!User.userName) {
+    if (!User.name) {
+      User.recoverUserNamefromSession(function(){
+        if (!User.name) {
           console.log('No user name found. Diverting to name view.');
           page.show('name');
         } else {

@@ -14,8 +14,9 @@
     .done( function (data) {
       console.assert(data.event.name && data.event.hash, {'message':'Problem creating event record','data.event.name':data.event.name,'data.event.hash':data.event.hash});
       // After successfully creating a new record for the event, store the info
-      currentEvent.name = data.event.name; // event.hash is created by the API.
-      currentEvent.hash = data.event.hash; // event.hash is created by the API.
+      Object.keys(data.event).forEach(function(key){
+        currentEvent[key] = data.event[key];
+      });
       currentEvent.urlHash = window.location.protocol + '//' + window.location.host + '/eventhash/' + currentEvent.hash;
       currentEvent.setSessionEvent();
       if (callback) callback(currentEvent);
@@ -141,6 +142,31 @@
       }
     }
     return null;
+  };
+
+  EventObject.prototype.getRsvpListFromDB = function(callback){
+    currentEvent = this;
+    $.ajax({
+      url: '/api/rsvps/' + currentEvent.hash,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      console.log('Ajax call getRsvpListFromDB successful:', data.rsvps);
+      // var rsvpList = data.rsvps.map(function(rsvp){
+      //   console.log('Current rsvp: ',rsvp);
+      //   var userName = User.getNameFromHash(rsvp.userHash);
+      //   return {username:userName,status:rsvp.status,css:'approve'};
+      // });
+      if (callback) callback(data);
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.warn('Ajax call failed: GET /api/events/' + currentEvent.hash);
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      if (callback) callback();
+    });
   };
 
   module.EventObject = EventObject;

@@ -1,7 +1,5 @@
 (function(module) {
-  function UserObject() {
-
-  }
+  function UserObject() {}
 
   // New user objects created here and saved to DB
   UserObject.prototype.createUser = function(userName, callback){
@@ -13,8 +11,10 @@
       cache: false
     })
     .done( function (data) {
-      currentUser.userName = data.user.name;
-      currentUser.userHash = data.user.hash;
+      console.log('New user data:',data);
+      Object.keys(data.user).forEach(function(key){
+        currentUser[key] = data.user[key];
+      });
       currentUser.setSessionUser();
       if (callback) callback(currentUser);
     })
@@ -27,14 +27,36 @@
     });
   };
 
-  UserObject.prototype.rsvpTrigger = function(callback) {
+  UserObject.prototype.lookup = function(userId,callback) {
     $.ajax({
-      url: '/api/rsvps',
-      type: 'POST',
-      data: {eventHash: Event.hash, userHash: this.userHash},
+      url: '/api/users/' + userId,
+      type: 'GET',
       cache: false
     })
     .done(function(data) {
+      console.log('User.lookup successful:',data);
+      if (callback) callback(data.user.name);
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.error('Ajax call failed: POST /api/events');
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      // call the error version of the callback if any
+      if (callback) callback();
+    });
+  };
+
+  UserObject.prototype.rsvpTrigger = function(callback) {
+    console.assert(Event._id && this._id, {'message':'Problem with rsvpTrigger','Event._id':Event._id,'this._id':this._id});
+    $.ajax({
+      url: '/api/rsvps',
+      type: 'POST',
+      data: {eventId: Event._id, userId: this._id},
+      cache: false
+    })
+    .done(function(data) {
+      console.log('rsvpTrigger ajax success:', data);
       if (callback) callback(data.rsvp.status);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
@@ -48,12 +70,12 @@
   };
 
   UserObject.prototype.getRsvpFromDB = function(callback){
-    console.assert(this.userHash, {'message':'Problem with userHash', 'this.userHash':this.userHash});
-    console.assert(Event.hash, {'message':'Problem with Event.hash', 'Event':Event});
-    var userHash = this.userHash;
-    var eventHash = Event.hash;
+    console.assert(this._id, {'message':'Problem with this._id', 'this':this});
+    console.assert(Event._id, {'message':'Problem with Event._id', 'Event':Event});
+    var userId = this._id;
+    var eventId = Event._id;
     $.ajax({
-      url: '/api/rsvps/' + eventHash + '/' + userHash,
+      url: '/api/rsvps/' + eventId + '/' + userId,
       type: 'GET',
       cache: false
     })
@@ -72,26 +94,26 @@
 
   UserObject.prototype.setSessionUser = function() {
     // Store the info in the window session.
-    window.sessionStorage.setItem('userName', this.userName);
-    window.sessionStorage.setItem('userHash', this.userHash);
+    window.sessionStorage.setItem('userName', this.name);
+    window.sessionStorage.setItem('userId', this._id);
 
     // Also set cookies.
-    setCookie('userName', this.userName, 365);
-    setCookie('userHash', this.userHash, 365);
+    setCookie('userName', this.name, 365);
+    setCookie('userId', this._id, 365);
   };
 
   UserObject.prototype.recoverSessionUser = function(callback) {
     //console.log('Recovering user info from session.');
 
     // Recover user info from the window session.
-    this.userName = window.sessionStorage.getItem('userName');
-    this.userHash = window.sessionStorage.getItem('userHash');
+    this.name = window.sessionStorage.getItem('userName');
+    this._id = window.sessionStorage.getItem('userId');
 
-    if (!this.userName || !this.userHash) {
+    if (!this.name || !this._id) {
       console.log('Session recover failed. Looking for user info in cookies.');
       // If that doesn't work, try getting session info from cookies.
-      this.userName = getCookie('userName');
-      this.userHash = getCookie('userHash');
+      this.name = getCookie('userName');
+      this._id = getCookie('userId');
     };
 
     if (callback) callback();

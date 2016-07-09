@@ -1,31 +1,31 @@
 (function(module) {
 
-  function TopicObject(eventHashArg, nameArg, descriptionArg, callback) {
-    return this.createTopic(eventHashArg, nameArg, descriptionArg, callback);
+  function TopicObject(eventIdArg, nameArg, descriptionArg, callback) {
+    return this.createTopic(eventIdArg, nameArg, descriptionArg, callback);
   }
 
-  TopicObject.prototype.createTopic = function(eventHashArg, nameArg, descriptionArg, callback) {
+  TopicObject.prototype.createTopic = function(eventIdArg, nameArg, descriptionArg, callback) {
     var currentTopic = this;
     // console.log('Creating new topic: ' + nameArg);
     $.ajax({
       url: '/api/topics',
       type: 'POST',
-      data: {eventHash: eventHashArg, name: nameArg, description: descriptionArg},
+      data: {event: eventIdArg, name: nameArg, description: descriptionArg},
       cache: false
     })
     .done( function (data) {
       console.assert(
-        data.topic.name && data.topic.eventHash && data.topic._id,
+        data.topic.name && data.topic.event && data.topic._id,
         {
           'message':'Issue when saving new Topic:',
           'data.topic.name':data.topic.name,
-          'data.topic.eventHash':data.topic.eventHash,
+          'data.topic.event':data.topic.event,
           'data.topic._id':data.topic._id
         }
       );
       currentTopic.name = data.topic.name;
       currentTopic.description = data.topic.description;
-      currentTopic.eventHash = data.topic.eventHash;
+      currentTopic.event = data.topic.event;
       currentTopic.id = data.topic._id;
       if (callback) callback(data);
       return currentTopic;
@@ -39,7 +39,7 @@
     });
   };
 
-  TopicObject.prototype.rebuildTopicArray = function(eventHashArg, callback) {
+  TopicObject.prototype.rebuildTopicArray = function(eventIdArg, callback) {
     $.ajax({
       url: '/api/topics',
       type: 'GET',
@@ -47,7 +47,7 @@
     })
     .done( function (data) {
       var eventTopics = data.topics.filter(function(topic){
-        if(topic.eventHash === eventHashArg) return true;
+        if(topic.event === eventIdArg) return true;
       });
       console.log('Regenerating Topic Array. Returned data:',eventTopics);
       if (callback) callback();

@@ -5,27 +5,25 @@
   Event.newEvent = function(eventName, callback) {
     this.createEvent(eventName,function(result) {
       Event = result;
-      // console.log('New Event.name set: ' + Event.name);
-      // console.log('New Event.hash set: ' + Event.hash);
       if(callback) callback(Event);
     });
   };
 
   Event.initEventPage = function(ctx,next) {
+    Event.prepHandlebars();
     EventView.initEventView(next);
   };
 
   Event.getEventFromHash = function(ctx,next) {
-    console.log(Event);
     Event.hash = ctx.params.eventHash;
     Event.loadEventFromDB(function(result) {
       if (result && result.name) {
         Event = result;
-        getTopicId(Event.hash,function(){
+        getTopicId(Event._id,function(){
           if (next) next();
         });
       } else {
-        console.error('Problem retrieving Event from Hash:',this);
+        console.error('Problem retrieving Event from Hash:',ctx.params);
         // TODO: Display a message to the user about the bad hash
         //  Give button to start at home page?
       }
@@ -74,21 +72,35 @@
     });
   };
 
-  //TODO use this handlebars method to ger real data from our user database
-  function userTest(userName, status, css) {
-    this.userName = userName;
-    this.status = status;
-    this.css = css;
+  Event.prepHandlebars = function(){
+    var rsvpTemplate = $('#guests').html();
+    Event.rsvpsToHtml = Handlebars.compile(rsvpTemplate);
   };
-  var testObject = [
-    new userTest('Bob', 'attending','approve'),
-    new userTest('Bill', 'maybe', 'maybe'),
-    new userTest('Sarah', 'no', 'disapprove')
-  ];
-  var newTemplate = $('#guests').html();
-  var compiled = Handlebars.compile(newTemplate);
-  var guestList = compiled({testObject:testObject});
-  $('#user-info').append(guestList);
+
+  Event.updateRsvps = function(){
+    // get list of rsvps from DB
+    // ren the list through the handlebars function
+    // send the html to the view?
+    //TODO use this handlebars method to ger real data from our user database
+    function rsvpObject(userName, status, css) {
+      this.userName = userName;
+      this.status = status;
+      this.css = css;
+    };
+    var rsvpList = [
+      new rsvpObject('Bob', 'attending','approve'),
+      new rsvpObject('Bill', 'maybe', 'maybe'),
+      new rsvpObject('Sarah', 'no', 'disapprove')
+    ];
+
+    console.log('this is:',this);
+    this.getRsvpListFromDB(function(updatedRsvpList){
+      console.log('updatedRsvpList',updatedRsvpList);
+      var guestListHtml = Event.rsvpsToHtml({rsvp:rsvpList});
+      $('#user-info').append(guestListHtml); // TODO: put this in EventView
+    });
+
+  };
 
   model.Event = Event;
 })(window);

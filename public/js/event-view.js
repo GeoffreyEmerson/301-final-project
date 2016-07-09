@@ -11,7 +11,7 @@
 
     // Display the event name and user name.
     $('#event-name').text(Event.name);
-    $('#user-id h4').text(User.userName);
+    $('#user-id h4').text(User.name);
 
     // Set up the Rsvp status button colors for the current user
     User.getRsvpStatus(function(rsvpStatus){
@@ -104,6 +104,7 @@
   };
 
   EventView.initStatusSubview = function(ctx,next){
+    Event.updateRsvps();
     $('#status-content').show();
     $('#googleAPI').show();
   };
