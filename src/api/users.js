@@ -25,7 +25,6 @@ router
 // A POST route to Create a new user
 .post('/', function(req,res){
   var user = req.body;
-  user.hash = crypto.randomBytes(20).toString('hex');
   User.create(user, function(err,user){
     if (err) {
       console.log(err);

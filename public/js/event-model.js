@@ -67,7 +67,7 @@
   EventObject.prototype.updateEventInDB = function(callback) {
     var currentEvent = this;
     $.ajax({
-      url: '/api/events/' + currentEvent.hash,
+      url: '/api/events/' + currentEvent._id,
       type: 'PUT',
       data: {
         name: currentEvent.name,
@@ -107,8 +107,8 @@
     this.name = window.sessionStorage.getItem('eventName');
     this.hash = window.sessionStorage.getItem('eventHash');
 
-    if (!this.name || !this.hash) {
-      console.log('Session recover failed. Looking for event info in cookies.');
+    if (!this.hash) {
+      console.log('Event session recover failed. Looking for event info in cookies.');
       // If that doesn't work, try getting session info from cookies.
       this.name = getCookie('eventName');
       this.hash = getCookie('eventHash');

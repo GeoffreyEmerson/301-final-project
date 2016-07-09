@@ -56,7 +56,6 @@
       cache: false
     })
     .done(function(data) {
-      console.log('rsvpTrigger ajax success:', data);
       if (callback) callback(data.rsvp.status);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
@@ -116,6 +115,7 @@
       this._id = getCookie('userId');
     };
 
+    if (this._id) this.setSessionUser();
     if (callback) callback();
   };
 

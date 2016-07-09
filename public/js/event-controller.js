@@ -93,7 +93,6 @@
       new rsvpObject('Sarah', 'no', 'disapprove')
     ];
 
-    console.log('this is:',this);
     this.getRsvpListFromDB(function(updatedRsvpList){
       console.log('updatedRsvpList',updatedRsvpList);
       var guestListHtml = Event.rsvpsToHtml({rsvp:rsvpList});
