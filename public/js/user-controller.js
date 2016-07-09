@@ -4,13 +4,21 @@
   User.newUser = function(userName, callback) {
     this.createUser(userName, function(result){
       User = result;
-      console.log('New user created: ' + User.userName);
+      // console.log('New user created: ' + User.userName);
       if (callback) callback();
     });
   };
 
-  User.getUserName = function(callback){
+  User.recoverUserNamefromSession = function(callback){
     this.recoverSessionUser(callback);
+  };
+
+  User.getNameFromId = function(userId,callback) {
+    console.log('In method User.getNameFromId, "this" is:',this);
+    if (this._id === userId) return this.name;
+    User.lookup(userId, function(result){
+      return result;
+    });
   };
 
   User.updateRsvp = function(callback) {

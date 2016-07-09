@@ -5,27 +5,40 @@
   Event.newEvent = function(eventName, callback) {
     this.createEvent(eventName,function(result) {
       Event = result;
-      console.log('New Event.name set: ' + Event.name);
-      console.log('New Event.hash set: ' + Event.hash);
       if(callback) callback(Event);
     });
   };
 
   Event.initEventPage = function(ctx,next) {
+    Event.prepHandlebars();
+
+    Handlebars.registerHelper('css', function(status) {
+      if (status === -1) return 'disapprove';
+      if (status === 0) return '';
+      if (status === 1) return 'maybe';
+      if (status === 2) return 'approve';
+    });
+
+    Handlebars.registerHelper('text', function(status) {
+      if (status === -1) return 'nope';
+      if (status === 0) return 'no response';
+      if (status === 1) return 'maybe';
+      if (status === 2) return 'attending';
+    });
+
     EventView.initEventView(next);
   };
 
   Event.getEventFromHash = function(ctx,next) {
-    console.log(Event);
     Event.hash = ctx.params.eventHash;
     Event.loadEventFromDB(function(result) {
       if (result && result.name) {
         Event = result;
-        getTopicId(Event.hash,function(){
+        getTopicId(Event._id,function(){
           if (next) next();
         });
       } else {
-        console.error('Problem retrieving Event from Hash:',this);
+        console.error('Problem retrieving Event from Hash:',ctx.params);
         // TODO: Display a message to the user about the bad hash
         //  Give button to start at home page?
       }
@@ -74,21 +87,17 @@
     });
   };
 
-  //TODO use this handlebars method to ger real data from our user database
-  function userTest(userName, status, css) {
-    this.userName = userName;
-    this.status = status;
-    this.css = css;
+  Event.prepHandlebars = function(){
+    var rsvpTemplate = $('#guests').html();
+    Event.rsvpsToHtml = Handlebars.compile(rsvpTemplate);
   };
-  var testObject = [
-    new userTest('Bob', 'attending','approve'),
-    new userTest('Bill', 'maybe', 'maybe'),
-    new userTest('Sarah', 'no', 'disapprove')
-  ];
-  var newTemplate = $('#guests').html();
-  var compiled = Handlebars.compile(newTemplate);
-  var guestList = compiled({testObject:testObject});
-  $('#user-info').append(guestList);
+
+  Event.updateRsvps = function(){
+    this.getRsvpListFromDB(function(updatedRsvpList){
+      var guestListHtml = Event.rsvpsToHtml({rsvp:updatedRsvpList});
+      EventView.updateRsvpList(guestListHtml);
+    });
+  };
 
   model.Event = Event;
 })(window);

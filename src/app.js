@@ -22,7 +22,7 @@ app.set('port', (process.env.PORT || 3000));
 require('./database');
 
 // Populate the db with example data
-require('./seed');
+// require('./seed');
 
 // Express: Allow all files in the "public" directory to be loaded directly.
 app.use('/',express.static('public'));

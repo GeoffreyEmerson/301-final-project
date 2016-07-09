@@ -47,9 +47,9 @@ router
 })
 
 // A PUT route to update existing entries.
-.put('/:hashArg',function(req,res) {
-  var hashArg = req.params.hashArg;
-  Event.findOne({hash: hashArg}, function(err,event){
+.put('/:id',function(req,res) {
+  var id = req.params.id;
+  Event.findOne({_id: id}, function(err,event){
     if (!err) {
       Object.keys(req.body).forEach(function(key) {
         event[key] = req.body[key]; // Make the changes...
@@ -57,26 +57,26 @@ router
       event.save(function(err) {  // Then save the change.
         if (err){
           console.log(err);
-          return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
+          return res.status(503).json({message: err.message, call: 'PUT /events/:id'});
         } else {
           res.json({event: event}); // Puts JSON in the response object.
         };
       });
     } else {
       console.log(err);
-      return res.status(503).json({message: err.message, call: 'PUT /events/:eventHash'});
+      return res.status(503).json({message: err.message, call: 'PUT /events/:id'});
     }
   });
 })
 
-// A DELETE route to delete events by eventHash.
-.delete('/:hashArg',function(req,res) {
-  var hashArg = req.params.hashArg;
-  Event.findOne({hash: hashArg}, function(err,event){
+// A DELETE route to delete events by id.
+.delete('/:id',function(req,res) {
+  var id = req.params.id;
+  Event.findOne({_id: id}, function(err,event){
     event.remove(function(err) {
       if (err){
         console.log(err);
-        return res.status(503).json({message: err.message, call: 'DELETE /events/:eventHash'});
+        return res.status(503).json({message: err.message, call: 'DELETE /events/:id'});
       }
     });
     res.send('Event deleted.');

@@ -11,7 +11,7 @@
 
     // Display the event name and user name.
     $('#event-name').text(Event.name);
-    $('#user-id h4').text(User.userName);
+    $('#user-id h4').text(User.name);
 
     // Set up the Rsvp status button colors for the current user
     User.getRsvpStatus(function(rsvpStatus){
@@ -39,6 +39,7 @@
     $tatus.on('click', function() {
       User.updateRsvp(function(result) {
         EventView.updateRsvpButton(result);
+        Event.updateRsvps();
       });
     });
 
@@ -65,7 +66,6 @@
     });
 
     // Experimental: These methods set up subviews, even though they are hidden.
-    EventView.triggerMapResize();
     CalendarView.initCalendarView();
     TopicView.topicCloudInit('cloud');
     TopicController.initCloudItemClickHandler();
@@ -80,6 +80,7 @@
   EventView.initDetailsSubview = function(ctx,next){
     $('#details').show();
     $('#googleAPI').show();
+    EventView.triggerMapResize();
 
     // Generate shareable link
     $('#share-url').val(Event.urlHash);
@@ -104,6 +105,7 @@
   };
 
   EventView.initStatusSubview = function(ctx,next){
+    Event.updateRsvps();
     $('#status-content').show();
     $('#googleAPI').show();
   };
@@ -145,6 +147,10 @@
     if (currentEvent.times) $('#times').attr('value', currentEvent.times);
     if (currentEvent.description) $('#event-description').val(currentEvent.description);
     $('#admin-input-button').attr('value', 'Update');
+  };
+
+  EventView.updateRsvpList = function(guestListHtml) {
+    $('#user-info').html(guestListHtml);
   };
 
   /*----------------------

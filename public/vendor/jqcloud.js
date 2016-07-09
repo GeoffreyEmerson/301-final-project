@@ -25,7 +25,7 @@
    * Plugin class
    */
   var jQCloud = function (element, word_array, options) {
-    console.log('start jQCloud global');
+    //console.log('start jQCloud global');
     this.$element = $(element);
 
     this.word_array = word_array || [];
@@ -508,7 +508,7 @@
    * jQuery plugin
    */
   $.fn.jQCloud = function(word_array, option) {
-    console.log('start jQCloud method');
+    //console.log('start jQCloud method');
     var args = arguments;
 
     return this.each(function () {

@@ -14,8 +14,8 @@
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="/vendor/jqcloud.css">
   <script id="guests" type="text/x-handlebars-template">
-    {{#each testObject}}
-    <p class="{{css}}">Guest: <b>{{userName}}</b> Status: <b>{{status}}</b></p>
+    {{#each rsvp}}
+    <p class="{{css status}}">Guest: <b>{{userName}}</b> Status: <b>{{text status}}</b></p>
     {{/each}}
   </script>
 </head>
@@ -62,7 +62,7 @@
           <div class="six columns" id="newClustersHere">
             <!--where our users information gets rendered-->
             <section class="page" id="status-content">
-              <h1>RSVP</h1>
+              <h1>RSVP List</h1>
               <div id="user-info"></div>
             </section>
             <!--Static cluster tab page-->

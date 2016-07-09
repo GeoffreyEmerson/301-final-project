@@ -6,7 +6,6 @@ var userSchema = new mongoose.Schema({
   email: String,
   passwordHash: String,  // TODO: Add email and login authentication
   skin: String // "Sky"
-  // __id: String
 });
 
 var model = mongoose.model('User', userSchema);

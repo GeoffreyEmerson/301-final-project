@@ -4,7 +4,7 @@
 
 //SET UP WORD CLOUD REAL ESTATE IN CLUSTER VIEW
   TopicView.topicCloudInit = function(div) {
-    console.log('Initiating jQCloud');
+    // console.log('Initiating jQCloud');
     cloudDiv = $('#' + div);
     // console.log(cloudDiv);
     cloudDiv.jQCloud([], {

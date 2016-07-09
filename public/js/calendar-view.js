@@ -6,10 +6,10 @@
   var perData = [];
   // var userHash = $('#user-id').attr('data-userHash');
   CalendarView.initCalendarView = function () {
-    console.log('initCalendarView called.');
+    //console.log('initCalendarView called.');
     var userHash = $('#user-id').data('userhash');
     var topicId = $('#timing').data('topicid');
-    console.log(userHash,topicId);
+    // console.log(userHash,topicId);
     //Build dateArray.
     for (var i = 0; i < 7; i++) {
       dateArray.unshift(new Date());
@@ -199,8 +199,8 @@
     })
     .done( function (data) {
       // call the callback function here
-      console.log('sendClickToDatabase: Successful ajax call:');
-      console.log(data);
+      // console.log('sendClickToDatabase: Successful ajax call:');
+      // console.log(data);
       if(callback) callback(topicIdArg,userHashArg);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
@@ -217,8 +217,8 @@
       cache: false
     })
     .done( function (data) {
-      console.log('gNCD Agg: Successful ajax call: /api/votes/');
-      console.log('gNCD Agg rawdata:', data);
+      // console.log('gNCD Agg: Successful ajax call: /api/votes/');
+      // console.log('gNCD Agg rawdata:', data);
       var filteredData = data.votes.filter(function(vote){
         if(vote.topicId == topicIdArg) return true;
       });
@@ -226,10 +226,10 @@
         CalendarView.render();
         return;
       }
-      console.log('gNCD Aggregate data:',filteredData);
+      // console.log('gNCD Aggregate data:',filteredData);
       // data will be full list of vote options and weights for a specific topic
       aggData = CalendarView.aggregator(filteredData);
-      console.log('aggData after translation',aggData);
+      // console.log('aggData after translation',aggData);
       CalendarView.getNewPerData(topicIdArg,userHashArg);
     })
     .fail( function(jqXHR, textStatus, errorThrown) {
@@ -245,12 +245,12 @@
       cache: false
     })
     .done( function (data, callback) {
-      console.log('gNCD Per: Successful ajax call: /api/votes/');
+      // console.log('gNCD Per: Successful ajax call: /api/votes/');
       // console.log('rawdata:', data);
       var filteredData = data.votes.filter(function(vote){
         if(vote.topicId == topicIdArg && vote.userHash == userHashArg) return true;
       });
-      console.log('Personal data:',filteredData);
+      // console.log('Personal data:',filteredData);
       // data will be a list of a given user's choices and weights
       if (filteredData.length) {
         perData = CalendarView.updateData(filteredData,perData);

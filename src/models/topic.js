@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 var topicSchema = new mongoose.Schema({
   name: String, // "Pizza Topings"
   description: String, // "No Anchovies Please"
-  eventHash: String // "ajhbj5bkqhvq5h4kq5"
-  // __id: String
+  event: {type: mongoose.Schema.Types.ObjectId, ref: 'Event' }
 });
 
 var model = mongoose.model('Topic', topicSchema);

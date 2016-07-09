@@ -14,8 +14,9 @@
     .done( function (data) {
       console.assert(data.event.name && data.event.hash, {'message':'Problem creating event record','data.event.name':data.event.name,'data.event.hash':data.event.hash});
       // After successfully creating a new record for the event, store the info
-      currentEvent.name = data.event.name; // event.hash is created by the API.
-      currentEvent.hash = data.event.hash; // event.hash is created by the API.
+      Object.keys(data.event).forEach(function(key){
+        currentEvent[key] = data.event[key];
+      });
       currentEvent.urlHash = window.location.protocol + '//' + window.location.host + '/eventhash/' + currentEvent.hash;
       currentEvent.setSessionEvent();
       if (callback) callback(currentEvent);
@@ -66,7 +67,7 @@
   EventObject.prototype.updateEventInDB = function(callback) {
     var currentEvent = this;
     $.ajax({
-      url: '/api/events/' + currentEvent.hash,
+      url: '/api/events/' + currentEvent._id,
       type: 'PUT',
       data: {
         name: currentEvent.name,
@@ -101,13 +102,13 @@
   };
 
   EventObject.prototype.recoverSessionEvent = function(callback) {
-    console.log('Recovering event info from session.');
+    //console.log('Recovering event info from session.');
     // Recover event info from the window session.
     this.name = window.sessionStorage.getItem('eventName');
     this.hash = window.sessionStorage.getItem('eventHash');
 
-    if (!this.name || !this.hash) {
-      console.log('Session recover failed. Looking for event info in cookies.');
+    if (!this.hash) {
+      console.log('Event session recover failed. Looking for event info in cookies.');
       // If that doesn't work, try getting session info from cookies.
       this.name = getCookie('eventName');
       this.hash = getCookie('eventHash');
@@ -141,6 +142,30 @@
       }
     }
     return null;
+  };
+
+  EventObject.prototype.getRsvpListFromDB = function(callback){
+    currentEvent = this;
+    $.ajax({
+      url: '/api/rsvps/' + currentEvent._id,
+      type: 'GET',
+      cache: false
+    })
+    .done( function (data) {
+      var rsvpList = data.rsvps.map(function(rsvp){
+        return {
+          userName:rsvp.user.name,
+          status:rsvp.status};
+      });
+      if (callback) callback(rsvpList);
+    })
+    .fail( function(jqXHR, textStatus, errorThrown) {
+      console.warn('Ajax call failed: GET /api/events/' + currentEvent.hash);
+      console.log('jqXHR.responseText:',jqXHR.responseText);
+      console.log('textStatus:',textStatus);
+      console.log('errorThrown:',errorThrown);
+      if (callback) callback();
+    });
   };
 
   module.EventObject = EventObject;
